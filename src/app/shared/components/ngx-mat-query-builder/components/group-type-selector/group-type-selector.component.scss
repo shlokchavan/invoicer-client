@@ -1,0 +1,13 @@
+:host ::ng-deep {
+  .button-group {
+    rm-button:first-child button{
+      border-top-right-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+  
+    rm-button:last-child button{
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+  }
+}

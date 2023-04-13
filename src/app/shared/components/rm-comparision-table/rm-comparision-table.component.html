@@ -1,0 +1,225 @@
+<ng-container *ngIf="ServiceRows?.length > 0; else loadingTemplate">
+  <!-- Data Available -->
+  <div class="actionBar">
+    <div class="left-action">
+      <rm-button
+        *ngIf="userMode != 'client'"
+        [role]="'secondary'"
+        (onClick)="backToPackages()"
+        >BACK TO PACKAGES
+      </rm-button>
+    </div>
+    <div class="right-action">
+      <div class="show-toggle">
+        <rm-toggle
+          [config]="showDifferenceInPackagesConfig"
+          (onChange)="toggleChanged($event)"
+        ></rm-toggle>
+      </div>
+      <div class="paginate">
+        <rm-button
+          [role]="'secondary'"
+          [size]="'small'"
+          [icon]="'nextpage'"
+          [disabled]="pageIndex == 1"
+          (onClick)="prev()"
+        >
+        </rm-button>
+        <rm-button
+          [role]="'secondary'"
+          [size]="'small'"
+          [icon]="'backpage'"
+          [disabled]="pageIndex == totalPage"
+          (onClick)="next()"
+        ></rm-button>
+      </div>
+    </div>
+  </div>
+  <div class="fixed-layer" *ngIf="FirstRow && ServiceRows">
+    <div #tableParent class="rm-comparision-table">
+      <table [ngClass]="{ packageSelection: userMode == 'client' }">
+        <tbody>
+          <tr>
+            <th class="fixed-col">
+              <span class="table-title1"> Compare </span>
+              <span class="table-title2"> Packages </span>
+            </th>
+            <ng-container
+              *ngFor="let package of ObjectToArray(FirstRow); let i = index"
+            >
+              <th
+                [ngClass]="{
+                  'selected-plan': package.isCurrentPlan && userMode == 'client'
+                }"
+              >
+                <p
+                  *ngIf="package.isCurrentPlan && userMode == 'client'"
+                  class="selected-label"
+                >
+                  Current Plan
+                  <img
+                    src="../../../../assets/img/selected-label-shadow.svg"
+                    alt=""
+                  />
+                </p>
+                <div class="packageHeading">
+                  <div class="packageHeadingTitle">
+                    <h1 [title]="package.displayName">
+                      {{ package.displayName }}
+                    </h1>
+                    <div class="iconSet">
+                      <rm-icon
+                        [contentType]="'template'"
+                        [templateType]="'description'"
+                        [color]="'white'"
+                        [tooltipOptions]="{
+                          placement: 'bottom',
+                          theme: 'light'
+                        }"
+                        [icon]="'info'"
+                        [enableTooltip]="true"
+                        [tooltipContent]="package.description"
+                      ></rm-icon>
+                      <rm-icon
+                        *ngIf="userMode != 'client'"
+                        [color]="'white'"
+                        [tooltipOptions]="{ placement: 'bottom' }"
+                        [icon]="'cross'"
+                        (onClick)="removePackageFromTable(i, package)"
+                        [enableTooltip]="true"
+                        [tooltipContent]="'Remove'"
+                      ></rm-icon>
+                    </div>
+                  </div>
+                  <div class="packageHeadingSubtitle">
+                    Upto
+                    {{
+                      package.maxUserLimit == UnlimitedConstantValue
+                        ? "Unlimited"
+                        : package.maxUserLimit
+                    }}
+                    Users
+                  </div>
+                </div>
+                <div class="packageDetails">
+                  <div class="countOf">
+                    <span class="countOfServices"
+                      ><span class="readonly-custom-bold">{{
+                        package.serviceCount
+                      }}</span>
+                      Services</span
+                    >
+                    <span class="countOfAddOnServices"
+                      ><span class="readonly-custom-bold">{{
+                        package.addonServiceCount
+                      }}</span>
+                      Add-on Services</span
+                    >
+                  </div>
+                  <div class="costSection">
+                    <p>
+                      <span class="costLabel">Monthly Costs</span>
+                      <span class="costValue">{{
+                        (userMode == "client"
+                          ? package.totalDiscountedPrice
+                          : getTotalCalculatedPrice(package)
+                        ) | currency: "USD"
+                      }}</span>
+                    </p>
+                    <a
+                      class="viewMore"
+                      (click)="viewPackage(package)"
+                      href="javascript:void"
+                      >View</a
+                    >
+                  </div>
+                </div>
+              </th>
+            </ng-container>
+            <ng-container *ngIf="enableAddPackage">
+              <th>
+                <div class="packageHeading">
+                  <rm-select
+                    #newPackageMatSelect
+                    class="package-selector"
+                    (onSelectionChange)="
+                      addNewPackage($event, newPackageMatSelect)
+                    "
+                    [config]="newPackageSelection"
+                    [dataModel]="selectedPackageForNewPackageOnTable"
+                  >
+                  </rm-select>
+                </div>
+                <div class="packageDetails"></div>
+              </th>
+            </ng-container>
+          </tr>
+          <ng-container *ngFor="let data of ServiceRows; let i = index">
+            <ng-container *ngIf="!data.isHidden">
+              <tr>
+                <th class="fixed-col">
+                  {{ data.serviceName }}
+                </th>
+                <ng-container *ngFor="let package of ObjectToArray(FirstRow)">
+                  <td style="text-align: center; position: relative">
+                    <rm-icon
+                      [size]="'small'"
+                      [customColor]="
+                        data[package[packageId]]?.isActive == 1
+                          ? '#0dbf34'
+                          : 'null'
+                      "
+                      [icon]="
+                        data[package[packageId]]?.isActive == 1
+                          ? 'tick'
+                          : 'cross16'
+                      "
+                    ></rm-icon>
+                    &nbsp;&nbsp;
+                    <rm-icon
+                      [size]="'small'"
+                      style="position: absolute; right: 80px"
+                      *ngIf="data[package[packageId]]?.isAddon == 1"
+                      [icon]="'addOn16'"
+                    ></rm-icon>
+                  </td>
+                </ng-container>
+                <ng-container *ngIf="enableAddPackage">
+                  <td>&nbsp;</td>
+                </ng-container>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer *ngIf="enablePackageSelection && FirstRow && ServiceRows">
+    <div #btnCarousel class="sync-button-carousel">
+      <ng-container *ngFor="let package of ObjectToArray(FirstRow)">
+        <div class="button-container">
+          <rm-button
+            (onClick)="switchOREditPackage(package)"
+            [role]="'secondary'"
+            >{{
+              package.isCurrentPlan ? "EDIT PLAN" : "SWITCH TO THIS PLAN"
+            }}</rm-button
+          >
+        </div>
+      </ng-container>
+    </div>
+  </footer>
+</ng-container>
+<ng-template #loadingTemplate>
+  <div class="loading-wrapper">
+    <rm-loader [loading]="ServiceRows?.length > 0"></rm-loader>
+  </div>
+</ng-template>
+<!-- Selected Plan Template -->
+
+<!-- <th class="selected-plan">
+    <p class="selected-label">Current Plan
+        <img src="../../../../assets/img/selected-label-shadow.svg" alt="">
+    </p>
+    Package Name 1
+</th> -->

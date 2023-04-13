@@ -1,0 +1,24 @@
+<div class="rm-query-builder">
+  <ngx-query-search (filterLoaded)="queryPreloaded($event)"
+    (filterValid)="isFiterValid($event)" (onFilterChanged)="filterChanged()"
+   [readonly]="readonly" [disableField]="disableField" #customQueryBuilder>
+    <query-fields>
+      <ng-container *ngFor="let item of config">
+        <query-field
+          [name]="item?.name"
+          [label]="item?.label"
+          [type]="item?.type"
+          [values]="item?.values"
+          [operators]="operatorList"
+          [parameterList]="parameterList"
+        ></query-field>
+      </ng-container>
+      <!-- <query-field
+    name="hasValues"
+    label="Has Values"
+    type="string"
+    [values]="['a', 'b']"
+  ></query-field> -->
+    </query-fields>
+  </ngx-query-search>
+</div>

@@ -1,0 +1,38 @@
+<div class="rm-report-card {{ customBgColor }}">
+  <p class="title" *ngIf="title" [ngClass]="{ 'skeleten-loader': loading }">
+    {{ title }}
+  </p>
+  <p class="" *ngIf="totalAccount" [ngClass]="{ 'skeleten-loader': loading }">
+    Total Accounts: <strong>{{ totalAccount || "-" }}</strong>
+  </p>
+  <p
+    class=""
+    *ngIf="completed && hits && hitTitle"
+    [ngClass]="{ 'skeleten-loader': loading }"
+  >
+    Completed: <strong>{{ completed || "-" }}</strong>
+    <span class="pipe divider-pipe"> | </span> {{ hitTitle }}:
+    <strong>{{ hits || "-" }}</strong>
+  </p>
+  <p
+    class="subTitle"
+    [ngClass]="{ 'skeleten-loader': loading, 'mb-0': !subTitle }"
+  >
+    <span *ngIf="subTitle" [ngClass]="{ 'skeleten-loader': loading }">
+      {{ subTitle }}
+    </span>
+    {{ amount }}
+  </p>
+  <p
+    class="description"
+    *ngIf="hitCount && hitRate"
+    [ngClass]="{ 'skeleten-loader': loading }"
+  >
+    Hit Count: <strong>{{ hitCount || "-" }}</strong>
+    <span class="pipe divider-pipe"> | </span> Hit Rate:
+    <strong>{{ hitRate || "-" }}%</strong>
+  </p>
+  <p class="" *ngIf="amountFound" [ngClass]="{ 'skeleten-loader': loading }">
+    Amount Found: <strong>{{ amountFound || "-" }}</strong>
+  </p>
+</div>

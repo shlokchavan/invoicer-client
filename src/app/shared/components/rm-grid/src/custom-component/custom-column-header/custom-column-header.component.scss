@@ -1,0 +1,11 @@
+.rm-custom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .close-icon {
+    margin-left: 10px;
+  }
+}
+.compare-selector {
+  width: 96%;
+}

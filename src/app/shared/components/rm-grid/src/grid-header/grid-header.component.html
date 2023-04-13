@@ -1,0 +1,515 @@
+<div class="grid-header">
+  <!-- Meta Template -->
+  <!-- [style.width]="actionsWidth" -->
+  <div class="grid-header__meta">
+    <ng-container *ngIf="pivotOption">
+      <rm-toggle
+        [config]="enablePivotToggleConfig"
+        (onChange)="togglePivotMode($event)"
+      ></rm-toggle>
+    </ng-container>
+    <ng-container *ngTemplateOutlet="metaTemplate"> </ng-container>
+  </div>
+
+  <!-- Grid Header Actions -->
+  <div
+    class="grid-header__actions"
+    [ngClass]="{ hide: hideActions }"
+    id="grid_actions"
+  >
+    <ng-container *ngFor="let item of items">
+      <ng-container [ngSwitch]="item?.type">
+        <!-- Global Search -->
+        <ng-container *ngSwitchCase="'search'">
+          &nbsp; &nbsp;
+          <ng-container *ngTemplateOutlet="searchTemplate"></ng-container>
+        </ng-container>
+        <!-- Template -->
+        <ng-container *ngSwitchCase="'template-ref'">
+          &nbsp; &nbsp;
+          <ng-container *ngTemplateOutlet="item?.templateRef"></ng-container>
+        </ng-container>
+        <!-- Button Toggle -->
+        <ng-container *ngSwitchCase="'button-toggle'">
+          {{ item?.label }}
+          <ng-container *ngIf="item?.label">&nbsp;&nbsp;</ng-container>
+          <rm-button-toggle
+            [buttons]="item.buttons"
+            (onToggle)="toggleBtnClicked($event)"
+          ></rm-button-toggle>
+        </ng-container>
+        <!-- Toggle List - Chart View -->
+        <ng-container *ngSwitchCase="'toggle-chart-view'">
+          <rm-button-toggle
+            [buttons]="toggleChartListConfig"
+            (onToggle)="toggleChartListViewChange($event)"
+          ></rm-button-toggle>
+        </ng-container>
+        <!-- Header Button -->
+        <ng-container *ngSwitchCase="'button'">
+          <rm-button
+            class="grid-header__button"
+            [role]="item?.role"
+            [onlyIconButton]="item?.text == undefined"
+            [icon]="item?.icon"
+            [DropDownConfigs]="item?.dropdown"
+            [disabled]="
+              item?.disabled ||
+              (((item?.icon == 'download') ||
+                item?.icon == 'cardView' ||
+                item?.icon == 'listView') &&
+                totalRows == 0)
+            "
+            (onActionClick)="dropdownBtnClicked($event)"
+            (onClick)="btnClicked(item)"
+            [noTextInTabletView]="true"
+          >
+            {{ item?.text }}
+          </rm-button>
+        </ng-container>
+        <!-- Global Filter -->
+        <ng-container *ngSwitchCase="'global-filter'">
+          <rm-button
+            class="grid-header__button"
+            role="tertiary"
+            [icon]="isGlobalFilterApplied ? 'Applied_filter' : 'filter'"
+            (onClick)="openGlobalFilter()"
+            [noTextInTabletView]="true"
+          >
+            Filter
+          </rm-button>
+        </ng-container>
+
+        <!-- Header Button Link formate -->
+        <ng-container *ngSwitchCase="'link-button'">
+          <a
+            class="link ml-2"
+            (click)="btnClicked(item)"
+            href="javascript:void(0)"
+            >{{ item?.text }}</a
+          >
+        </ng-container>
+        <!-- Manage Column Button -->
+        <ng-container *ngSwitchCase="'manage-column'">
+          <rm-button
+            *ngIf="defaultView == 'listView' || defaultView == 'list-view'"
+            class="grid-header__button"
+            role="tertiary"
+            icon="manageColumn"
+            (onClick)="loadColumns()"
+            [matMenuTriggerFor]="drpDownMenu"
+            (onActionClick)="dropdownBtnClicked($event)"
+            [noTextInTabletView]="true"
+          >
+            Manage Columns
+          </rm-button>
+          <mat-menu #drpDownMenu="matMenu">
+            <mat-selection-list
+              (selectionChange)="toggleColumnVisible($event)"
+              style="max-height: 200px; overflow: auto"
+              class="columns-list-panel"
+              cdkDropList
+              (cdkDropListDropped)="onDrop($event)"
+            >
+              <ng-container *ngFor="let item of columns">
+                <mat-list-option
+                  cdkDragBoundary=".columns-list-panel"
+                  class="manage-column-item"
+                  [selected]="item.visible"
+                  [value]="item.colId"
+                  [disabled]="item?.colId == 'action'"
+                  (click)="$event.stopPropagation()"
+                  checkboxPosition="before"
+                  cdkDrag
+                >
+                  <div class="tab-drag-preview" *cdkDragPreview></div>
+                  <!--Empty Preview-->
+                  {{ item?.colDef?.headerName }}
+                  {{ item?.colDef?.showRowGroup ? "(Row Group)" : "" }}
+                </mat-list-option>
+              </ng-container>
+            </mat-selection-list>
+            <!-- <div class="manage-colum-footer" (click)="$event.stopPropagation();">
+              <button (click)="resetColumns()">Reset</button>
+              <button (click)="applyColumns()">Apply</button>
+            </div> -->
+          </mat-menu>
+        </ng-container>
+
+        <!-- Range Chart Visiualization -->
+        <ng-container *ngSwitchCase="'range-chart'">
+          <rm-button
+            *ngIf="!isVisualizationDisabled"
+            class="grid-header__button"
+            role="tertiary"
+            [matMenuTriggerFor]="visualizationMenu"
+            [noTextInTabletView]="true"
+          >
+            Visualization
+          </rm-button>
+          <mat-menu [class]="'visualizationMenu'" #visualizationMenu="matMenu">
+            <div class="container-fluid">
+              <div class="row my10">
+                <div class="col-12 pb5">Column</div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Grouped Column'"
+                    (click)="createChart('groupedColumn')"
+                  >
+                    <img
+                      [src]="chartIcons.GroupedColumn"
+                      width="48px"
+                      height="48px"
+                      alt="Grouped Column"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Grouped Column"
+                  (onClick)="createChart('GroupedColumn')" icon="columnChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Stacked Column'"
+                    (click)="createChart('stackedColumn')"
+                  >
+                    <img
+                      [src]="chartIcons.StackedColumn"
+                      width="48px"
+                      height="48px"
+                      alt="Stacked Column"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Stacked Column"
+                  (onClick)="createChart('StackedColumn')" icon="stackedColumnChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'100% Stacked Column'"
+                    (click)="createChart('normalizedColumn')"
+                  >
+                    <img
+                      [src]="chartIcons.Stacked100Column"
+                      width="48px"
+                      height="48px"
+                      alt="100% Stacked Column"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="100% Stacked Column"
+                  (onClick)="createChart('NormalizedColumn')" icon="stackedColumnChart"></rm-icon> -->
+                </div>
+              </div>
+              <div class="row mb10">
+                <div class="col-12 pb5">Bar</div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Grouped Bar'"
+                    (click)="createChart('groupedBar')"
+                  >
+                    <img
+                      [src]="chartIcons.GroupedBar"
+                      width="48px"
+                      height="48px"
+                      alt="Grouped Bar"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Grouped Bar"
+                  (onClick)="createChart('GroupedBar')" icon="barChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Stacked Bar'"
+                    (click)="createChart('stackedBar')"
+                  >
+                    <img
+                      [src]="chartIcons.StackedBar"
+                      width="48px"
+                      height="48px"
+                      alt="Stacked Bar"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Stacked Bar"
+                  (onClick)="createChart('StackedBar')" icon="stackedBarChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'100% Stacked Bar'"
+                    (click)="createChart('normalizedBar')"
+                  >
+                    <img
+                      [src]="chartIcons.Stacked100Bar"
+                      width="48px"
+                      height="48px"
+                      alt="100% Stacked Bar"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="100% Stacked Bar"
+                  (onClick)="createChart('NormalizedBar')" icon="stackedBarChart"></rm-icon> -->
+                </div>
+              </div>
+              <div class="row mb10">
+                <div class="col-12 pb5">Pie</div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Pie'"
+                    (click)="createChart('pie')"
+                  >
+                    <img
+                      [src]="chartIcons.Pie"
+                      width="48px"
+                      height="48px"
+                      alt="Pie"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Pie"
+                  (onClick)="createChart('Pie')" icon="pieChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Doughnut'"
+                    (click)="createChart('doughnut')"
+                  >
+                    <img
+                      [src]="chartIcons.Doughnut"
+                      width="48px"
+                      height="48px"
+                      alt="Doughnut"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Doughnut"
+                  (onClick)="createChart('Doughnut')" icon="donutChart"></rm-icon> -->
+                </div>
+              </div>
+              <div class="row mb10">
+                <div class="col-12 pb5">Line</div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Line'"
+                    (click)="createChart('line')"
+                  >
+                    <img
+                      [src]="chartIcons.Line"
+                      width="48px"
+                      height="48px"
+                      alt="Line"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Line"
+                  (onClick)="createChart('Line')" icon="lineChart"></rm-icon> -->
+                </div>
+              </div>
+              <div class="row mb10">
+                <div class="col-12 pb5">XY Scatter</div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Scatter'"
+                    (click)="createChart('scatter')"
+                  >
+                    <img
+                      [src]="chartIcons.Scatter"
+                      width="48px"
+                      height="48px"
+                      alt="Scatter"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Scatter"
+                  (onClick)="createChart('Scatter')" icon="scatterPlotChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Bubble'"
+                    (click)="createChart('bubble')"
+                  >
+                    <img
+                      [src]="chartIcons.Bubble"
+                      width="48px"
+                      height="48px"
+                      alt="Bubble"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Bubble"
+                  (onClick)="createChart('Bubble')" icon="bubbleChart"></rm-icon> -->
+                </div>
+              </div>
+              <div class="row mb10">
+                <div class="col-12 pb5">Area</div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Area'"
+                    (click)="createChart('area')"
+                  >
+                    <img
+                      [src]="chartIcons.Area"
+                      width="48px"
+                      height="48px"
+                      alt="Area"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Area"
+                  (onClick)="createChart('Area')" icon="areaChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Stacked Area'"
+                    (click)="createChart('stackedArea')"
+                  >
+                    <img
+                      [src]="chartIcons.StackedArea"
+                      width="48px"
+                      height="48px"
+                      alt="Stacked Area"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Stacked Area"
+                  (onClick)="createChart('StackedArea')" icon="areaChart"></rm-icon> -->
+                </div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'100% Stacked Area'"
+                    (click)="createChart('normalizedArea')"
+                  >
+                    <img
+                      [src]="chartIcons.Stacked100Area"
+                      width="48px"
+                      height="48px"
+                      alt="100% Stacked Area"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="100% Stacked Area"
+                  (onClick)="createChart('NormalizedArea')" icon="areaChart"></rm-icon> -->
+                </div>
+              </div>
+              <div class="row mb10">
+                <div class="col-12 pb5">Histogram</div>
+                <div class="col-4">
+                  <div
+                    class="chart-icon"
+                    [tooltip]="'Histogram'"
+                    (click)="createChart('histogram')"
+                  >
+                    <img
+                      [src]="chartIcons.Histogram"
+                      width="48px"
+                      height="48px"
+                      alt="Histogram"
+                    />
+                  </div>
+                  <!-- <rm-icon state="hover" size="large" [enableTooltip]="true" tooltipContent="Histogram"
+                  (onClick)="createChart('Histogram')" icon="histogram"></rm-icon> -->
+                </div>
+              </div>
+            </div>
+          </mat-menu>
+          <rm-button
+            *ngIf="isVisualizationDisabled"
+            class="grid-header__button"
+            role="tertiary"
+            [disabled]="true"
+            [noTextInTabletView]="true"
+          >
+            Visualization
+          </rm-button>
+        </ng-container>
+
+        <!-- Display Density -->
+        <ng-container *ngSwitchCase="'display-density'">
+          <rm-button
+            [DropDownConfigs]="displayDensityConfig"
+            class="grid-header__button"
+            [role]="'tertiary'"
+            [icon]="selectedDensity!.icon!"
+            (onActionClick)="displayDensityChanged($event)"
+            [noTextInTabletView]="true"
+          >
+            Display Density
+          </rm-button>
+        </ng-container>
+
+        <!-- Group by Selection -->
+        <ng-container *ngSwitchCase="'group-by-selector'">
+          <ng-container
+            *ngIf="defaultView == 'listView' || defaultView == 'list-view'"
+          >
+            &nbsp;&nbsp;Group By: &nbsp;<rm-select
+              class="group-by-selector"
+              [config]="item?.config"
+              (onSelectionChange)="selectGroupBy($event)"
+              [dataModel]="groupBySelectorModel"
+            ></rm-select>
+          </ng-container>
+        </ng-container>
+
+        <!-- Toggle: Show Selected -->
+        <!-- OLD APPROACH -->
+        <!-- <ng-container *ngSwitchCase="'toggle-showall'">
+          <rm-toggle
+            #showAllToggle
+            [config]="item?.config"
+            (onChange)="toggleShowAllChanged($event)"
+          ></rm-toggle> -->
+        <ng-container *ngSwitchCase="'show-selected'">
+          <rm-toggle
+            class="pr-2"
+            #showSelectedToggle
+            [config]="showSelectedConfig"
+            (onChange)="toggleShowSelected($event)"
+          ></rm-toggle>
+        </ng-container>
+        <!-- Toggle - Drag&Drop -->
+        <ng-container *ngSwitchCase="'toggle-dnd'">
+          <rm-toggle
+            [config]="item?.config"
+            (onChange)="toggleRowDNDChanged(item)"
+          ></rm-toggle>
+        </ng-container>
+        <!-- Pin To Top -->
+        <ng-container *ngSwitchCase="'pin-top'">
+          <rm-button
+            class="grid-header__button"
+            role="tertiary"
+            [icon]="isGridPinned ? 'unPin' : 'pin'"
+            [disabled]="pinBlock || isGridFullScreen"
+            (onClick)="pinGridToggle(item)"
+            [noTextInTabletView]="true"
+          >
+            {{ isGridPinned ? "Unpin" : "Pin to Top" }}
+          </rm-button>
+        </ng-container>
+        <!-- Full Screen -->
+        <ng-container *ngSwitchCase="'fullscreen'">
+          <rm-button
+            class="grid-header__button"
+            role="tertiary"
+            [icon]="isGridFullScreen ? 'minimize' : 'maximise'"
+            (onClick)="fullScreenToggle()"
+            [noTextInTabletView]="true"
+          >
+            {{ isGridFullScreen ? "Minimize" : "Full Screen" }}
+          </rm-button>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Search Template -->
+<ng-template #searchTemplate let-item>
+  <rm-input
+    class="search-input"
+    (onBlur)="searchInTable($event)"
+    [config]="searchConfig"
+    [dataModel]="searchModel"
+  ></rm-input>
+</ng-template>

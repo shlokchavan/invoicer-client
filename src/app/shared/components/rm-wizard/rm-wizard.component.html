@@ -1,0 +1,17 @@
+  <mat-horizontal-stepper [selectedIndex]="stepIndex" [@.disabled]="true" (selectionChange)="changeStep($event)"
+   [disableRipple]="true" class="rm-horizontal-default-stepper" linear #stepper>
+   <ng-template matStepperIcon="edit" let-index="index">
+    <span class="step-number">{{index + 1}}</span>
+   </ng-template>
+   <ng-template matStepperIcon="done" let-index="index">
+    <span class="step-number">{{index + 1}}</span>
+   </ng-template>
+   <ng-template matStepperIcon="valid">
+    <mat-icon>check</mat-icon>
+  </ng-template>
+    <ng-container *ngFor="let step of config.steps">
+      <mat-step [stepControl]="step?.formGroup" [state]="step?.isValidated ? 'valid' : 'edit'" [optional]="step?.isOptional" [label]="step.stepLabel">
+      <ng-container *ngTemplateOutlet="step.stepTemplate"></ng-container>
+    </mat-step>
+    </ng-container>
+  </mat-horizontal-stepper>

@@ -1,0 +1,196 @@
+<div class="rm-scheduler">
+  <div class="schedule-component mt20 row">
+    <!-- Recurrence -->
+    <div class="col-4">
+      <rm-select
+        #selectRef
+        [config]="schedulerConfig?.scheduleRecurrence"
+        (onSelectionChange)="onRecurrencTypeChange($event)"
+        [dataModel]="dataModel"
+      >
+      </rm-select>
+    </div>
+    <div class="col-8 time" *ngIf="dataModel?.scheduleRecurrence">
+      <!-- Time Picker -->
+      <div class="time-hour">
+        <rm-icon
+          class="time-hour__increase"
+          [icon]="'pgDownArrow'"
+          (click)="updateTime('hour', true)"
+          [disabled]="hour >= 11"
+        >
+        </rm-icon>
+        <input
+          type="number"
+          (input)="updateTimeCheck('hour')"
+          class="time-hour__input"
+          value="11"
+          min="1"
+          max="12"
+          name="hour"
+          [(ngModel)]="hour"
+        />
+        <rm-icon
+          class="time-hour__decrease"
+          [icon]="'pgDownArrow'"
+          (click)="updateTime('hour', false)"
+          [disabled]="hour <= 1"
+        >
+        </rm-icon>
+      </div>
+      <span class="time-seperator mx10"> : </span>
+      <div class="time-minute">
+        <rm-icon
+          class="time-minute__increase"
+          [icon]="'pgDownArrow'"
+          (click)="updateTime('minute', true)"
+          [disabled]="minute >= 59"
+        >
+        </rm-icon>
+        <input
+          type="number"
+          (input)="updateTimeCheck('minute')"
+          class="time-minute__input"
+          value="0"
+          min="0"
+          max="59"
+          name="minute"
+          [(ngModel)]="minute"
+        />
+        <rm-icon
+          class="time-minute__decrease"
+          [icon]="'pgDownArrow'"
+          (click)="updateTime('minute', false)"
+          [disabled]="minute <= 0"
+        >
+        </rm-icon>
+      </div>
+
+      <div class="time-switcher">
+        <rm-button
+          [role]="'primary'"
+          class="time-switcher__ampm"
+          (onClick)="isPm = !isPm; updateCronString()"
+        >
+          {{ isPm ? "PM" : "AM" }}
+        </rm-button>
+      </div>
+    </div>
+  </div>
+  <!-- Recur Every X -->
+  <div class="row recurr-every">
+    <!-- Hourly -->
+    <div
+      class="col-12 hourly sameLineElements"
+      *ngIf="dataModel?.scheduleRecurrence == 'hourly'"
+    >
+      <span>Recur every&nbsp;</span>
+      <div class="smallWidth">
+        <rm-select
+          [config]="schedulerConfig?.everyXHours"
+          (onSelectionChange)="selectionChange('hour', $event)"
+          [dataModel]="dataModel"
+        >
+        </rm-select>
+      </div>
+      <span>&nbsp;Hour(s)</span>
+    </div>
+
+    <!-- Daily -->
+    <div class="col-12 daily" *ngIf="dataModel?.scheduleRecurrence == 'daily'">
+      <mat-radio-group
+        (change)="selectionChange('daily', $event)"
+        [(ngModel)]="dataModel.onWeekdays"
+        name="everyXDays"
+      >
+        <mat-radio-button [value]="false" class="flex-start row">
+          <span>Every &nbsp;</span>
+          <div class="xDayContainer smallWidth dropdownCenterAlign">
+            <rm-select
+              [config]="schedulerConfig?.everyXDays"
+              [dataModel]="dataModel"
+              (onSelectionChange)="selectionChange('daily', $event)"
+            >
+            </rm-select>
+          </div>
+          <span>&nbsp; days(s)</span>
+        </mat-radio-button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-radio-button [value]="true" class="flex-start row"
+          >Every Weekdays
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <!-- Weekly -->
+    <div
+      class="col-12 weekly"
+      *ngIf="dataModel?.scheduleRecurrence == 'weekly'"
+    >
+      <!-- <div class="row">
+        <div class="col-6 hourly sameLineElements">
+          <span>Recur every&nbsp;</span>
+          <div class="smallWidth">
+            <rm-select
+              [config]="schedulerConfig?.everyXHours"
+              (onSelectionChange)="selectionChange('hour', $event)"
+              [dataModel]="dataModel"
+            >
+            </rm-select>
+          </div>
+          <span>&nbsp;Week(s)</span>
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col-3" *ngFor="let item of week">
+          <mat-checkbox
+            [(ngModel)]="item.isChecked"
+            (ngModelChange)="selectionChange('weekly', $event)"
+            name="item_{{ item.value }}"
+            >{{ item.label }}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monthly -->
+    <div
+      class="col-lg-8 col-12 monthly"
+      *ngIf="dataModel?.scheduleRecurrence == 'monthly'"
+    >
+      <mat-radio-group
+        (change)="selectionChange('monthly', $event)"
+        [(ngModel)]="dataModel.onFirstDayOfMonth"
+        name="onFirstDayOfMonth"
+      >
+        <mat-radio-button [value]="true" class="flex-start row mb5">
+          <span>First date of every &nbsp;</span>
+          <div class="xDayContainer col-3 dropdownCenterAlign">
+            <rm-select
+              [config]="schedulerConfig?.everyXMonths"
+              [dataModel]="dataModel"
+              (onSelectionChange)="selectionChange('monthly', $event)"
+            >
+            </rm-select>
+          </div>
+          <span>&nbsp; month(s)</span>
+        </mat-radio-button>
+        &nbsp;&nbsp;
+        <mat-radio-button [value]="false" class="flex-start row mb5">
+          <span>Last date of every &nbsp;</span>
+          <div class="xDayContainer col-3 dropdownCenterAlign">
+            <rm-select
+              [config]="schedulerConfig?.everyXMonths"
+              [dataModel]="dataModel"
+              (onSelectionChange)="selectionChange('monthly', $event)"
+            >
+            </rm-select>
+          </div>
+          <span>&nbsp; month(s)</span>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+</div>
+
+<!-- <div>{{ cronJobExp }}</div> -->

@@ -1,0 +1,108 @@
+// SCSS Variable Naming Convention( variable_name_usage-type )
+
+$global-theme: var(--global-theme);
+$global-theme-hover: var(--global-theme-light);
+
+// Grid
+$global-row-height: var(--global-row-height);
+
+// layout size
+$document_width-size: 100vw;
+$document_height-size: 100vh;
+
+// Typo Size
+$default_font-size: 14px; // 14px
+$small_font-size: 12px; // 12px
+$h6_font-size: 16px; // 16px
+$h5_font-size: 18px; // 18px
+$h4_font-size: 20px; // 20px
+$h3_font-size: 24px; //24px
+$h2_font-size: 32px; //32px
+$h1_font-size: 40px; // 40px
+// $default_font-size: 1em; // 14px
+// $small_font-size: 0.857em; // 12px
+// $h6_font-size: 1.142em; // 16px
+// $h5_font-size: 1.285em; // 18px
+// $h4_font-size: 1.428em; // 20px
+// $h3_font-size: 1.714em; //24px
+// $h2_font-size: 2.2825; //32px
+// $h1_font-size: 2.857; // 40px
+
+// Typo Colors
+$default_typo-color: #191919;
+$dark_gray_typo-color: #5c5c5c;
+$gray_typo-color: #a8a8a8;
+$light_gray_typo-color: #c2c2c2;
+$lightest_gray_typo-color: #e0e0e0;
+// $default_link-color: #0099cc;
+// css review changes
+$default_link-color: #0060c9;
+$hover_link-color: #0e82a9;
+
+//status colors
+$red_status-color: #e53935;
+$green_status-color: #1d9c72;
+$green_status__bg-color: #ddf0ea;
+$yellow_status-color: #ffbb07;
+$blue_status-color: #0099cc; //#1e88e5 - OLD
+$blue_status__bg-color: #f9fafc; // BG
+
+$gray_status-color: #757575;
+
+//chips colors
+$gray_chip-color: #f0f0f0;
+$red_chip-color: #e53935;
+$green_chip-color: #1d9c72;
+$yellow_chip-color: #ffbb07;
+$blue_chip-color: #3f79b8;
+
+//other colors
+$default_line-color: #e0e0e0;
+$default_app-background: #f5f6fa;
+$card-header-background: #f2f2f2;
+$light_background-color: var(--global-theme-light-shade-9);
+$medium_background-color: var(--global-theme-light-shade-7);
+// $light_background-color: #dbf1fd;
+
+// border color
+$border-color: #e0e0e0;
+
+// avatar bg colors
+$avatar_bg-blue: #4283f6;
+$avatar_bg-orange: #ee5838;
+$avatar_bg-yellow: #f5ac41;
+$avatar_bg-green: #50b27d;
+$avatar_bg-maroon: #c04366;
+$avatar_bg-purple: #6655c0;
+$avatar_bg-showMore: #3a99cc;
+
+$card_border-green: #97e6b4;
+$card_border-blue: #9fbbf6;
+$card_border-pink: #f1c1dc;
+$card_border-yellow: #f2d0aa;
+$card_border-red: #ef939f;
+$card_border-purple: #aabae2;
+
+$toolbar-height: 60px;
+$subHeader-height: 48px;
+$tabs-height: 44px;
+
+// Table Conditional Colors
+$conditonal-green: #b8e0cb;
+$conditonal-red: #fbbdb0;
+
+// Report Card
+$report-card-green: #4eb27d;
+$report-card-blue: #4184fe;
+$report-card-purple: #9644c8;
+$report-card-default: #c2c2c2;
+
+$report-card-bg-purple: #d5b4e9;
+$report-card-bg-default: #fff;
+$report-card-bg-green: #b8e0cb;
+$report-card-bg-blue: #b3ceff;
+
+:export {
+  conditonalGreen: $conditonal-green;
+  conditonalRed: $conditonal-red;
+}

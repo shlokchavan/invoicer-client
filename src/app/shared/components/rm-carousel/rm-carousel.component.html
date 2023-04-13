@@ -1,0 +1,7 @@
+<div [@animSlider]="counter" [style.height]="'100%'">
+	<ng-container *ngFor="let o of dataList; let i=index">
+		<ng-container *ngIf="i===counter">
+            <ng-template  [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: dataList[i]}"></ng-template>
+		</ng-container>
+	</ng-container>
+</div>

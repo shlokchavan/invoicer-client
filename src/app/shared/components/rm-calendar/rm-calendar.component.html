@@ -1,0 +1,112 @@
+<div class="calender-header">
+  <div class="leftRight">
+    <rm-button
+      (onClick)="prevClick()"
+      role="tertiary"
+      icon="pgLeftArrow"
+    ></rm-button
+    >&nbsp;&nbsp;
+    <rm-button
+      (onClick)="nextClick()"
+      role="tertiary"
+      icon="pgRightArrow"
+    ></rm-button>
+    <div class="month">
+      <!-- <span> -->
+      <input class="hideInput" [matDatepicker]="dp"/>
+      <a href="javascript:void(0)" (click)="dp.open()" class="monthDisplay pr-1"
+        >{{ monthNameByNumber(selectedMonth) }} {{ selectedYear }}</a
+      >
+      <!-- </span> -->
+
+      <!-- <rm-icon
+        matSuffix
+        [state]="'default'"
+        [icon]="'pgDownArrow'"
+        (onClick)="dp.open()"
+      ></rm-icon> -->
+      <mat-datepicker-toggle matSuffix [for]="dp">
+        <!-- <mat-icon matDatepickerToggleIcon>
+          <img src="{{ imageSource }}" />
+        </mat-icon> -->
+        <rm-icon matDatepickerToggleIcon icon="calendar" color="link"></rm-icon>
+      </mat-datepicker-toggle>
+      <!-- <input
+        matInput
+        [matDatepicker]="dp"
+        placeholder="Month and Year"
+        [formControl]="date"
+      /> -->
+    </div>
+  </div>
+  <div class="today text-right">
+    <a href="javascript:void(0)" (click)="onTodayDateClick()">TODAY</a>
+  </div>
+</div>
+<ol class="calendar-month">
+  <li class="week">
+    <ol class="days">
+      <div class="week__header">Sun</div>
+      <div class="week__header">Mon</div>
+      <div class="week__header">Tue</div>
+      <div class="week__header">Wed</div>
+      <div class="week__header">Thu</div>
+      <div class="week__header">Fri</div>
+      <div class="week__header">Sat</div>
+    </ol>
+  </li>
+  <ng-container *ngFor="let week of calendarData; let i = index">
+    <li class="week">
+      <ol class="days">
+        <ng-container *ngFor="let day of week; let j = index">
+          <li
+            id="element_{{ i }}-{{ j }}"
+            class="day"
+            [ngClass]="{
+              today: currentDate == formateDate(day),
+              active: selectedDate == formateDate(day),
+              'day--empty': getMonth(day) != selectedMonth
+            }"
+          >
+            <!-- 'day--empty': getMonth(day) != selectedMonth -->
+            <a href="javascript:void(0)" (click)="onDateClick(day)">
+              <span class="day__number">{{ day | date: "d" }}</span>
+
+              <ng-container
+                *ngTemplateOutlet="
+                  calendarCellRenderer;
+                  context: { $implicit: day }
+                "
+              >
+              </ng-container>
+            </a>
+          </li>
+        </ng-container>
+      </ol>
+    </li>
+  </ng-container>
+</ol>
+<!-- #dt -->
+
+<!-- <rm-date-time
+  [pickerType]="'calendar'"
+  [startView]="'multi-years'"
+  [selectMode]="'single'"
+  (yearSelected)="chosenYearHandler($event)"
+  (monthSelected)="chosenMonthHandler($event, dt)"
+  #dt="owlDateTime"
+></rm-date-time> -->
+
+<!-- <mat-datepicker-toggle matSuffix ></mat-datepicker-toggle> -->
+<mat-datepicker
+  #dp
+  startView="multi-year"
+  (yearSelected)="chosenYearHandler($event)"
+  (monthSelected)="chosenMonthHandler($event, dp)"
+  panelClass="example-month-picker"
+>
+</mat-datepicker>
+
+<!-- [hour12Timer]="config?.pickerConfig?.hour12Timer || false"
+  [pickerType]="config?.pickerConfig?.pickerType || 'calendar'"
+  (dateSelected)="onDateSelected($event)" -->

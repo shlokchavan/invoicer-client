@@ -1,0 +1,84 @@
+<div class="query-container">
+  <mat-divider
+    class="notate-group vert-notate-group"
+    [vertical]="true"
+  ></mat-divider>
+  <mat-divider class="notate-group-after"></mat-divider>
+  <div class="query-search-item-wrapper">
+    <!-- <mat-divider class="notate-group-after"></mat-divider> -->
+
+    <!-- Drag Icon -->
+    <span
+      *ngIf="!readonly && disableField != 'parameter-disabled'"
+      class="drag-icon mr-1"
+    >
+      <rm-icon [icon]="'drag_Vertical'" state="hover" size="small"></rm-icon>
+    </span>
+
+    <name-field
+      [(item)]="item"
+      [readonly]="readonly || disableField == 'parameter-disabled'"
+      (nameChange)="fieldChanged(true)"
+    ></name-field>
+    <operator-field
+      [readonly]="readonly || disableField == 'parameter-disabled'"
+      [disableField]="disableField"
+      [isUpdateClause]="isUpdateClause"
+      *ngIf="showOperatorField"
+      [(item)]="item"
+      [filteredOperators]="typedOperators"
+      (operatorChange)="operatorChange()"
+    ></operator-field>
+
+    <mat-divider
+      *ngIf="showValueField && isStackedField"
+      class="separate-fields between-separator"
+      [class.pad-dividers]="padDividers"
+    ></mat-divider>
+    <ng-container *ngIf="showValueField && !isStackedField">
+      <!-- <mat-divider
+        class="separate-fields"
+        [class.pad-dividers]="padDividers"
+      ></mat-divider> -->
+      <single-field
+        [readonly]="readonly || disableField == 'value-disabled'"
+        [disableField]="disableField"
+        [(item)]="item"
+        (valueChange)="fieldChanged()"
+      ></single-field>
+      <!-- <button *ngIf="!readonly"
+        mat-icon-button
+        color="warn"
+        class="delete-button mat-query-style"
+        (click)="remove()"
+        [disabled]="disableDelete"
+      >
+        <mat-icon>delete</mat-icon>
+      </button> -->
+    </ng-container>
+    <ng-container *ngIf="showValueField && isStackedField">
+      <stacked-field
+        [readonly]="readonly || disableField == 'value-disabled'"
+        [(item)]="item"
+        (valueChange)="fieldChanged()"
+      ></stacked-field>
+    </ng-container>
+    &nbsp;
+    <rm-icon
+      (onClick)="remove()"
+      *ngIf="!readonly && disableField != 'parameter-disabled'"
+      [disabled]="disableDelete"
+      icon="trashCan"
+      state="hover"
+    ></rm-icon>
+    <!-- <button *ngIf="!readonly"
+        mat-icon-button
+        color="warn"
+        class="delete-button mat-query-style"
+        (click)="remove()"
+        [disabled]="disableDelete"
+      >
+        <mat-icon>delete</mat-icon>
+      </button> -->
+  </div>
+</div>

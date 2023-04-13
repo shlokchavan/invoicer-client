@@ -1,0 +1,6 @@
+<h6>Theme Colors</h6>
+<ng-container *ngFor="let themeItem of themeCollection">
+        <button class="theme-select-btn" [style.background-color]="themeItem['theme-base-color']" [ngClass]="{ 'active' : themeItem['theme-id'] == theme, 'disabled-theme' : themeItem['disabled'] }" (click)="changeTheme(themeItem['theme-id'], themeItem)">
+            <mat-icon>{{ themeItem['theme-id'] == theme ? "done" : null }}</mat-icon>
+        </button>
+</ng-container>

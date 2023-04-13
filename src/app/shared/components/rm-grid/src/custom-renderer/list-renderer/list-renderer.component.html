@@ -1,0 +1,24 @@
+<!-- <span *ngIf="!checkAllDataExists">{{ "-" }}</span> -->
+<ng-container *ngIf="checkAllDataExists">
+  <ng-container *ngFor="let option of params.options">
+    <ng-container *ngIf="option.length <= 3">
+      <ng-container *ngFor="let item of option; let i = index">
+        <span> {{ item }}{{i === option.length -1 ? '' : ',&nbsp;'}}</span>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="option.length > 3">
+      <ng-container *ngFor="let item of option | slice:0:2; let i = index">
+        <span> {{ item }}{{i === option.length -1 ? '' : ',&nbsp;'}}</span>
+      </ng-container> <a href="javascript:void(0)" [matMenuTriggerFor]="list"> +{{option.length - 2}} More</a>
+    </ng-container>
+    <!-- Menu -->
+    <mat-menu #list="matMenu">
+      <ng-container *ngFor="let item of option | slice:2">
+        
+        <a href="javascript:void(0)" mat-menu-item>
+          {{ item }}
+        </a>
+      </ng-container>
+    </mat-menu>
+  </ng-container>
+</ng-container>

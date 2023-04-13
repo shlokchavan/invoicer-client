@@ -1,0 +1,17 @@
+<div class="rm-avatar-group">
+  <ng-container *ngFor="let item of rowData">
+    <rm-avatar
+      [firstName]="item?.firstName"
+      [lastName]="item?.lastName"
+      [img]="showImg ? item?.userImg : null"
+    ></rm-avatar>
+  </ng-container>
+
+  <a
+    *ngIf="!showMore && !rowDataIsLess"
+    href="javascript:void(0);"
+    (click)="actionEvent()"
+  >
+    <rm-avatar [colorClass]="'showMore'" customText="+{{ diffCount }}"></rm-avatar>
+  </a>
+</div>

@@ -1,0 +1,11 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+.rm-avatar-group {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > *:not(:last-child) {
+    margin-left: -5px;
+  }
+}

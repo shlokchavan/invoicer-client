@@ -1,0 +1,22 @@
+<div class="rm-radio">
+  <label class="rm-radio-label" *ngIf="config?.attributes?.label">{{ config!.attributes!.label }} : </label>
+  <mat-radio-group
+    class="rm-radio-group mr-2"
+    name="rm-radio-group__{{ dataModel[config.fieldKey] }}"
+    [disabled]="config!.attributes!.disabled!"
+    [(ngModel)]="dataModel[config.fieldKey]"
+    (change)="radioChange($event)">
+    
+    <mat-radio-button
+      class="rm-radio-button mr-4"
+      *ngFor="let option of config?.options"
+      [value]="option?.value"
+    >
+      <ng-container class="rm-radio-icon pr-1">
+        <rm-icon [icon]="option?.icon" [size]="option?.iconSize!"></rm-icon>
+      </ng-container>
+      {{ option?.label }}
+      <ng-container *ngTemplateOutlet="extraTemplate; context: {$implicit: option}"></ng-container>
+    </mat-radio-button>
+  </mat-radio-group>
+</div>

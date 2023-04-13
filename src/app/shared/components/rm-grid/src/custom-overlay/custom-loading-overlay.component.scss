@@ -1,0 +1,23 @@
+:host::ng-deep {
+  .ag-overlay-loading-center {
+    padding: 0 !important;
+    border: none !important;
+    &.ag-theme-balham {
+      border: none !important;
+    }
+  }
+
+  mat-progress-spinner {
+    width: 32px !important;
+    height: 32px !important;
+    margin-right: 4px !important;
+
+    > svg {
+      width: 32px !important;
+      height: 32px !important;
+      > circle {
+        stroke-width: 15% !important;
+      }
+    }
+  }
+}

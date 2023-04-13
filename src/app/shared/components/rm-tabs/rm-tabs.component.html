@@ -1,0 +1,104 @@
+<div [ngClass]="{ 'rm-tabs': !secondary, 'rm-tabs-secondary': secondary }">
+  <mat-tab-group
+    [ngClass]="{ 'rm-tabs-secondary': secondary }"
+    mat-align-tabs="start"
+    vertical
+    dynamicHeight
+    [@.disabled]="true"
+    [selectedIndex]="config?.selectedTabIndex || 0"
+    (selectedIndexChange)="tabChanged(config?.tabs[$event], $event)"
+  >
+    <ng-container *ngFor="let tab of config?.tabs; let i = index">
+      <mat-tab [disabled]="tab?.attributes?.disable">
+        <ng-template mat-tab-label>
+          <span [style.color]="tab?.attributes?.color" *ngIf="!tab?.isDropDown">
+            {{ tab?.label | uppercase }}
+          </span>
+          <span
+            [style.color]="tab?.attributes?.color"
+            [ngClass]="{
+              'show-color': tab?.isDropDown
+            }"
+            [matMenuTriggerFor]="menu"
+            *ngIf="tab?.isDropDown"
+            (click)="$event.stopPropagation()"
+          >
+            {{ tab?.label | uppercase }}
+            <rm-icon
+              *ngIf="tab?.dropDownData.length > 0"
+              icon="pgDownArrow"
+              size="medium"
+            ></rm-icon>
+          </span>
+          <mat-menu [classList]="'tabs-menu-panel'" #menu="matMenu">
+            <ng-container *ngFor="let item of tab?.dropDownData">
+              <div mat-menu-item class="custom-button">
+                <a
+                  (click)="onDropDownClicked('itemClicked', item)"
+                  [title]="item?.name"
+                >
+                  {{ item.name }}
+                </a>
+                <rm-icon
+                  icon="trashCan"
+                  color="link"
+                  size="medium"
+                  (onClick)="onDropDownClicked('delete', item)"
+                ></rm-icon>
+              </div>
+            </ng-container>
+
+            <!-- <div mat-menu-item class="custom-button">
+              <a>
+                Report 2
+              </a>
+              <rm-icon icon="trashCan" color="link" size="medium"></rm-icon>
+            </div> -->
+            <!-- <button mat-menu-item class="custom-button">Item 1</button>
+            <button mat-menu-item>Item 2</button> -->
+          </mat-menu>
+          <span *ngIf="tab?.attributes?.icon || tab?.count" class="icon-space">
+            <rm-icon
+              *ngIf="tab?.attributes?.icon"
+              [color]="tab?.attributes?.color"
+              [icon]="tab?.attributes?.icon"
+            ></rm-icon>
+            <span
+              *ngIf="tab?.count"
+              class="tab-count {{
+                config?.selectedTabIndex == i ? 'selected' : ''
+              }}"
+            >
+              {{ tab.count }}</span
+            >
+          </span>
+        </ng-template>
+        <ng-template matTabContent>
+          <div
+            class="body-content"
+            [style.padding]="
+              config?.attributes?.padding
+                ? config?.attributes?.padding
+                : tab?.attributes?.padding
+                ? tab?.attributes?.padding
+                : '20px'
+            "
+          >
+            <ng-container *ngTemplateOutlet="tab?.template"></ng-container>
+          </div>
+        </ng-template>
+        <!-- <ng-container *ngIf="tab?.isDropDown">
+          
+        </ng-container> -->
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+
+  <div
+    id="customItems"
+    *ngIf="!secondary && customTabTemplate"
+    class="custom-items"
+  >
+    <ng-container *ngTemplateOutlet="customTabTemplate"></ng-container>
+  </div>
+</div>

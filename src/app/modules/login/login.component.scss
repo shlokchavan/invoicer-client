@@ -1,0 +1,44 @@
+@import '../../../assets/style/partials/variables.scss';
+
+.page-title {
+    margin-top: 50px;
+    h1 {
+        font-weight: bold;
+        font-size: $h3_font-size;
+        color: $default_typo-color;
+        margin: 0;
+        text-transform: uppercase;
+    }
+    p {
+        font-size: $default_font-size;
+        color: $default_typo-color;
+        margin: 5px 0;
+    }
+}
+form.loginForm {
+    margin-top: 20px;
+    .more-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        a.forget-password {
+            text-decoration: none;
+        }
+    }
+}
+
+.toasty-layer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+@media (min-width: 768px) {
+    .toasty-layer {
+        width: calc(58.88% - 28px);
+    }
+}
+
+
+

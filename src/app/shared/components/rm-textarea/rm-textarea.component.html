@@ -1,0 +1,63 @@
+<div class="rm-textarea">
+  <mat-form-field
+    #matFormField
+    [ngClass]="{
+      readonly: config?.attributes?.readonly,
+      'message-area': config.attributes.isMessageArea
+    }"
+    [floatLabel]="config?.attributes?.readonly ? 'always' : 'auto'"
+    [appearance]="config?.attributes?.appearance || 'outline'"
+  >
+    <mat-label>{{ config?.attributes?.label }}</mat-label>
+    <textarea
+      #textArea
+      matInput
+      [ngStyle]="{
+        resize: config.attributes?.resize ? config.attributes?.resize : 'none',
+        'min-height': config.attributes?.minHeight
+          ? config.attributes.minHeight
+          : config.attributes.isMessageArea
+          ? '25px'
+          : '32px',
+        'max-height':
+          config.attributes?.maxHeight && !config.attributes?.resize
+            ? config.attributes.maxHeight
+            : config.attributes.isMessageArea
+            ? '100px'
+            : 'auto'
+      }"
+      [(ngModel)]="dataModel[config?.fieldKey]"
+      [pattern]="config?.attributes?.pattern"
+      (input)="onChange()"
+      [readonly]="config?.attributes?.readonly"
+      (change)="onChange()"
+      [maxlength]="config?.attributes?.maxlength"
+      (blur)="onTouchedFn()"
+      [placeholder]="config?.attributes?.placeholder"
+      [required]="
+        config?.attributes?.isMandatory && !config?.attributes?.readonly
+      "
+      [disabled]="config?.attributes?.disable"
+    >
+    </textarea>
+    <!-- [matTextareaAutosize]="config?.attributes?.autoResize" -->
+
+    <span
+      *ngIf="
+        config?.attributes?.enableLengthHint && !config?.attributes?.readonly
+      "
+      class="length-hint"
+    >
+      {{
+        dataModel[config?.fieldKey] ? dataModel[config?.fieldKey].length : "0"
+      }}
+      / {{ config?.attributes?.maxlength }} Characters
+    </span>
+    <mat-error *ngIf="showError && !config?.attributes?.readonly">
+      {{ errors }}
+    </mat-error>
+    <mat-hint *ngIf="config?.attributes?.hint">{{
+      config?.attributes?.hint
+    }}</mat-hint>
+  </mat-form-field>
+</div>

@@ -1,0 +1,8 @@
+<!-- <mat-form-field [appearance]="formFieldAppearance" class="value-field">
+  <mat-label>Value</mat-label>
+  <input matInput autocomplete="off" [matDatepicker]="valuePicker" [ngModel]="value"
+         (ngModelChange)="onDateChange($event)">
+  <mat-datepicker-toggle matSuffix [for]="valuePicker"></mat-datepicker-toggle>
+  <mat-datepicker #valuePicker></mat-datepicker>
+</mat-form-field> -->
+<rm-input [config]="dateConfig" (onDateChange)="onDateChange($event)" [dataModel]="dateModel"></rm-input>

@@ -1,0 +1,6 @@
+<div class="rm-grid-cell-editor input">
+    <mat-form-field floatLabel="never">
+        <input #input="matInput" (input)="updateValue()" (keydown)="onKeyDown($event)" matInput [type]="inputType ? inputType : 'text'" 
+        [required]="isRequired" [placeholder]="placeholderLabel ? placeholderLabel : 'Type...'" [(ngModel)]="value">
+      </mat-form-field>
+</div>

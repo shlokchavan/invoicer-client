@@ -1,0 +1,9 @@
+<div class="button-group" *ngIf="!readonly; else readonlyTemplate">
+  <rm-button [disabled]="disableButtons" [role]="value != 'AND' ? 'secondary' : 'primary'" (onClick)="setType('AND')">AND</rm-button>
+  <rm-button [disabled]="disableButtons" [role]="value != 'OR' ? 'secondary' : 'primary'" (onClick)="setType('OR')">OR</rm-button>
+  <!-- <button mat-flat-button [disabled]="disableButtons" [color]="getColor('AND')" (click)="setType('AND')">AND</button>
+  <button mat-flat-button [disabled]="disableButtons" [color]="getColor('OR')" (click)="setType('OR')">OR</button> -->
+</div>
+<ng-template #readonlyTemplate>
+  <button mat-flat-button [color]="getColor(value)">{{value}}</button>
+</ng-template>

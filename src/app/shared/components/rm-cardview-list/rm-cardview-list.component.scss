@@ -1,0 +1,62 @@
+@import "../../../../assets/style/partials/variables.scss";
+@import "../../../../assets/style/partials/mixins.scss";
+
+.rm-cardview-list {
+  width: 100%;
+  // height: 100%;
+  // height: calc(100% - 59px);
+  height: calc(100vh - 254px);
+
+  // border: 2px solid red;
+  overflow: auto;
+  // Flex CSS
+  // display: flex;
+  // align-items: center;
+  // flex-wrap: wrap;
+  // align-content: flex-start;
+  // & > * {
+  //   // All Child
+  //   @include for-size(tablet) {
+  //     width: calc(100% / 2);
+  //   }
+  //   @include for-size(desktop) {
+  //     width: calc(100% / 4);
+  //   }
+  //   @include for-size(big-desktop) {
+  //     width: calc(100% / 5);
+  //   }
+  // }
+
+  // Grid CSS
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: max-content;
+  // grid-template-rows: repeat(3, 1fr);
+
+  gap: 10px 10px;
+
+  @include for-size(tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include for-size(desktop) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @include for-size(big-desktop) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  // User Card
+  &.user {
+    height: calc(100vh - 272px);
+    grid-template-columns: repeat(5, 1fr);
+    @include for-size(tablet) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @include for-size(desktop) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @include for-size(big-desktop) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+}

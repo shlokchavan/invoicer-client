@@ -1,0 +1,11 @@
+<mat-form-field [appearance]="formFieldAppearance" class="value-field no-label">
+  <!-- <mat-label>Value</mat-label> -->
+  <input name="value" [disabled]="readonly" autocomplete="off" [limit]="maxLength" *ngIf="!isNumber" matInput [ngModel]="value" maxlength="{{maxLength}}"
+         (ngModelChange)="valueChange.emit($event)">
+  <input name="value" [disabled]="readonly" autocomplete="off" [limit]="maxLength" *ngIf="isNumber" type="number" matInput maxlength="{{maxLength}}" [ngModel]="value"
+         (ngModelChange)="valueChange.emit($event)">
+         <span *ngIf="readonly" matSuffix><rm-icon icon="copy" state="hover" enableTooltip=true tooltipContent="Copy to Clipboard"  size="small" (onClick)="copyField(value)"></rm-icon></span>
+  <!-- <button mat-icon-button matSuffix class="clear-field" (click)="clear()" [class.clear-field-hidden]="!!!value">
+    <mat-icon>close</mat-icon>
+  </button> -->
+</mat-form-field>

@@ -1,0 +1,4 @@
+[class^="rm-icon"],
+[class*=" rm-icon"],
+[class^="path"],
+[class*=" path"] {

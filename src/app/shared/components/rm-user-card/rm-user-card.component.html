@@ -1,0 +1,119 @@
+<div
+  class="rm-user-card"
+  [ngClass]="{
+    purple: index % 5 == 0,
+    red: index % 4 == 0,
+    yellow: index % 3 == 0,
+    pink: index % 2 == 0,
+    blue: index % 1 == 0,
+    green: index == 0 || index % 6 == 0
+  }"
+>
+  <div class="rm-user-card__body">
+    <!-- Checkbox -->
+    <rm-checkbox *ngIf="selectable"
+    [config]="userDetails?.checkboxConfig"
+    (onChange)="checkedHandler($event)"
+    ></rm-checkbox>
+    <!-- Details Section -->
+    <div class="details">
+      <div class="profile-image" (click)="linkClick($event, 'card-click', index)">
+        <img
+          [src]="userDetails?.userImage || defaultUserImage"
+          [alt]="userDetails?.firstName + ' ' + userDetails?.lastName"
+        />
+      </div>
+      <div class="profile-info my10">
+        <p class="name m0">
+          {{ userDetails?.firstName || "-" }}
+          {{ userDetails?.lastName || "-" }}
+        </p>
+        <p class="designation m0">
+          <!-- {{ userDetails?.designationId }} -->
+          {{ userDetails?.designationName || "-" }}
+        </p>
+      </div>
+  
+      <div class="profile-info">
+        <!-- Role Name -->
+        <p class="m0">Role Name: {{ userDetails?.roleName || "-" }}</p>
+        <!-- Phone No -->
+        <p class="m0">
+          Primary Phone: {{ userDetails?.phoneNo || "-" }}
+          <!-- userDetails?.mobileNo -->
+        </p>
+        <!-- Email -->
+        <p class="m0">
+          Email:
+          <a href="mailto: {{ userDetails?.emailId || '-' }}">
+            {{ userDetails?.emailId || "-" }}
+          </a>
+        </p>
+      </div>
+    </div>
+    <!-- Kebab Menu -->
+    <div *ngIf="actions" class="action__more" >
+      <!-- [size]="'small'" -->
+      <rm-icon [icon]="'kebab'" [state]="'hover'" [matMenuTriggerFor]="menu"></rm-icon>
+    </div>
+  </div>
+  <div class="rm-user-card__footer">
+    <div class="social-icons">
+      <a
+        *ngIf="userDetails?.twitterUrl"
+        [href]="userDetails?.twitterUrl"
+        target="_blank"
+      >
+        <rm-icon [icon]="'twitter'"></rm-icon>
+      </a>
+      <a
+        *ngIf="userDetails?.facebookUrl"
+        [href]="userDetails?.facebookUrl"
+        target="_blank"
+      >
+        <rm-icon [icon]="'facebook'"></rm-icon>
+      </a>
+      <a
+        *ngIf="userDetails?.linkedinUrl"
+        [href]="userDetails?.linkedinUrl"
+        target="_blank"
+      >
+        <rm-icon [icon]="'linkedin'"></rm-icon>
+      </a>
+    </div>
+
+    <div class="status">
+      <ng-container *ngIf="actions">
+        <!-- Toggle -->
+        <rm-toggle
+          [config]="toggleConfig"
+          (onChange)="toggleHandler($event)"
+        ></rm-toggle>
+      </ng-container>
+      <ng-container *ngIf="!actions">
+        <!-- Chip -->
+        <!-- <rm-chip
+          *ngIf="groupDetails?.isActive == 1"
+          [config]="activeChipConfig"
+          [value]="'ACTIVE'"
+        ></rm-chip>
+        <rm-chip
+          *ngIf="groupDetails?.isActive == 0"
+          [config]="deactiveChipConfig"
+          [value]="'DEACTIVE'"
+        ></rm-chip> -->
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- More Menu -->
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let item of actions"
+    (click)="actionEvent(item)"
+  >
+    {{ item?.label | titlecase }}
+  </button>
+</mat-menu>

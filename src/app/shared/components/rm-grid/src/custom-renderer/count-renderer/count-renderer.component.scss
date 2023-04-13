@@ -1,0 +1,20 @@
+@import "../../../../../../../assets/style/partials/variables.scss";
+
+.count-renderer {
+  display: flex;
+  justify-content: start;
+
+  .count-chip {
+    background-color: #f0f0f0;
+    color: #5c5c5c;
+    border: 1px solid #e0e0e0;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 0px 10px;
+    line-height: 1;
+    font-weight: 500;
+    margin-right: 3px;
+  }
+}

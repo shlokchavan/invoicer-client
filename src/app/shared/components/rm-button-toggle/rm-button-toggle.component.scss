@@ -1,0 +1,26 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+
+.rm-button-toggle {
+    .mat-button-toggle-group-appearance-standard {
+        border-color: $global-theme;
+        border-width: 0.5px;
+        .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+            line-height: 28px;
+        }
+        .mat-button-toggle {
+            margin-top: -1px;
+        }
+        .mat-button-toggle-appearance-standard {
+            color: $global-theme;
+            background: white;
+        }
+        .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+            color: white;
+            background-color: $global-theme;
+        }
+    }
+}
+.mat-button-toggle-standalone.mat-button-toggle-appearance-standard, .mat-button-toggle-group-appearance-standard {
+    border-color: $global-theme;
+}

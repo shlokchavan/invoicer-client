@@ -1,0 +1,57 @@
+@import "../../../../../assets/style/partials/variables.scss";
+
+.tooltip-card {
+  height: 242px;
+  width: 400px;
+  border-radius: 4px;
+  border-top: 5px solid $green_status-color;
+  text-align: left;
+  .tooltip-header {
+    background-color: #eee;
+    height: 63px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    img {
+      max-height: 50px;
+      max-width: 250px;
+      object-fit: contain;
+    }
+    .org-card-subtitle {
+      text-align: right;
+      p {
+        margin: 0;
+        font-weight: 300;
+        &:first-child {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  .tooltip-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 169px;
+    .org-primary-details {
+      h5 {
+        font-size: $h4_font-size;
+        margin: 0;
+      }
+      p {
+        margin: 0;
+        width: 75%;
+      }
+    }
+    .org-secondary-details {
+      p {
+        margin: 0;
+        rm-icon {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+<div *ngIf="htmlBody; else simpleText" [innerHTML]="htmlBody"></div>
+<ng-template #simpleText>{{params.value}}</ng-template>

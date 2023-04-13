@@ -1,0 +1,12 @@
+<div class="rm-checkbox">
+  <mat-checkbox
+    [(ngModel)]="config.isChecked"
+    (ngModelChange)="changeChecked($event)"
+    [required]="config!.attributes!.isMandatory!"
+    [indeterminate]="config!.attributes!.indeterminate"
+    [disabled]="config!.attributes!.disable!"
+  >
+  <!-- [labelPosition]="config!.attributes!.labelPosition || 'after'" -->
+    {{ config!.attributes!.label }}
+  </mat-checkbox>
+</div>

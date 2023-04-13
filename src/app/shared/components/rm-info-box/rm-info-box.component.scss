@@ -1,0 +1,23 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+.info-box {
+  background-color: #ddedfb;
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(3, 88, 166, 1);
+  border-radius: 1px;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .content {
+    display: flex;
+    align-items: center;
+    p {
+      font-size: 14px;
+      color: #0358a6;
+      padding-left: 0.5em;
+    }
+  }
+}

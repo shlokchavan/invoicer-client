@@ -1,0 +1,250 @@
+@import '../../../../assets/style/partials/variables.scss';
+
+:host ::ng-deep {
+    .rm-horizontal-default-stepper {
+        &.mat-stepper-horizontal {
+            background-color: transparent;
+            .mat-horizontal-stepper-header-container {
+                background-color: white;
+                padding: 15px 0px;
+                border-bottom: 1px solid $default_line-color;
+                .mat-step-header {
+                    &:hover {
+                        background-color: transparent;
+                        .mat-step-icon {
+                            &:not(.mat-step-icon-selected):not(.mat-step-icon-state-valid) {
+                                background-color: #cce1ea;
+                            }
+                        }
+                    }
+                    .mat-step-icon {
+                        border-radius: 10px;
+                        height: 50px;
+                        width: 50px;
+                        border: 2px solid $global-theme;
+                        color: $global-theme;
+                        background-color: transparent;
+                        font-size: $h6_font-size;
+                        &-selected {
+                            background-color: $global-theme;
+                            color: white;
+                        }
+                        &-state-valid {
+                            background-color: $global-theme;
+                            color: white;
+                        }
+                        // &-state-edit, &-state-done {
+                        //     background-color: $global-theme;
+                        //     color: white;
+                        // }
+                    }
+                    .mat-step-label {
+                        color: $dark_gray_typo-color;
+                        &-active {
+                            color: $default_typo-color;
+                            font-weight: 600;
+                        }
+                    }
+                }
+                .mat-stepper-horizontal-line {
+                    max-width: 200px;
+                    border: 1px solid $global-theme;
+                    background-color: $global-theme;
+                    margin-right: -24px;
+                }
+            }
+        }
+    }
+    .rm-horizontal-big-stepper {
+        &.mat-stepper-horizontal {
+            .mat-horizontal-content-container {
+                padding: 0;
+            }
+            background-color: white;
+            .mat-horizontal-stepper-header-container {
+                background-color: #f5f6fa;
+                padding: 20px 40px;
+                border-bottom: 1px solid $default_line-color;
+                .mat-step-header {
+                    padding: 0 !important;
+                    &:hover {
+                        background-color: transparent;
+                        .mat-step-icon {
+                            &:not(.mat-step-icon-selected):not(.mat-step-icon-state-valid) {
+                                background-color: #cce1ea;
+                            }
+                        }
+                    }
+                    .mat-step-icon {
+                        border-radius: 50%;
+                        height: 44px;
+                        width: 44px;
+                        background-color: white;
+                        color: white;
+                        border: 5px solid #29bb9c;
+                        .step-inner {
+                            border-radius: 50%;
+                            width: 24px;
+                            height: 24px;
+                            background-color: #29bb9c;
+                            display: block;
+                            &.done {
+                                width: 44px;
+                                height: 44px;
+                                .mat-icon {
+                                    font-size: 24px;
+                                    width: 24px;
+                                    height: 24px;
+                                    font-weight: 600;
+                                }
+                            }
+                            &.abstain {
+                                background-color: #c2c2c2;
+                            }
+                        }
+                        &-state-abstain {
+                            border-color: #c2c2c2;
+                        }
+                        &-selected {
+                            border-color: #29bb9c !important;
+                            .step-inner {
+                                background-color: #29bb9c !important;
+                            }
+                        }
+                        &-state-valid {
+                            // background-color: $global-theme;
+                            // color: white;
+                        }
+                        &-state-error {
+                            border-color: $red_status-color;
+                            color: $red_status-color;
+                        }
+                        // &-state-edit, &-state-done {
+                        //     background-color: $global-theme;
+                        //     color: white;
+                        // }
+                    }
+                    .mat-step-label {
+                        color: $dark_gray_typo-color;
+                        &-selected {
+                            color: $default_typo-color;
+                            font-weight: 600;
+                        }
+                        &-error {
+                            color: $red_status-color;
+                        }
+                    }
+                }
+                .mat-horizontal-stepper-header::before, .mat-horizontal-stepper-header::after, .mat-stepper-horizontal-line {
+                    // border-top-color: #29bb9c;
+                    border-top-width: 3px !important;
+                    top: 22px !important;
+                }
+            }
+        }
+        @mixin styleStepLine($index) {
+            .mat-horizontal-stepper-header {
+                &+.mat-stepper-horizontal-line:nth-child(#{$index}) {
+                    border-top-color: #29bb9c;
+                }
+            }
+        }
+        @mixin styleStepAfter($index) {
+            .mat-horizontal-stepper-header {
+                &:nth-child(#{$index})::after, &:nth-child(#{$index})::before{
+                    border-top-color: #29bb9c;   
+                }
+            }
+        }
+        @mixin styleStepBefore($index) {
+            .mat-horizontal-stepper-header {
+                &:nth-child(#{$index})::before{
+                    border-top-color: #29bb9c;   
+                }
+            }
+        }
+        // For Line Colors
+        &.step-valid-1 {
+            @include styleStepAfter(1);
+            @include styleStepBefore(3);
+            
+            @include styleStepLine(2);
+        }
+        &.step-valid-2 {
+            @include styleStepAfter(1);
+            @include styleStepBefore(3);
+            @include styleStepAfter(3);
+            @include styleStepBefore(5);
+
+            @include styleStepLine(2);
+            @include styleStepLine(4);
+        }
+        &.step-valid-3 {
+            @include styleStepAfter(1);
+            @include styleStepBefore(3);
+            @include styleStepAfter(3);
+            @include styleStepBefore(5);
+            @include styleStepAfter(5);
+            @include styleStepBefore(7);
+
+            @include styleStepLine(2);
+            @include styleStepLine(4);
+            @include styleStepLine(6);
+        }
+        &.step-valid-4 {
+            @include styleStepAfter(1);
+            @include styleStepBefore(3);
+            @include styleStepAfter(3);
+            @include styleStepBefore(5);
+            @include styleStepAfter(5);
+            @include styleStepBefore(7);
+            @include styleStepAfter(7);
+            @include styleStepBefore(9);
+            
+            @include styleStepLine(2);
+            @include styleStepLine(4);
+            @include styleStepLine(6);
+            @include styleStepLine(8);
+        }
+        &.step-valid-5 {
+            @include styleStepAfter(1);
+            @include styleStepBefore(3);
+            @include styleStepAfter(3);
+            @include styleStepBefore(5);
+            @include styleStepAfter(5);
+            @include styleStepBefore(7);
+            @include styleStepAfter(7);
+            @include styleStepBefore(9);
+            @include styleStepAfter(9);
+            @include styleStepBefore(11);
+            
+            @include styleStepLine(2);
+            @include styleStepLine(4);
+            @include styleStepLine(6);
+            @include styleStepLine(8);
+            @include styleStepLine(10);
+        }
+        &.step-valid-6 {
+            @include styleStepAfter(1);
+            @include styleStepBefore(3);
+            @include styleStepAfter(3);
+            @include styleStepBefore(5);
+            @include styleStepAfter(5);
+            @include styleStepBefore(7);
+            @include styleStepAfter(7);
+            @include styleStepBefore(9);
+            @include styleStepAfter(9);
+            @include styleStepBefore(11);
+            @include styleStepAfter(11);
+            @include styleStepBefore(13);
+
+            @include styleStepLine(2);
+            @include styleStepLine(4);
+            @include styleStepLine(6);
+            @include styleStepLine(8);
+            @include styleStepLine(10);
+            @include styleStepLine(12);
+        }
+    }
+}
+

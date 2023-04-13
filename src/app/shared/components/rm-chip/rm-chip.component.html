@@ -1,0 +1,38 @@
+<div class="chip_cnt {{ config?.colorClass }}" matRipple [matRippleDisabled]="!config.clickable || config?.draggable"
+    [ngClass]="{'two-line-chip' : secondaryValue, 'badge_cnt': config?.isBadge, 'largeChip' : config.isLargeChip, 'dragable' : config.draggable, 'clickable' : config.clickable}">
+    <!-- With Tooltip -->
+    <!-- <div *ngIf="config?.tooltip" [tooltip]="config?.tooltip?.templateType == 'childPackage' ? childPackageTemplate :
+        tooltipContent" [content-type]="config?.tooltip?.contentType" [options]="config?.tooltip?.tooltipOptions">
+        <span (click)="clickChip()" class="chip_value">{{value}}</span>
+    </div> -->
+
+    <!-- Without Tooltip -->
+    <ng-container *ngIf="!config?.tooltip">
+        <div [ngClass]="{'line-one-block' : secondaryValue}">
+            <span [hidden]="config?.icon !== 'drag' && !config.draggable">
+                <rm-icon class="dragging_icon" [color]="config.iconColor" [size]="'small'" [icon]="config.icon">
+                </rm-icon>
+            </span>
+            <span *ngIf="config?.icon" [hidden]="config?.icon == 'drag'">
+                <rm-icon [color]="config?.iconColor" [size]="'small'" [icon]="config?.icon"></rm-icon>
+            </span>
+            <span (click)="clickChip()" class="chip_value">{{value}}</span>
+            <rm-icon class="remove_icon suffixIcon" (click)="removeChip()" [hidden]="!config.removable"
+                [color]="config.iconColor" [size]="'small'" [icon]="'cross16'"></rm-icon>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="secondaryValue">
+        <div>
+            <span (click)="clickChip()" class="secondary_chip_value">{{secondaryValue}}</span>
+        </div>
+    </ng-container>
+</div>
+
+<ng-template #childPackageTemplate>
+    <div class="tooltip-childpackage-template">
+        <p>{{ config?.tooltip?.tooltipTitle ? config?.tooltip?.tooltipTitle + ': ' : 'Child: '}}</p>
+        <ol class="child-package__list">
+            <li *ngFor="let child of config?.tooltip?.tooltipContent">{{child}}</li>
+        </ol>
+    </div>
+</ng-template>

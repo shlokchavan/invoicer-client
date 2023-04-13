@@ -1,0 +1,8 @@
+.link {
+    margin: 0 4px;
+    &.disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+        color: #c2c2c2;
+    }
+}

@@ -1,0 +1,27 @@
+button.theme-select-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    margin: 9px;
+    color: white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    &.active {
+        cursor: default;
+    }
+    &.disabled-theme {
+        cursor: not-allowed;
+        // pointer-events: none;
+        filter: blur(7px);
+    }
+}
+h6 {
+    text-align: center;
+    color: #191919;
+    font-size: 14px;
+    margin-bottom: 5px
+}

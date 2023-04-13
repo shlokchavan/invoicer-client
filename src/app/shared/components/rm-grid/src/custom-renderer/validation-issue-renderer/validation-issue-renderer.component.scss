@@ -1,0 +1,15 @@
+@import "../../../../../../../assets/style/partials/variables.scss";
+.validation-status-renderer {
+  // display: flex;
+  align-items: center;
+  .validation-error{
+    background:#fbe9e9;
+    display:inline-block;
+    padding:0px 8px;
+    border-radius:4px;
+    span{
+      color:#b82f35;
+    }
+  }
+}
+

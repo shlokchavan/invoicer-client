@@ -1,0 +1,148 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+.humberger_menu_icon {
+  display: inline-block;
+  padding-right: 5px;
+}
+.header_logo {
+  height: 40px;
+  width: 145px;
+  object-fit: contain;
+  object-position: left center;
+}
+.subHeader {
+  *:focus {
+    outline: none;
+  }
+  height: 48px;
+  background-color: white;
+  z-index: 2;
+  border-bottom: 1px solid $default_line-color;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  .page-info {
+    .header-title {
+      font-size: $h5_font-size;
+      font-weight: 500;
+      margin-right: 20px;
+      text-transform: capitalize;
+    }
+    .breadcrumb {
+      display: inline-block;
+      .breadrumb-label {
+        font-size: $small_font-size;
+        color: $dark_gray_typo-color;
+        margin: 0 5px;
+        &.seprator {
+          color: $gray_typo-color;
+        }
+        &.clickable {
+          cursor: pointer;
+          &:hover {
+            color: $hover_link-color;
+          }
+        }
+      }
+    }
+  }
+  .extra-info {
+  }
+}
+.right-spacer {
+  flex: 1 1 auto;
+}
+.bookmark_template {
+  margin-left: 75px;
+  margin-top: 4px;
+  //font-size: 12px; // remove it later, once bookmarrk is ready
+}
+.header-actions {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 200px;
+}
+// User Profile
+.user-profile {
+  text-decoration: none;
+  color: white;
+  padding: 6px;
+  width: 40px;
+  height: 40px;
+  background: #ee5535;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__content {
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+//Overide Styles
+:host ::ng-deep {
+  // Mat Toolbar
+  .mat-toolbar {
+    position: fixed;
+    top: 0;
+    font-weight: normal;
+    z-index: 5;
+    // css review changes
+    box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 15%);
+    .mat-toolbar-row {
+      justify-content: space-between;
+      align-items: center;
+      .left_holder {
+        display: inline-flex;
+        align-items: center;
+      }
+      .right_holder {
+        display: flex;
+        width: 100%;
+      }
+    }
+  }
+  .mat-toolbar-multiple-rows,
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    min-height: 60px;
+    max-height: 60px;
+    height: 60px;
+  }
+  // Mat Button Icon
+  .mat-icon-button .svg_icon {
+    vertical-align: top;
+    line-height: 40px;
+  }
+}
+// Media Queries
+@media (max-width: 1250px) {
+  :host ::ng-deep {
+    .bookmark_template {
+      margin-top: 0;
+    }
+    .mat-toolbar {
+      .mat-toolbar-row {
+        .right_holder {
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+// route-loader
+:host ::ng-deep {
+  .route-loader {
+    position: fixed;
+    top: 104px;
+    z-index: 9999;
+  }
+}

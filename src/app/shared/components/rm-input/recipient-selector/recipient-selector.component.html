@@ -1,0 +1,111 @@
+<div class="rm-input recipient">
+  <mat-form-field
+    [ngClass]="{
+      readonly: config!.attributes!.readonly,
+      'no-label': !config!.attributes!.label,
+      small: config!.attributes!.isSmall,
+      reportView: config!.attributes!.class == 'reportView'
+    }"
+    [floatLabel]="config!.attributes!.readonly ? 'always' : 'auto'"
+    [appearance]="config!.attributes!.appearance || 'outline'"
+  >
+    <mat-label *ngIf="config!.attributes!.label">{{
+      config!.attributes!.label
+    }}</mat-label>
+    <mat-chip-list #chipList>
+      <mat-chip
+        [ngClass]="{ trigger: item.type == 2 }"
+        *ngFor="let item of dataModel[config['fieldKey']]"
+        [disableRipple]="true"
+        [selectable]="false"
+        [matMenuTriggerFor]="item.type == 2 ? userGroupList : empty"
+        [matMenuTriggerData]="{ users: item.list }"
+        (removed)="removeUserGroup(item)"
+        [removable]="true"
+      >
+        <span class="content">
+          <rm-icon
+            size="small"
+            [icon]="item!.type == 1 ? 'user_16' : 'userGroup16'"
+          ></rm-icon>
+          &nbsp;
+          {{ item!.name }}
+          <rm-icon
+            *ngIf="item.type == 2"
+            size="small"
+            customColor="#191919"
+            icon="pgDownArrow"
+          ></rm-icon>
+        </span>
+        <span matChipRemove>
+          <rm-icon
+            customColor="#191919"
+            size="extra-small"
+            state="hover"
+            [icon]="'cross16'"
+          ></rm-icon>
+        </span>
+      </mat-chip>
+      <mat-menu class="display" #userGroupList="matMenu">
+        <ng-template matMenuContent let-users="users">
+          <button
+            style="min-width: 185px"
+            mat-menu-item
+            *ngFor="let user of users"
+          >
+            <rm-icon size="small" [icon]="'user_16'"></rm-icon>
+            &nbsp;
+            {{ user.name }}
+          </button>
+        </ng-template>
+      </mat-menu>
+      <mat-menu style="display: none" #empty="matMenu"></mat-menu>
+      <input
+        [readonly]="config!.attributes!.readonly"
+        matInput
+        [pattern]="config!.attributes!.pattern!"
+        [type]="config!.attributes!.type || 'text'"
+        [placeholder]="config!.attributes!.placeholder!"
+        [required]="
+          (config!.attributes!.isMandatory && !config!.attributes!.readonly)!
+        "
+        [disabled]="config!.attributes!.disable!"
+        (input)="onAutocompleteInput($event)"
+        [(ngModel)]="searchedText"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        #input
+      />
+    </mat-chip-list>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selectUserGroup($event)"
+    >
+      <mat-option
+        [disabled]="checkIsInclude(item) || item[config.disableBoolKey!]"
+        class="userGroupAutoSelect"
+        *ngFor="let item of filterUserGroups"
+        [value]="item"
+      >
+        <span style="font-size: 14px">
+          <rm-icon
+            size="small"
+            [icon]="item!.type == 1 ? 'user_16' : 'userGroup16'"
+          ></rm-icon>
+          &nbsp;&nbsp;
+          <span class="option-name">{{ item!.name }}</span>
+        </span>
+      </mat-option>
+      <mat-option
+        *ngIf="filterUserGroups!.length == 0 && this.searchedText"
+        [disabled]="true"
+        >No Results Found</mat-option
+      >
+    </mat-autocomplete>
+
+    <span matPrefix *ngIf="config.attributes!.prefixText">
+      {{ config.attributes!.prefixText }}
+    </span>
+    <mat-hint>{{ config!.attributes!.hint }}</mat-hint>
+  </mat-form-field>
+</div>

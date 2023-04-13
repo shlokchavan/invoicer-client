@@ -1,0 +1,7 @@
+<div class="info-box" *ngIf="show" [style.background]="backgroundColor">
+  <div class="content">
+    <rm-icon [icon]="icon" [customColor]="iconColor">Icon</rm-icon>
+    <p>{{infoText}}</p>
+  </div>
+  <rm-icon icon="cross16" [customColor]="iconColor" size="small" (onClick)="onCancelClick()" style="cursor: pointer;"></rm-icon>
+</div>

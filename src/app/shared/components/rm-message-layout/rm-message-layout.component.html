@@ -1,0 +1,127 @@
+<mat-sidenav-container class="layout-sidenav-container">
+  <mat-sidenav
+    #snav
+    [opened]="!mobileQuery.matches || drawerToggle"
+    (closed)="drawerToggle = false"
+    [mode]="mobileQuery.matches ? 'over' : 'side'"
+    [fixedInViewport]="mobileQuery.matches"
+    [style.paddingTop.px]="mobileQuery.matches ? 108 : 0"
+  >
+    <div class="tab-header" *ngIf="allowSearchAndFilter">
+      <!-- Search & Filter -->
+      <div class="tab-header__title">Messages</div>
+      <div class="tab-header__content">
+        <!-- Search -->
+        <rm-input
+          class="search"
+          [config]="searchConfig"
+          [dataModel]="model"
+        ></rm-input>
+        <!-- Filter Icon -->
+        <rm-icon
+          class="filter"
+          [icon]="filterApplied ? 'Applied_filter' : 'filter'"
+          [state]="'hover'"
+          (onClick)="onFilterClick()"
+          enableTooltip="true"
+          tooltipContent="Filter"
+        ></rm-icon>
+      </div>
+    </div>
+    <ng-container *ngIf="filter">
+      <!-- Filters -->
+      <div class="tab-header cust-height">
+        <div class="tab-header__content">
+          <rm-input
+            class="datepicker"
+            [config]="dateConfig"
+            [dataModel]="model"
+            (onDateChange)="dateSelected($event)"
+          ></rm-input>
+          <!-- [config]="typeSelectorConfig" -->
+          <!-- Filter Message by Type -->
+          <rm-select
+            [config]="typeSelectorConfig"
+            (onSelectionChange)="selectionChange($event)"
+            [dataModel]="typeModel"
+          ></rm-select>
+
+          <!-- Reset Filter -->
+          <rm-icon
+            class="reset"
+            [icon]="'reset'"
+            [state]="'hover'"
+            [enableTooltip]="true"
+            [tooltipContent]="'Reset Filter'"
+            [customColor]="'#0060c9'"
+            [disabled]="!filterApplied"
+            (onClick)="resetFilter()"
+          ></rm-icon>
+        </div>
+      </div>
+    </ng-container>
+    <!-- model?.search:model?.from:model?.to -->
+    <ng-container
+      *ngIf="
+        (tabItems | filter: model?.search:model?.fromDate:model?.toDate)
+          .length > 0;
+        else noResults
+      "
+    >
+    <!-- getActiveTab(navTab?.brdId) -->
+      <mat-nav-list class="tab-drag-list">
+        <a
+          mat-list-item
+          class="tabSelector drag-tab"
+          (click)="clickOnTab(i, navTab)"
+          [ngClass]="{
+            active: navTab?.conversationId == selectedTab ||
+            navTab?.brdId == selectedTab,
+            multipleLineHeight: leftTabTemplate,
+            addBorder:
+              isCurrentUserSender(navTab) ||
+              ((navTab?.receipientList && navTab?.receipientList[0]?.isRead == 0 && !navTab?.brdId) || navTab?.conversationId == selectedTab) ||
+              ((navTab?.brdId && navTab?.isRead == 0) || navTab?.brdId == selectedTab)
+          }"
+          *ngFor="
+            let navTab of tabItems
+              | filter: model?.search:model?.fromDate:model?.toDate;
+            let i = index
+          "
+        >
+          <div class="tabSelector-item">
+            <span class="displayName">
+              <!-- {{navTab?.brdId == selectedTab}} -->
+              {{ navTab?.displayName ? navTab?.displayName : navTab?.name && !navTab?.brdId ? navTab?.name : ''}}
+            </span>
+            <ng-container *ngIf="leftTabTemplate">
+              <span class="leftTabTemplate">
+                <ng-container
+                  *ngTemplateOutlet="
+                    leftTabTemplate;
+                    context: { $implicit: navTab }
+                  "
+                ></ng-container>
+              </span>
+            </ng-container>
+          </div>
+        </a>
+      </mat-nav-list>
+    </ng-container>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button
+      class="menu_toggle_btn"
+      *ngIf="mobileQuery.matches"
+      (click)="drawerToggle = !drawerToggle"
+    >
+      <rm-icon [icon]="'pgRightArrow'" [customColor]="'white'"></rm-icon>
+    </button>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #noResults>
+  <p class="custom-padding">No messages found.</p>
+</ng-template>

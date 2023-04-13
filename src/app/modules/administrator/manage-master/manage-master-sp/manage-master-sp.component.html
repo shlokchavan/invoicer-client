@@ -1,0 +1,59 @@
+<rm-drawer-layout (onTabDrop)="tabOrderChange($event)" (onSelectedTabChange)="selectMasterType($event)"
+    [selectedTab]="masterIndex" [tabItems]="allMasterTypes">
+    <div class="app-container">
+        <form class="masterTypeForm" [formGroup]="editMasterForm" (ngSubmit)="null">
+            <div class="row flex-column-reverse flex-lg-row">
+                <div class="col-lg-4 col-6">
+                    <!-- <rm-input formControlName="name" [config]="masterTypeInputConfig.name" [dataModel]="selectedMasterType"></rm-input> -->
+                </div>
+                <div class="col-lg-8 form-actions">
+                    <rm-button [role]="'secondary'" *ngIf="!isEditMode" [icon]="'edit'" (onClick)="editMasterType()">
+                        EDIT
+                    </rm-button>
+                    <rm-button [disabled]="editMasterForm.invalid" [role]="'secondary'" *ngIf="isEditMode" [icon]="'save'" (onClick)="saveMasterType()">
+                        SAVE
+                    </rm-button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <rm-button [role]="'secondary'" *ngIf="isEditMode" [icon]="'cross'" (onClick)="cancelMasterType()">
+                        CANCEL
+                    </rm-button>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <!-- <rm-textarea formControlName="description" [config]="masterTypeInputConfig.description" [dataModel]="selectedMasterType">
+                    </rm-textarea> -->
+                </div>
+            </div>
+            <div class="row" *ngIf="selectedMasterType?.sysMasterId != 6">
+                <div class="col-12" *ngIf="pageComponentVisibility?.showGrid">
+                    <rm-grid #grid [loading]="loading" [config]="currentConfig" [rowData]="rowData" [scope]="scope"></rm-grid>
+                </div>
+            </div>
+            <div class="row" *ngIf="selectedMasterType?.sysMasterId == 6">
+                <div class="col-12">
+                    <!-- Color Card -->
+                    <color-card [cardList]="colorCardList"></color-card>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</rm-drawer-layout>
+<ng-template #drawerContainerTemp>
+    <ng-container *ngIf="pageComponentVisibility?.bulkUploader"></ng-container>
+    <div class="drawer-body">
+        <rm-bulk-importer [fileName]="importFileName" (onDataReady)="getExcelConvertedData($event)" [bulkDataSchema]="masterUploadScheme"></rm-bulk-importer>
+    </div>
+    <div class="drawer-footer rightAlignButtons">
+        <rm-button [type]="'button'" [role]="'secondary'" (onClick)="closeBulkDrawer()">CLOSE</rm-button>
+        <rm-button [type]="'button'" [disabled]="excelConvertedFile==undefined" [role]="'primary'" (onClick)="submitBulkData()">SUBMIT</rm-button>
+    </div>
+</ng-template>
+<!-- <rm-drawer-layout [leftTabTemplate]="tabsTemplate" [tabItems]="dummyNav">
+   
+</rm-drawer-layout> -->
+<!-- <ng-template #tabsTemplate let-tab>
+    Template - {{ tab?.displayName ? tab?.displayName : tab?.name }}
+</ng-template> -->

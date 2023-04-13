@@ -1,0 +1,26 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+:host ::ng-deep {
+  .rm-radio {
+    &-label {
+      color: $dark_gray_typo-color;
+    }
+    .mat-radio-container {
+      width: 16px;
+      height: 16px;
+      .mat-radio {
+        &-outer-circle {
+          width: 16px;
+          height: 16px;
+        }
+        &-inner-circle {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    .mat-ripple.mat-radio-ripple{
+      display: none !important;
+    }
+  }
+}

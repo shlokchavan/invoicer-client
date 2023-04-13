@@ -1,0 +1,58 @@
+@import '../../../../assets/style/partials/variables.scss';
+
+:host ::ng-deep {
+    .rm-horizontal-default-stepper {
+        &.mat-stepper-horizontal {
+            background-color: transparent;
+            .mat-horizontal-stepper-header-container {
+                background-color: white;
+                padding: 15px 0px;
+                border-bottom: 1px solid $default_line-color;
+                .mat-step-header {
+                    &:hover {
+                        background-color: transparent;
+                        .mat-step-icon {
+                            &:not(.mat-step-icon-selected):not(.mat-step-icon-state-valid) {
+                                background-color: #cce1ea;
+                            }
+                        }
+                    }
+                    .mat-step-icon {
+                        border-radius: 10px;
+                        height: 50px;
+                        width: 50px;
+                        border: 2px solid $global-theme;
+                        color: $global-theme;
+                        background-color: transparent;
+                        font-size: $h6_font-size;
+                        &-selected {
+                            background-color: $global-theme;
+                            color: white;
+                        }
+                        &-state-valid {
+                            background-color: $global-theme;
+                            color: white;
+                        }
+                        // &-state-edit, &-state-done {
+                        //     background-color: $global-theme;
+                        //     color: white;
+                        // }
+                    }
+                    .mat-step-label {
+                        color: $dark_gray_typo-color;
+                        &-active {
+                            color: $default_typo-color;
+                            font-weight: 500;
+                        }
+                    }
+                }
+                .mat-stepper-horizontal-line {
+                    max-width: 200px;
+                    border: 1px solid $global-theme;
+                    background-color: $global-theme;
+                    margin-right: -24px;
+                }
+            }
+        }
+    }
+}

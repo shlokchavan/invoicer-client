@@ -1,0 +1,40 @@
+<!-- {{config | json}} -->
+
+<div class="color-card card">
+    <div class="card-header" [style.background]="(config?.themeBaseColor)">
+        <p class="card-header__title">
+            <!-- {{config?.displayName || config?.name}} -->
+            {{config?.themeName}}
+        </p>
+        <!-- <input type="checkbox" class="card-header__checkbox"> -->
+    </div>
+    <div class="card-body">
+        <p class="text-muted">
+            HEX VALUE
+        </p>
+        <p>
+            <!-- {{config?.hexValue || '#A4295D'}} -->
+            {{config?.themeBaseColor}}
+        </p>
+        <!-- <div class="card-body__action">
+            <div class="card-body__action__left">
+                <p class="text-muted">
+                    RGB VALUE
+                </p>
+                <p>
+                    R: 164 G: 41 B:92
+                </p>
+            </div>
+            <div class="card-body__action__right">
+                <a class="link" [matMenuTriggerFor]="menu">
+                    <rm-icon [size]="'small'" [icon]="'KebabMenu'"></rm-icon>
+                </a>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Edit</button>
+                    <button mat-menu-item>Delete</button>
+                </mat-menu>
+            </div>
+        </div> -->
+    </div>
+
+</div>

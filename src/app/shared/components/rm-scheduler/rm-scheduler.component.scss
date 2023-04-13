@@ -1,0 +1,108 @@
+@import "../../../../assets/style/partials/variables.scss";
+// .rm-scheduler {
+//   // Css here
+// }
+
+.schedule {
+  padding: 20px;
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  &-type {
+    // &__title {
+    // p {
+    // }
+    // }
+    &__radio {
+      .rm-radio {
+        padding: auto -15px;
+      }
+    }
+  }
+
+  .hourly {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+  }
+}
+
+:host::ng-deep {
+  .mat-radio-label-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: inherit;
+  }
+
+  .time {
+    margin-top: -20px;
+    display: flex;
+    justify-content: inherit;
+    align-items: center;
+    &-hour {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &__increase {
+        transform: rotate(180deg);
+        cursor: pointer;
+      }
+      &__decrease {
+        cursor: pointer;
+      }
+    }
+    &-seperator {
+      font-size: 18px;
+      font-weight: 500;
+      color: $dark_gray_typo-color;
+    }
+    &-minute {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &__increase {
+        transform: rotate(180deg);
+        cursor: pointer;
+      }
+      &__decrease {
+        cursor: pointer;
+      }
+    }
+    &-switcher {
+      margin-left: 10px;
+      //   &__ampm {
+
+      //   }
+    }
+    // Input Tag
+    input {
+      padding: 8px 10px;
+      box-sizing: border-box;
+      outline: none;
+      border: 1px solid $border-color;
+      border-radius: 4px;
+      text-align: center;
+    }
+  }
+}
+
+.smallWidth {
+  width: 100px;
+}
+.sameLineElements {
+  display: flex;
+  align-items: baseline;
+}
+:host ::ng-deep {
+  .dropdownCenterAlign {
+    .mat-form-field .mat-form-field-wrapper {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
+.daily, .monthly {
+  margin-left: 15px;
+}

@@ -1,0 +1,54 @@
+<!-- <select #input [(ngModel)]="value">
+    <option *ngFor="let item of options" value="{{item.value}}">{{item.name}}</option>
+</select> -->
+<!-- (onSelectionChange)="item?.component?.onSelectionChange($event)" -->
+<!-- [dataModel]="item?.component?.model" -->
+<!-- <rm-select [config]="config" [dataModel]="model">
+</rm-select> -->
+<div class="rm-grid-cell-editor select">
+  <mat-form-field floatLabel="never">
+    <mat-select
+      #select="matSelect"
+      [required]="isRequired"
+      (selectionChange)="updateValue($event)"
+      [placeholder]="placeholderLabel ? placeholderLabel : 'Select...'"
+      [(ngModel)]="value"
+      disableOptionCentering
+      panelClass="dropdownPosition no-label"
+    >
+      <mat-option
+        style="height: 3em"
+        [disabled]="true"
+        class="search-contanier"
+        *ngIf="
+          params?.options?.length > 0
+        "
+      >
+        <div class="row">
+          <rm-icon class="icon" [icon]="'search'"></rm-icon>
+          <input
+            (keydown)="_handleKeydown($event)"
+            autocomplete="off"
+            type="text"
+            #selectSearchRef
+            placeholder="Search"
+            [(ngModel)]="query"
+            name="search-query"
+            [disabled]="disabled"
+          />
+        </div>
+      </mat-option>
+      <ng-container *ngIf="labelKey || returnKey">
+        <mat-option [disabled]="getIsDisabledOption(item)" *ngFor="let item of options | SelectSearch: query; let i = index" [value]="item[returnKey]">
+          {{ item[labelKey] }}
+        </mat-option>
+      </ng-container>
+      <ng-container *ngIf="!labelKey || !returnKey">
+        <mat-option *ngFor="let item of options" [value]="item.value">
+          {{item.name}}
+        </mat-option>
+      </ng-container>
+      
+    </mat-select>
+  </mat-form-field>
+</div>

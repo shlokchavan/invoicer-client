@@ -1,0 +1,89 @@
+@import "../../../../assets/style/partials/variables.scss";
+.rm-report-card {
+  min-height: 90px;
+  max-height: 90px;
+  // max-width: 256px;
+  min-width: 256px;
+  // width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  border: 1px solid;
+  border-radius: 4px;
+  p {
+    margin: 0;
+    line-height: 20px;
+  }
+  //   Default Widget Color
+  background-color: $report-card-bg-default;
+  border-color: $report-card-default;
+  &.purple {
+    background-color: $report-card-bg-purple;
+    border-color: $report-card-purple;
+  }
+  &.green {
+    background-color: $report-card-bg-green;
+    border-color: $report-card-green;
+  }
+  &.blue {
+    background-color: $report-card-bg-blue;
+    border-color: $report-card-blue;
+  }
+
+  .title {
+    letter-spacing: normal;
+    font-size: 14px;
+    text-align: left;
+    font-style: normal;
+    line-height: 20px;
+    word-wrap: break-word;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    cursor: inherit !important;
+    font-family: "Roboto Medium", "Roboto Regular", "Roboto";
+    font-weight: 500;
+    color: $default_typo-color;
+    margin-bottom: 4px;
+  }
+
+  .subTitle {
+    letter-spacing: normal;
+    font-size: 14px;
+    text-align: left;
+    font-style: normal;
+    line-height: 20px;
+    word-wrap: break-word;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    cursor: inherit !important;
+    font-family: "Roboto Bold", "Roboto Regular", "Roboto";
+    font-weight: 500;
+    color: $default_typo-color;
+    margin-bottom: 4px;
+  }
+
+  .description {
+    letter-spacing: normal;
+    font-size: 14px;
+    text-align: left;
+    font-style: normal;
+    line-height: 20px;
+    word-wrap: break-word;
+    text-transform: none;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    cursor: inherit !important;
+    font-family: "Roboto";
+    font-weight: 400;
+    color: $dark_gray_typo-color;
+  }
+}
+
+.skeleten-loader {
+  background-color: #f0f0f0;
+  height: 18px;
+  animation: shimmer 2s infinite linear;
+  background: linear-gradient(to right, #f0f0f0 5%, #d6d6d6 35%, #f0f0f0 50%);
+  background-size: 1000px 100%;
+}

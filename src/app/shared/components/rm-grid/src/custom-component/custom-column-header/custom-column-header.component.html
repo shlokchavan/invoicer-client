@@ -1,0 +1,25 @@
+<div class="rm-custom-header">
+  <div class="customHeaderLabel" *ngIf="params?.displayName">{{ params.displayName }}</div>
+  <!-- Removable -->
+  <div
+    *ngIf="params?.isRemovable"
+    (click)="onDeleteColumn()"
+    class="close-icon"
+  >
+    <rm-icon [icon]="'cross16'" size="small" [customColor]="'white'"></rm-icon>
+  </div>
+  <!-- Dropdown (auditor select)-->
+  <div
+    class="compare-selector"
+    *ngIf="params?.customFormElement"
+  >
+    <!-- <div [ngSwitch]="config?.type"> -->
+      <!-- RM Select -->
+      <!-- <div *ngSwitchCase="'rm-select'"> -->
+        <rm-select *ngIf="isReseted" [config]="selectConfig" (onSelectionChange)="onActionTriggered('selection-change', $event)" [dataModel]="customModel">
+        </rm-select>
+      <!-- </div> -->
+      <!-- <div *ngSwitchDefault></div> -->
+    <!-- </div> -->
+  </div>
+</div>

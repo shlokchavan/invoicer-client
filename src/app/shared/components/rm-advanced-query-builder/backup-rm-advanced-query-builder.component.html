@@ -1,0 +1,86 @@
+<div class="rm-advanced-query-builder">
+  <h3>Consolidated Table</h3>
+  <!-- Parameter -->
+  <mat-form-field appearance="fill">
+    <mat-label>Select Consolidated Table</mat-label>
+    <mat-select>
+      <ng-container
+        *ngFor="let consolidatedTable of consolidatedTableList; let i = index"
+      >
+        <mat-option [value]="consolidatedTable?.tblId">
+          {{ consolidatedTable?.tblDisplayName }}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <br />
+
+  <strong>THEN</strong>
+  <br />
+  <!-- {{ updateConfig | json }} -->
+
+  <!-- Operation -->
+  <mat-form-field appearance="fill">
+    <mat-label>Select Operation</mat-label>
+    <mat-select>
+      <ng-container
+        *ngFor="let operation of updateOperationList; let i = index"
+      >
+        <mat-option value="operation?.operationId">
+          {{ operation?.operationKey }}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+  &nbsp;
+  <span>Value in</span>
+  &nbsp;
+  <!-- Column/Parameter -->
+  <mat-form-field appearance="fill">
+    <mat-label>Select Column</mat-label>
+    <mat-select (onSelectionChanged)="selectionChanged('field', $event)">
+      <ng-container
+        *ngFor="let updateParameter of updateParameterList; let i = index"
+      >
+        <mat-option value="updateParameter?.paramId">
+          {{ updateParameter?.paramDisplayName }}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+  &nbsp;
+  <!-- <span>to</span> -->
+
+  <!-- Operator -->
+  <mat-form-field appearance="fill">
+    <mat-label>Select Operator</mat-label>
+    <mat-select [(ngModel)]="selectedUpdateOperator">
+      <ng-container *ngFor="let operator of updateOperatorList; let i = index">
+        <mat-option value="operator?.operatorId">
+          {{ operator?.operatorKey }}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+  &nbsp;
+  <!-- Value -->
+  <mat-form-field appearance="fill">
+    <input type="text" matInput placeholder="Value" />
+    <!-- <mat-label>Select Value</mat-label>
+    <mat-select>
+      <ng-container
+        *ngFor="
+          let updateParameterListValue of updateParameterListValues;
+          let i = index
+        "
+      >
+        <mat-option value="updateParameterListValue?.fieldValues">
+          {{ updateParameterListValue?.fieldName }}
+        </mat-option>
+      </ng-container>
+    </mat-select> -->
+  </mat-form-field>
+</div>
+
+

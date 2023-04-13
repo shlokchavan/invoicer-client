@@ -1,0 +1,164 @@
+<div class="rm-org-card">
+  <div class="org-card" [ngClass]="{ flipped: isFlipped }">
+    <div class="org-card-front">
+      <div class="org-card-front__header">
+        <div class="card-logo" (click)="logoClick()">
+          <img
+            [src]="
+              orgDetails?.primaryLogo ||
+              dummyOrgLogo
+            "
+            [alt]="orgDetails?.name"
+          />
+        </div>
+        <div class="select-checkbox" *ngIf="selectable">
+          <rm-checkbox
+            [config]="orgDetails?.checkboxConfig"
+            (onChange)="checkedHandler($event)"
+          ></rm-checkbox>
+        </div>
+      </div>
+      <div class="org-card-front__body">
+        <div class="org-name title truncate" [title]="orgDetails?.displayName || orgDetails?.name">
+          {{ orgDetails?.displayName || orgDetails?.name }}
+        </div>
+        <p class="address truncate" [innerHTML]="transformAddress(orgDetails?.address)">
+          <!-- 403 Bay Meadows Ave. Santa Ana, California 92703, USA -->
+        </p>
+      </div>
+      <div class="org-card-front__footer">
+        <div class="status" [hidden]="isFlipped">
+          <!-- Active/ Deactive -->
+          <ng-container *ngIf="orgDetails?.isActive != 2">
+            <!-- Allowed Editing -->
+            <ng-container *ngIf="actions; else viewOnlyStatus">
+              <rm-toggle
+                [config]="toggleConfig"
+                (onChange)="toggleHandler($event)"
+              ></rm-toggle>
+            </ng-container>
+            <!-- View Only Status -->
+            <ng-template #viewOnlyStatus>
+              <ng-container *ngIf="orgDetails?.isActive == 1">
+                <rm-chip [config]="activeChipConfig" [value]="'ACTIVE'">
+                </rm-chip>
+              </ng-container>
+              <ng-container *ngIf="orgDetails?.isActive == 0">
+                <rm-chip [config]="inactiveChipConfig" [value]="'INACTIVE'">
+                </rm-chip>
+              </ng-container>
+            </ng-template>
+          </ng-container>
+
+          <!-- Chip -->
+          <ng-container *ngIf="orgDetails?.isActive == 2">
+            <rm-chip [config]="chipConfig" [value]="'Draft'"> </rm-chip>
+          </ng-container>
+        </div>
+
+        <div class="action">
+          <div class="action__flip" (click)="isFlipped = !isFlipped">
+            <rm-icon
+              [icon]="'return'"
+              [size]="'small'"
+              [state]="'hover'"
+            ></rm-icon>
+          </div>
+          <div *ngIf="actions" class="action__more" [matMenuTriggerFor]="menu">
+            <rm-icon
+              [icon]="'kebab'"
+              [size]="'small'"
+              [state]="'hover'"
+            ></rm-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="org-card-back">
+      <div class="org-card-back__header">
+        <div class="org-name subtitle truncate" [title]="orgDetails?.displayName || orgDetails?.name">
+          {{ orgDetails?.displayName || orgDetails?.name }}
+        </div>
+        <div class="select-checkbox" *ngIf="selectable">
+          <rm-checkbox
+            [config]="checkboxConfig"
+            (onChange)="checkedHandler($event)"
+          ></rm-checkbox>
+        </div>
+      </div>
+      <div class="org-card-back__body">
+        <div class="info-container">
+          <div class="user">
+            <rm-icon [icon]="'user'" size="small" [color]="'white'"></rm-icon>
+            <div class="user__name truncate" [title]="orgDetails?.contactName">
+              {{ orgDetails?.contactName || "-" }}
+            </div>
+          </div>
+          <div class="phone">
+            <rm-icon [icon]="'phone'" size="small" [color]="'white'"></rm-icon>
+            <div class="user__phone truncate" [title]="orgDetails?.contactPhone">
+              {{ orgDetails?.contactPhone || "-" }}
+            </div>
+          </div>
+          <div class="email">
+            <rm-icon [icon]="'email'" size="small" [color]="'white'"></rm-icon>
+            <div class="user__email truncate" [title]="orgDetails?.contactEmail">
+              {{ orgDetails?.contactEmail || "-" }}
+            </div>
+          </div>
+          <div class="website">
+            <rm-icon [icon]="'website16'" size="small" [color]="'white'"></rm-icon>
+            <div class="user__website truncate" [title]="orgDetails?.website">
+              {{ orgDetails?.website || "-" }}
+            </div>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="stats">
+          <div class="stats__user">
+            <span class="stats__user-title"> Users </span>
+            <span class="stats__user-count">
+              {{ padZero(orgDetails?.userCount) }}
+            </span>
+          </div>
+          <div class="stats__group">
+            <span class="stats__group-title"> Groups </span>
+            <span class="stats__group-count">
+              {{ padZero(orgDetails?.groupCount) }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="org-card-back__footer">
+        <div class="action">
+          <div class="action__flip" (click)="isFlipped = !isFlipped">
+            <rm-icon
+              [icon]="'return'"
+              [size]="'small'"
+              [color]="'white'"
+            ></rm-icon>
+          </div>
+          <div *ngIf="actions" class="action__more" [matMenuTriggerFor]="menu">
+            <rm-icon
+              [icon]="'kebab'"
+              [size]="'small'"
+              [color]="'white'"
+            ></rm-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- More Menu -->
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let item of actions"
+    (click)="actionEvent(item)"
+  >
+  <!-- $event,  -->
+    {{ item?.label | titlecase }}
+  </button>
+</mat-menu>

@@ -1,0 +1,26 @@
+<mat-form-field [appearance]="formFieldAppearance" class="name-field no-label">
+  <!-- <mat-label>Field</mat-label> -->
+
+  <mat-select name="field" [disabled]="readonly" [(ngModel)]="item.fieldName" disableOptionCentering panelClass="dropdownPosition no-label" (ngModelChange)="fieldChanged($event, true)" class="ngx-mat-query-search-style">
+    <mat-select-trigger>
+      <span class="name-field-trigger" [innerHTML]="nameFieldTrigger"></span>
+    </mat-select-trigger>
+    <!-- <mat-option>
+      <ngx-mat-select-search ngModel placeholderLabel="Search fields..."
+                             noEntriesFoundLabel="No fields found"
+                             (ngModelChange)="searchValueChanged($event)"></ngx-mat-select-search>
+    </mat-option> -->
+    <!-- <mat-option *ngFor="let field of (visibleFields|async)" [value]="field.name">
+      <span class="field-value" *ngIf="field.tooltip" [matTooltip]="field.tooltip"
+            matTooltipPosition="right">{{field.label || field.name}}</span>
+      <span class="field-value" *ngIf="!field.tooltip">{{field.label || field.name}}</span>
+    </mat-option> -->
+    <mat-optgroup *ngFor="let group of groupedFields" [label]="group.group">
+      <mat-option *ngFor="let field of group.items" [value]="field.name">
+        <!-- <span class="field-value" *ngIf="field.tooltip" [matTooltip]="field.tooltip"
+              matTooltipPosition="right">{{field.label || field.name}}</span> -->
+        <span class="field-value" *ngIf="!field.tooltip">{{field.label || field.name}}</span>
+      </mat-option>
+    </mat-optgroup>
+  </mat-select>
+</mat-form-field>

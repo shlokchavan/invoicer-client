@@ -1,0 +1,58 @@
+  <ng-container *ngIf="isBigStepper; else smallStepperView">
+    <!-- Big Stepper Template -->
+    <mat-horizontal-stepper class="rm-horizontal-big-stepper" [ngClass]="getClassForLine()"
+    [selectedIndex]="stepIndex" labelPosition="bottom" [@.disabled]="true" 
+    (selectionChange)="changeStep($event)"
+    [disableRipple]="true" [linear]="isLinear" #stepper>
+    <ng-template matStepperIcon="edit" let-index="index">
+     <span class="step-inner">&nbsp;</span>
+    </ng-template>
+    <ng-template matStepperIcon="done" let-index="index">
+      <span class="step-inner done"><mat-icon>check</mat-icon></span>
+    </ng-template>
+    <ng-template matStepperIcon="error">
+      <mat-icon>priority_high</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="valid">
+      <span class="step-inner done"><mat-icon>check</mat-icon></span>
+   </ng-template>
+    <ng-template matStepperIcon="abstain">
+      <span class="step-inner abstain"></span>
+   </ng-template>
+   <!-- [ngClass]="{ 'valid' ? step?.isValidated, 'error' : step?.hasError || step.formGroup.invalid, 'edit': i == currentStepIndex }" -->
+     <ng-container *ngFor="let step of config.steps;let i=index">
+       <mat-step #s *ngIf="!step?.isHidden" [stepControl]="step?.formGroup" [hasError]="step?.hasError"
+       [state]="step?.isValidated ? 'valid' : i == currentStepIndex ? 'edit' : 'abstain'" 
+       [optional]="step?.isOptional" [label]="step?.stepLabel">
+        <ng-container *ngIf="true">
+            <ng-container *ngTemplateOutlet="step.stepTemplate"></ng-container>
+        </ng-container>
+       </mat-step>
+     </ng-container>
+   </mat-horizontal-stepper>
+  </ng-container>
+
+  <!-- Small Stepper Template -->
+  <ng-template #smallStepperView>
+    <mat-horizontal-stepper class="rm-horizontal-default-stepper"
+    [selectedIndex]="stepIndex" [@.disabled]="true" 
+    (selectionChange)="changeStep($event)"
+    [disableRipple]="true" linear #stepper>
+    <ng-template matStepperIcon="edit" let-index="index">
+     <span class="step-number">{{index + 1}}</span>
+    </ng-template>
+    <ng-template matStepperIcon="done" let-index="index">
+     <span class="step-number">{{index + 1}}</span>
+    </ng-template>
+    <ng-template matStepperIcon="valid">
+     <mat-icon>check</mat-icon>
+   </ng-template>
+     <ng-container *ngFor="let step of config.steps">
+       <mat-step [stepControl]="step?.formGroup" [state]="step?.isValidated ? 'valid' : 'edit'" 
+       [optional]="step?.isOptional" [label]="step.stepLabel">
+         <ng-container *ngTemplateOutlet="step.stepTemplate"></ng-container>
+       </mat-step>
+     </ng-container>
+   </mat-horizontal-stepper>
+  </ng-template>
+

@@ -1,0 +1,66 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+:host::ng-deep {
+  .rm-query-builder {
+    min-width: max-content;
+    &__control {
+      > div:first-child {
+        padding: 10px 20px;
+        background-color: $light_background-color;
+      }
+      .w50 {
+        // width: fit-content !important;
+        max-width: 50% !important;
+      }
+      .condition-row {
+        padding: 5px 20px;
+        background: #f5f5f5 !important;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        margin-bottom: 2px;
+        border-left: 4px solid $green_status-color !important;
+      }
+      .q-connector {
+        left: 80px;
+        &::before {
+          left: -52px !important;
+          width: 48px !important;
+        }
+        &::after {
+          left: -52px !important;
+        }
+      }
+      // .q-button-group {
+      //   margin-left: 20px !important;
+      //   padding-top: 15px !important;
+      // }
+      .condition-delete {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+      }
+    }
+  }
+  .mat-button-toggle-group-appearance-standard {
+    border-color: $global-theme;
+    .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+      line-height: 28px;
+    }
+    .mat-button-toggle {
+      margin-top: -1px;
+    }
+    .mat-button-toggle-appearance-standard {
+      color: $global-theme;
+      background: white;
+    }
+    .mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+      color: white;
+      background-color: $global-theme;
+    }
+  }
+  .rm-btn {
+    min-height: 28px !important;
+  }
+
+  // Select
+}

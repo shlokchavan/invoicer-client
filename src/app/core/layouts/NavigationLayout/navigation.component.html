@@ -1,0 +1,33 @@
+<rm-drawer-panel [footerTemplate]="drawerPanelConfig.footerTemplate"
+  [useCustomTemplate]="drawerPanelConfig.useCustomTemplate" [showCloseButton]="drawerPanelConfig.showCloseButton"
+  [drawerTitle]="drawerPanelConfig.drawerTitle" [drawerContainer]="drawerPanelConfig.drawerContainer"
+  [isActive]="drawerPanelConfig.isActive" [isRightSide]="drawerPanelConfig.isRightSide"
+  [hasBackdrop]="drawerPanelConfig.hasBackdrop" (isActiveChange)="drawerTest($event)" [escClose]="true"
+  [drawerMode]="drawerPanelConfig.drawerMode" [drawerSize]="drawerPanelConfig.drawerSize" #drawer>
+  <!-- (isActiveChange)="drawerActiveChange($event)" [escClose]="drawerPanelConfig.escClose"  -->
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav [disableClose]="drawerConfig?.enableBookmarkSideNav" (closedStart)="nav.closeAccordian()"
+      [autoFocus]="false" #sidenav [mode]="'over'" [style.width]="drawerWidth">
+      <div [hidden]="!drawerConfig?.enableNav && !drawerConfig?.enableBookmarkSideNav">
+        <rm-nav #nav [HeaderLOGO]="muLOGO" [config]="navigationConfig"
+          [isBookmarkView]="drawerConfig?.enableBookmarkSideNav" (onClosed)="closeSideNav($event)"></rm-nav>
+      </div>
+      <ng-container *ngIf="drawerConfig?.enableProfile">
+        <rm-user-drawer [config]="profileConfig" (onClick)="sidenav.close()"></rm-user-drawer>
+      </ng-container>
+      <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p> -->
+    </mat-sidenav>
+
+    <mat-sidenav-content [ngClass]="{ 'extra-sub' : currentSubHeader }">
+      <app-header [bookmarkObjects]="selectedBookmarks" [SubHeader]="currentSubHeader"
+        (onEventTrigger)="eventCallBack($event)"></app-header>
+      <router-outlet></router-outlet>
+      <!-- <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p> -->
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</rm-drawer-panel>
+
+
+<!-- Loading Overlay -->
+<!-- <div class="loadingOverlay" *ngIf="loading">
+</div> -->

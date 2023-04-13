@@ -1,0 +1,74 @@
+<div class="side_nav">
+    <div class="nav_header" *ngIf="!isBookmarkView">
+        <button (click)="closeDrawer()" class="toggle_button" mat-icon-button>
+            <rm-icon [icon]="'humburger'"></rm-icon>
+        </button>
+        <img class="header_logo" [src]="loggedInUserOrgLogo ? loggedInUserOrgLogo : HeaderLOGO" alt="RM LOGO">
+    </div>
+    <div class="bookmark_header" *ngIf="isBookmarkView">
+      <rm-icon [customColor]="'white'" [icon]="'bookmark'"></rm-icon>
+      <h2>UPDATE BOOKMARK</h2>
+    </div>
+    <div class="subheader" *ngIf="isBookmarkView">
+      <span class="selectedLinkLabel">
+        <span class="selected_count"> {{ currentBookmarkSelection!.length }}/4</span>
+        <span class="selected_label"> Link{{currentBookmarkSelection!.length > 1 ? 's' : ''}} Selected</span>
+      </span>
+      <a href="javascript:void(0)" class="reset_link" (click)="resetBookmarks()">RESET</a>
+    </div>
+    <div class="nav_body" [ngClass]="{ 'bookmark' : isBookmarkView }">
+        <mat-accordion class="nav-accordian" multi>
+          <ng-container *ngFor="let nav of availableNavigationItems">
+            <mat-expansion-panel *ngIf="isAnySubmoduleActive(nav)" (opened)="moduleNavigator(nav)" (closed)="moduleNavigator(nav)" class="mat-elevation-z0" [hideToggle]="!nav?.subModuleList">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="title-with_icon">
+                    <rm-icon [customColor]="'#191919'" [icon]="nav.icon"></rm-icon>
+                    <!-- {{nav.label}} -->
+                    {{nav?.displayName ||nav?.name}}
+                  </span>
+                  <span [hidden]="!(getIsSubModuleSelected(nav) && isBookmarkView)" class="isActive"></span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              
+              <ng-container *ngIf="isBookmarkView; else bookmark_selectors">
+                <mat-selection-list selectedOptions (selectionChange)="markSelection($event, nav)" [multiple]="isBookmarkView">
+                  <mat-list-option 
+                    checkboxPosition="before" 
+                    [selected]="subModuleNav?.isSelected" 
+                    [disabled]="currentBookmarkSelection!.length == 4 && getAlreadyStoredBookmarkIndex(subModuleNav) == -1" 
+                    *ngFor="let subModuleNav of nav?.subModuleList" 
+                    [value]="subModuleNav"
+                    >
+                    <!-- {{subModuleNav.label}} -->
+                    {{ subModuleNav?.displayName || subModuleNav?.name}}
+                    <span class="wip_text" *ngIf="subModuleNav?.isWIP">(WIP)</span>
+                  </mat-list-option>
+                </mat-selection-list>
+              </ng-container>
+              
+              <ng-template #bookmark_selectors>
+                <mat-action-list>
+                  <ng-container *ngFor="let subModuleNav of nav?.subModuleList">
+                    <button mat-list-item (click)="moduleNavigator(subModuleNav)"> 
+                      <!-- {{subModuleNav.label}}  -->
+                      {{ subModuleNav?.displayName || subModuleNav?.name}}
+                      <span class="wip_text" *ngIf="subModuleNav?.isWIP">(WIP)</span>
+                      </button>
+                  </ng-container>
+                </mat-action-list>
+              </ng-template>
+              
+            </mat-expansion-panel>
+          </ng-container>
+          </mat-accordion>
+    </div>
+    <div class="nav_footer" *ngIf="!isBookmarkView">
+      <span class="poweredBy">Powered By:</span>
+      <img class="rmLogo" src="../../../../assets/img/RM_logo_color.png" alt="rm logo">
+    </div>
+    <div *ngIf="isBookmarkView" class="bookmark_footer">
+      <rm-button role="secondary" (onClick)="closeDrawer()"> Cancel </rm-button>
+      <rm-button role="primary" (onClick)="applyBookmark()"> Apply </rm-button>
+    </div>
+</div>

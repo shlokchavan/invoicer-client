@@ -1,0 +1,120 @@
+<div
+  class="rm-group-card"
+  [ngClass]="{
+    purple: index % 5 == 0,
+    red: index % 4 == 0,
+    yellow: index % 3 == 0,
+    pink: index % 2 == 0,
+    blue: index % 1 == 0,
+    green: index == 0 || index % 6 == 0
+  }"
+>
+  <div class="rm-group-card__header">
+    <div class="title">
+      <p class="name m0">
+        {{ groupDetails?.name || "-" }}
+      </p>
+      <p class="m0">
+        <a
+          *ngIf="groupDetails?.emailId"
+          href="mailto: {{ groupDetails?.emailId }}"
+        >
+          {{ groupDetails?.emailId || "-" }}
+        </a>
+        <span *ngIf="!groupDetails?.emailId">-</span>
+      </p>
+    </div>
+    <div class="select-checkbox" *ngIf="selectable">
+      <!-- Checkbox -->
+      <rm-checkbox
+        [config]="groupDetails?.checkboxConfig"
+        (onChange)="checkedHandler($event)"
+      ></rm-checkbox>
+    </div>
+  </div>
+  <div class="rm-group-card__body">
+    <div class="profile-info">
+      <!-- User Card Group -->
+      <ng-container *ngIf="groupDetails?.users?.length > 0">
+        <rm-avatar-group
+          [rowData]="groupDetails?.users"
+          [showImg]="true"
+          (onMoreClick)="moreClick($event)"
+        ></rm-avatar-group>
+      </ng-container>
+      <!-- No of Users -->
+      <p class="m0">
+        <span *ngIf="!groupDetails?.users"> No Users</span>
+        <a
+          href="javascript:void(0);"
+          (click)="linkClick($event, 'show-user-group', index)"
+          *ngIf="groupDetails?.users"
+        >
+          <!-- No Users -->
+          <span [hidden]="!groupDetails?.users?.length">
+            {{ groupDetails?.users?.length || 0 }}
+          </span>
+          Users
+        </a>
+        <span>
+          <rm-icon
+            icon="info"
+            color="link"
+            [enableTooltip]="true"
+            [tooltipOptions]="{ placement: 'bottom', theme: 'light' }"
+            contentType="template"
+            [tooltipContent]="tooltipInfo"
+          ></rm-icon>
+          <ng-template #tooltipInfo>
+            <div class="tooltip-info-template">
+              <ng-container *ngFor="let role of userByRoles">
+                <p>{{ role?.name }} - {{ role?.noOfUsers }}</p>
+              </ng-container>
+            </div>
+          </ng-template>
+        </span>
+      </p>
+    </div>
+  </div>
+  <div class="rm-group-card__footer">
+    <!-- Status -->
+    <div class="status">
+      <ng-container *ngIf="actions">
+        <!-- Toggle -->
+        <rm-toggle
+          [config]="toggleConfig"
+          (onChange)="toggleHandler($event)"
+        ></rm-toggle>
+      </ng-container>
+      <ng-container *ngIf="!actions">
+        <!-- Chip -->
+        <rm-chip
+          *ngIf="groupDetails?.isActive == 1"
+          [config]="activeChipConfig"
+          [value]="'ACTIVE'"
+        ></rm-chip>
+        <rm-chip
+          *ngIf="groupDetails?.isActive == 0"
+          [config]="deactiveChipConfig"
+          [value]="'DEACTIVE'"
+        ></rm-chip>
+      </ng-container>
+    </div>
+    <!-- Kebab Menu -->
+    <div *ngIf="actions" class="action__more" [matMenuTriggerFor]="menu">
+      <!-- [size]="'small'" -->
+      <rm-icon [icon]="'kebab'" [state]="'hover'"></rm-icon>
+    </div>
+  </div>
+</div>
+
+<!-- More Menu -->
+<mat-menu #menu="matMenu">
+  <button
+    mat-menu-item
+    *ngFor="let item of actions"
+    (click)="actionEvent(item)"
+  >
+    {{ item?.label | titlecase }}
+  </button>
+</mat-menu>

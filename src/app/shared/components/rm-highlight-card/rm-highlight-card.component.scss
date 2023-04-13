@@ -1,0 +1,46 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+.rm-highlight-card {
+  background-color: white;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  padding: 15px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .list-of-items {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .list-item {
+    margin: 10px 0px;
+  }
+}
+
+:host::ng-deep {
+  .list-item {
+    .bold-text {
+      font-weight: 500;
+    }
+
+    .amount-text {
+      color: $avatar_bg-orange;
+    }
+  }
+}

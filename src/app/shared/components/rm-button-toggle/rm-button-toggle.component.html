@@ -1,0 +1,13 @@
+<div class="rm-button-toggle">
+  <mat-button-toggle-group>
+    <ng-container *ngFor="let button of buttons">
+      <mat-button-toggle
+        (change)="toggleBtn(button)"
+        [checked]="button.checked"
+        [disabled]="button.disabled"
+        [value]="button.value"
+        >{{ button.label }}</mat-button-toggle
+      >
+    </ng-container>
+  </mat-button-toggle-group>
+</div>

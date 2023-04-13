@@ -1,0 +1,212 @@
+<div
+  class="rm-widget"
+  #widgetElementRef
+  [ngClass]="{ 'full-screen': fullscreenView }"
+>
+  <!-- Header -->
+  <div class="rm-widget__header">
+    <!-- Header Title -->
+    <span class="title">
+      {{ config?.title }}
+    </span>
+    <!-- Header Action (Right) -->
+    <div class="action">
+      <ng-container
+        *ngTemplateOutlet="
+          config?.additionalActionTemplate;
+          context: { $implicit: config }
+        "
+      ></ng-container>
+      <ng-container *ngIf="config?.additionalActionTemplate">
+        <span class="mx10 pipe divider-pipe"> | </span>
+      </ng-container>
+      <ng-container *ngFor="let action of config?.actions">
+        <ng-container
+          *ngIf="
+            action.event != 'download' ||
+              dataConfig?.customChartConfig?.viewType == 'grid';
+            else downloadOption
+          "
+        >
+          <rm-icon
+            [enableTooltip]="action?.tooltip"
+            [tooltipContent]="action?.tooltip"
+            class="action-icon"
+            state="hover"
+            [icon]="action?.icon"
+            (onClick)="actionClicked(action?.event)"
+          ></rm-icon>
+        </ng-container>
+        <ng-template #downloadOption>
+          <!-- Disabled download option if no chart found -->
+          <ng-container *ngIf="isChartEmpty">
+            <rm-icon
+            [enableTooltip]="action?.tooltip"
+            [tooltipContent]="action?.tooltip"
+            class="action-icon"
+            state="hover"
+            [icon]="action?.icon"
+            [disabled]="isChartEmpty"
+          ></rm-icon>
+          </ng-container>
+          <!-- Download Option if Chart data is found -->
+          <ng-container *ngIf="!isChartEmpty">
+            <rm-icon
+            [enableTooltip]="action?.tooltip"
+            [tooltipContent]="action?.tooltip"
+            class="action-icon"
+            state="hover"
+            [icon]="action?.icon"
+            [matMenuTriggerFor]="menu"
+          ></rm-icon>
+          </ng-container>
+        </ng-template>
+      </ng-container>
+      <mat-menu #menu="matMenu">
+        <ng-container *ngFor="let action of downloadActions">
+          <button mat-menu-item (click)="downloadChart(action.event)">
+            {{ action.label }}
+          </button>
+        </ng-container>
+      </mat-menu>
+    </div>
+  </div>
+  <!-- Body/ Content -->
+  <div class="rm-widget__body">
+    <!-- Filter/ View By -->
+    <ng-container *ngIf="config?.filterType && !isChartEmpty">
+      <div class="filter-type" [ngSwitch]="config?.filterType">
+        <div class="view pt20" *ngSwitchCase="'viewBy'">
+          <span>View by:</span>
+          <div class="view-options">
+            <ng-container *ngFor="let option of config?.filterOptions">
+              <div
+                class="rm-filter-chip"
+                [ngClass]="{ active: config?.selectedOption == option }"
+                (click)="selectionChange('viewBy', option)"
+              >
+                {{ option?.label }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div *ngSwitchCase="'template'">
+          <ng-container
+            *ngTemplateOutlet="
+              filterTemplaterRef;
+              context: { $implicit: dataConfig }
+            "
+          ></ng-container>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!config?.filterType">
+      <div class="dummy space"></div>
+    </ng-container>
+
+    <!-- Widget/ Chart -->
+    <div class="row pb20">
+      <div class="col-12 chart-view">
+        <rm-chart
+          *ngIf="
+            (!dataConfig?.customChartConfig ||
+            dataConfig?.customChartConfig?.viewType == 'chart')
+            && !isChartEmpty
+          "
+          #widgetChart
+          style="width: 100%"
+          [loading]="loading"
+          [chartType]="'bar'"
+          [config]="configsLoaded < 5 ? chartConfig : tempStore.config"
+          (chartClicked)="onChartClick($event)"
+        ></rm-chart>
+        <ng-container *ngIf="
+        (!dataConfig?.customChartConfig ||
+        dataConfig?.customChartConfig?.viewType == 'chart')
+        && isChartEmpty
+        ">
+        <div class="emptyChart">
+          <img class="noDataImg" src="./../../../../assets/img/Icon_NoData.png" alt="Chart Data Missing" />
+          <h1>Records Not Found!</h1>
+        </div>
+        </ng-container>
+        <!-- [config]="configsLoaded < 5 ? chartConfig : tempStore.config" -->
+        <!-- [config]="chartConfig" -->
+        <!-- [config]="config | generateConfig:tempStore:fullscreenView:currentLevel:refreshChart" -->
+        <ng-container *ngIf="dataConfig?.customChartConfig?.viewType == 'grid' && !isChartEmpty">
+          <div class="gridRow my10">
+            <!-- <div class="col-12"> -->
+            <!-- {{tempStore.config.gridRows | json}} -->
+            <rm-grid
+              #gridChart
+              [config]="chartConfig.gridConfig"
+              [scope]="chartConfig.gridConfig?.scope"
+              [rowData]="[]"
+              [loading]="loading || gridLoading"
+              [metaTemplate]="showCount"
+            ></rm-grid>
+            <!-- *ngIf="chartConfig?.gridConfig?.showCount" -->
+            <ng-template #showCount>
+              <b *ngIf="chartConfig?.gridConfig?.showCount"
+                ><span>{{
+                  chartConfig?.gridConfig?.showCountTitle
+                    ? chartConfig?.gridConfig?.showCountTitle
+                    : "Total"
+                }}</span
+                >: {{ chartConfig?.gridConfig?.rows?.length }}</b
+              >
+            </ng-template>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!isChartEmpty">
+          <ng-container
+          *ngIf="config?.customLegendTemplateRef; else customlegendText"
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              config?.customLegendTemplateRef;
+              context: { $implicit: dataConfig }
+            "
+          ></ng-container>
+        </ng-container>
+        <ng-template #customlegendText>
+          <p *ngIf="config?.customLegend" class="customLegend">
+            {{ config?.customLegend }}
+          </p>
+        </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer/ Breadcrumb -->
+  <ng-container *ngIf="config?.breadcrumbs">
+    <div class="rm-widget__footer pt20">
+      <div class="widget-breadcrumb">
+        <rm-icon class="mr10" icon="info" customColor="#0060c9"></rm-icon>
+        <!-- Current Viewing: -->
+        <span>Currently Viewing:</span>
+        <ng-container *ngFor="let crumb of config?.breadcrumbs; let i = index">
+          <ng-container *ngIf="crumb?.isActive; else navigatableCrumbTemplate">
+            {{ crumb?.title }}
+          </ng-container>
+          <ng-template #navigatableCrumbTemplate>
+            <a
+              (click)="gotoView(i)"
+              href="javascript:void(0);"
+              [disabled]="crumb?.isActive"
+            >
+              {{ crumb?.title }}
+            </a>
+          </ng-template>
+          <span
+            class="breadcrumb-seperator"
+            *ngIf="i != config?.breadcrumbs?.length - 1"
+            >/
+          </span>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>

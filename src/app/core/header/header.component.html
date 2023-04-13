@@ -1,0 +1,13 @@
+<rm-header
+  (onActionClick)="eventTrigger('action', $event)"
+  (onBookmarkSettingTrigger)="eventTrigger('bookmark-setting', null)"
+  (onNavTrigger)="eventTrigger($event, null)"
+  [config]="headerConfig"
+>
+  <rm-bookmark
+    (onSettingsTrigger)="eventTrigger('bookmark-setting', $event)"
+    (onDragDrop)="eventTrigger('bookmark-drag', $event)"
+    [bookmarkChips]="bookmarkObjects"
+    (onClick)="eventTrigger('bookmark-route', $event)"
+  ></rm-bookmark>
+</rm-header>

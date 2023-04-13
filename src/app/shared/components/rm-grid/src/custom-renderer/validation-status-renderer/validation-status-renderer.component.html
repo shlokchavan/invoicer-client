@@ -1,0 +1,14 @@
+<div class="validation-status-renderer">
+  <rm-chip
+    [config]="{
+      colorClass: statusColor(params.value)
+    }"
+    [value]="(params.value).toUpperCase()"
+  ></rm-chip>
+  <ng-container *ngIf="params.value != 'Passed'">
+  <span class="ml-2" [ngClass]="{'status-error': params.value == 'Failed'}">{{data.validationFileSummary}}</span>
+    <a class="link" [href]="getSantizeUrl(href)" (click)="handleClick()">
+      <span class="d-inline-block ml-2"> (View Details) </span>
+    </a>
+  </ng-container>
+</div>

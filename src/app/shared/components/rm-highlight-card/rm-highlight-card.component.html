@@ -1,0 +1,15 @@
+<div class="rm-highlight-card">
+  <div class="header">
+    <div class="title">
+      {{ title }}
+    </div>
+  </div>
+
+  <div class="list-of-items mt20">
+    <ng-container *ngFor="let item of data">
+      <p class="list-item" [innerHTML]="item?.categoryDescription">
+        <!-- {{ item?.categoryDescription }} -->
+      </p>
+    </ng-container>
+  </div>
+</div>

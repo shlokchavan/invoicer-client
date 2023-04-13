@@ -1,0 +1,131 @@
+<div class="rm-picklist">
+  <div class="row">
+    <!-- Available List -->
+    <div class="col-5 custom-col-5">
+      <div class="section-title pb10">{{ config?.title?.available }}</div>
+      <div class="datalist available-list">
+        <input
+          class="datalist__search"
+          type="text"
+          placeholder="Search"
+          #availableSearchRef
+          [(ngModel)]="availableSearch"
+        />
+
+        <mat-selection-list
+          (selectionChange)="onSelectionChange('available', $event)"
+          class="columns-list-panel"
+          cdkDropList
+          #availableList="cdkDropList"
+          [cdkDropListData]="items"
+          [cdkDropListConnectedTo]="[selectedList]"
+          (cdkDropListDropped)="onDrop($event)"
+        >
+          <mat-list-option
+            [selected]="item.visible"
+            [disabled]="(isMaxItemsSelected && !item['_isSelected']) || item['disabled']"
+            [value]="item[config?.returnKey || config?.dataKey] || item"
+            (click)="$event.stopPropagation()"
+            *ngFor="let item of items | PickListSearch: availableSearch"
+            checkboxPosition="before"
+            cdkDrag
+            class="manage-column-item"
+          >
+            <div class="tab-drag-preview" *cdkDragPreview></div>
+
+            {{ item[config?.dataKey] || item }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <!-- Actions -->
+    <div class="col-1 action">
+      <div class="action-right">
+        <rm-button
+          *ngIf="!config.maxSelectionCount"
+          [icon]="'pgRightArrowDouble'"
+          [role]="'secondary'"
+          [onlyIconButton]="true"
+          [disabled]="
+            isAvailableListEmpty || disabled || isMoreThanMaxItemsSelected
+          "
+          (onClick)="transfer('all-right')"
+        ></rm-button>
+        <rm-button
+          [role]="'secondary'"
+          [icon]="'pgRightArrow'"
+          [onlyIconButton]="true"
+          [disabled]="
+            isAvailableListEmpty ||
+            isAvailableListItemSelected ||
+            disabled ||
+            isMoreThanMaxItemsSelected
+          "
+          (onClick)="transfer('selected-right')"
+        ></rm-button>
+      </div>
+      <div class="action-left">
+        <rm-button
+          [role]="'secondary'"
+          icon="pgLeftArrow"
+          [onlyIconButton]="true"
+          [disabled]="isSelectedListEmpty || isSelectedListItemSelected"
+          (onClick)="transfer('selected-left')"
+        ></rm-button>
+        <rm-button
+          *ngIf="!config.maxSelectionCount"
+          [role]="'secondary'"
+          icon="pgLeftArrowDouble"
+          [onlyIconButton]="true"
+          [disabled]="isSelectedListEmpty"
+          (onClick)="transfer('all-left')"
+        ></rm-button>
+      </div>
+    </div>
+
+    <!-- Selected List -->
+    <div class="col-5 custom-col-5">
+      <div class="section-title pb10">{{ config?.title?.selected }}</div>
+      <div class="datalist selected-list">
+        <input
+          class="datalist__search"
+          type="text"
+          placeholder="Search"
+          #selectedSearchRef
+          [(ngModel)]="selectedSearch"
+        />
+        <mat-selection-list
+          (selectionChange)="onSelectionChange('selected', $event)"
+          class="columns-list-panel"
+          cdkDropList
+          #selectedList="cdkDropList"
+          [cdkDropListData]="selected"
+          [cdkDropListConnectedTo]="[availableList]"
+          (cdkDropListDropped)="onDrop($event)"
+        >
+          <mat-list-option
+            [selected]="item?.visible"
+            [value]="item[config?.returnKey || config?.dataKey] || item"
+            (click)="$event.stopPropagation()"
+            *ngFor="let item of selected | PickListSearch: selectedSearch"
+            checkboxPosition="before"
+            cdkDrag
+            class="manage-column-item selectedItems"
+          >
+            <div class="tab-drag-preview" *cdkDragPreview></div>
+
+            {{ item[config?.dataKey] || item }}
+            <rm-icon
+              *ngIf="config?.showSetting"
+              icon="settings"
+              state="hover"
+              color="link"
+              (click)="$event.stopPropagation()"
+              (onClick)="onSettingClick(item)"
+            ></rm-icon>
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+  </div>
+</div>

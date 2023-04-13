@@ -1,0 +1,34 @@
+<!-- File Selector -->
+<div class="file-uploader" appDnd (fileDropped)="onFileDropped($event)">
+    <div (click)="fileSelector.click()" class="file-selector">
+        <!-- {{ fileSizeFormaterByBytes(FilesSizeLimit) }} -->
+        <rm-icon class="icon" [icon]="'CloudUpload'" [size]="'extra-large'"></rm-icon>
+        <p>Drop files to upload or <a href="javascrpt:void(0)">Browse</a></p>
+        <div class="details">
+            File Size Limit: {{ fileSizeFormaterByBytes(FilesSizeLimit) }} 
+            <span class="pipe-seprator">&nbsp;|&nbsp;</span>
+            File Limit: {{ FilesNumberLimit }}
+            <br>
+            <span class="fileSupport">
+                Supported file format: {{ Allowedfiles }}
+            </span>
+        </div>
+    </div>
+    <input #fileSelector class="input-file" (change)="fileChangeEvent($event.target)" type="file" hidden [accept]="Allowedfiles" [multiple]="MultipleUpload">
+    <!-- <input #fileSelector class="input-file" (change)="fileChangeEvent($event.target.files)" type="file" hidden [accept]="Allowedfiles" [multiple]="MultipleUpload"> -->
+</div>
+<div class="selected-file-list">
+    <div class="file-details" *ngFor="let file of fileList; let i = index">
+        <!-- <p>{{file | json}}</p> -->
+        <div class="file-indicators">
+            <span class="filename">{{ file.fileName }}</span>
+            <mat-progress-bar class="file-upload-progressbar {{file?.uploadingPercentage == 100 ? 'success' : ''}}" mode="determinate" [value]="file.uploadingPercentage"></mat-progress-bar>
+            <span class="size-details" *ngIf="file?.fileSize">{{ getUploadedFileSize(file) }} / {{ fileSizeFormaterByBytes(file.fileSize) }}</span>
+        </div>
+        <div class="file-actions">
+            <!-- <rm-icon [state]="'hover'" (onClick)="null" [color]="'link'" [icon]="'cross'"></rm-icon> -->
+            <rm-icon [state]="'hover'" (onClick)="cancelAndRemoveFile(i)" [tooltipOptions]="{ placement: 'bottom' }" [enableTooltip]="true" [tooltipContent]="'Delete'" [customColor]="'red'" [icon]="file?.uploadingPercentage == 100 ? 'deleteMessage' : 'cross'"></rm-icon>
+            <rm-icon *ngIf="showDownloadButton && file?.uploadingPercentage == 100" [state]="'hover'" (onClick)="download(file)" [tooltipOptions]="{ placement: 'bottom' }" color="link" [enableTooltip]="true" [tooltipContent]="'Download'" [icon]="'download'"></rm-icon>
+        </div>
+    </div>
+</div>

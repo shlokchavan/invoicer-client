@@ -1,0 +1,174 @@
+<div class="rm-account-card">
+  <div class="account-card" [ngClass]="{ flipped: isFlipped }">
+    <div class="account-card-front">
+      <div class="account-card-front__header">
+        <div class="card-logo">
+          <p class="m-0 headingDetails">
+            Account ID: <a href="javascript:void(0)" (click)="logoClick()">{{ accountDetails?.accountId }}</a>
+          </p>
+          <p class="m-0 subheadingDetails">
+            Facility:
+            <span
+              >{{ accountDetails?.facilityId }}
+              <rm-icon
+                color="link"
+                enableTooltip="true"
+                [tooltipContent]="accountDetails?.facilityName"
+                [icon]="'info'"
+              ></rm-icon
+            ></span>
+          </p>
+        </div>
+        <div class="select-checkbox" *ngIf="selectable">
+          <rm-checkbox
+            [config]="accountDetails?.checkboxConfig"
+            (onChange)="checkedHandler($event)"
+          ></rm-checkbox>
+        </div>
+      </div>
+      <div class="account-card-front__body">
+        <div class="row">
+          <div class="col-6">
+            <p class="m-0 colKey truncate" title="Missing Codes">
+              Missing Codes
+            </p>
+            <p class="m-0 colKey truncate" title="Projected Impact">
+              Projected Impact
+            </p>
+            <p class="m-0 colKey truncate" title="Admit Date">Admit Date</p>
+            <p class="m-0 colKey truncate" title="Discharge Date">
+              Discharge Date
+            </p>
+            <p class="m-0 colKey truncate" title="Alternate Accounts">
+              Alternate Accounts
+            </p>
+          </div>
+          <div class="col-6">
+            <p class="m-0 colValue truncate" [title]="myArr">
+              <ng-container *ngIf="myArr.length <= 2">
+                <ng-container *ngFor="let item of myArr; let i = index">
+                  {{ item }}{{ i === myArr.length - 1 ? "" : ",&nbsp;" }}
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="myArr.length > 2">
+                <ng-container *ngFor="let item of myArr | slice: 0:1; let i = index">
+                  <span>
+                    {{ item
+                    }}{{ i === myArr.length - 1 ? "" : ",&nbsp;" }}</span
+                  >
+                </ng-container>
+                <a href="javascript:void(0)" [matMenuTriggerFor]="list">
+                  +{{ myArr.length - 1 }} More</a
+                >
+              </ng-container>
+            </p>
+            <p
+              class="m-0 colValue truncate"
+              [title]="getNumberValue(accountDetails?.projectedAmount)"
+            >
+              {{ getNumberValue(accountDetails?.projectedAmount) | currency }}
+            </p>
+            <p
+              class="m-0 colValue truncate"
+              [title]="accountDetails?.admitDate"
+            >
+              {{ accountDetails?.admitDate }}
+            </p>
+            <p
+              class="m-0 colValue truncate"
+              [title]="accountDetails?.dischgDate"
+            >
+              {{ accountDetails?.dischgDate }}
+            </p>
+            <p class="m-0 colValue truncate" title="No">No</p>
+          </div>
+        </div>
+      </div>
+      <div class="account-card-front__footer">
+        <div class="status" [hidden]="isFlipped"></div>
+
+        <div class="action">
+          <div class="action__flip" (click)="isFlipped = !isFlipped">
+            <rm-icon
+              [icon]="'return'"
+              [size]="'small'"
+              [state]="'hover'"
+            ></rm-icon>
+          </div>
+          <!-- <div *ngIf="actions" class="action__more" [matMenuTriggerFor]="menu">
+            <rm-icon
+              [icon]="'kebab'"
+              [size]="'small'"
+              [state]="'hover'"
+            ></rm-icon>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="account-card-back">
+      <div class="account-card-back__header">
+        <div class="card-logo">
+          <p class="m-0 headingDetails">
+            Account ID: <span>{{ accountDetails?.accountId }}</span>
+          </p>
+          <p class="m-0 subheadingDetails">
+            Facility: <span>{{ accountDetails?.facilityId }}</span>
+          </p>
+        </div>
+        <div class="select-checkbox" *ngIf="selectable">
+          <rm-checkbox
+            [config]="checkboxConfig"
+            (onChange)="checkedHandler($event)"
+          ></rm-checkbox>
+        </div>
+      </div>
+      <div class="account-card-back__body">
+        <div class="row w-100">
+          <div class="col-6">
+            <p class="m-0 colKey">MRN</p>
+            <p class="m-0 colKey">Age / Gender</p>
+            <p class="m-0 colKey">Patient Type</p>
+            <p class="m-0 colKey">Payer Code</p>
+            <p class="m-0 colKey">Payer Name</p>
+          </div>
+          <div class="col-6">
+            <p class="m-0 colValue">{{ accountDetails?.patientId }}</p>
+            <p class="m-0 colValue">
+              {{ accountDetails?.age }} / {{ accountDetails?.gender }}
+            </p>
+            <p class="m-0 colValue">{{ accountDetails?.patType }}</p>
+            <p class="m-0 colValue">{{ accountDetails?.insurance }}</p>
+            <p class="m-0 colValue">{{ accountDetails?.insuranceName }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="account-card-back__footer">
+        <div class="action">
+          <div class="action__flip" (click)="isFlipped = !isFlipped">
+            <rm-icon
+              [icon]="'return'"
+              [size]="'small'"
+              [color]="'white'"
+            ></rm-icon>
+          </div>
+          <!-- <div *ngIf="actions" class="action__more" [matMenuTriggerFor]="menu">
+            <rm-icon
+              [icon]="'kebab'"
+              [size]="'small'"
+              [color]="'white'"
+            ></rm-icon>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Menu -->
+<mat-menu #list="matMenu">
+  <ng-container *ngFor="let item of myArr | slice: 1">
+    <a href="javascript:void(0)" mat-menu-item>
+      {{ item }}
+    </a>
+  </ng-container>
+</mat-menu>

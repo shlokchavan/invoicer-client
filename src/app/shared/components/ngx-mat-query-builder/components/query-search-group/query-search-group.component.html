@@ -1,0 +1,80 @@
+<div class="custom-container">
+  <!-- <mat-divider class="sub-group-divider" *ngIf="_showDivider"></mat-divider> -->
+  <mat-toolbar [color]="toolbarColor">
+    <group-type-selector
+      [disabled]="disableTypeButtons"
+      [groupColor]="toolbarColor"
+      [(ngModel)]="groupType"
+      [readonly]="readonly || disableField == 'parameter-disabled'"
+    ></group-type-selector>
+
+    <span class="group-spacer"></span>
+    <div *ngIf="!readonly && disableField != 'parameter-disabled'" class="group-action-buttons">
+      <!-- Add Condition -->
+      <rm-button [role]="'secondary'" (onClick)="addItem()">
+        ADD CONDITION
+      </rm-button>
+      <rm-button [role]="'secondary'" class="ml10" (onClick)="addGroup()">
+        ADD GROUP
+      </rm-button>
+
+      <rm-button
+        [customColor]="'red'"
+        class="ml10"
+        [role]="'custom'"
+        (onClick)="remove()"
+        *ngIf="!isTopLevel"
+      >
+        DELETE
+      </rm-button>
+      
+      <ng-container *ngIf="isTopLevel">
+        <!-- Clear All -->
+        <!-- <button mat-button class="clear-button" (click)="clear()" color="warn">
+          <mat-icon>delete_sweep</mat-icon>
+          <span>Clear</span>
+        </button> -->
+        <ng-content></ng-content>
+      </ng-container>
+    </div>
+  </mat-toolbar>
+  <div
+    class="group-items-list"
+    cdkDropList
+    [id]="dropListID"
+    cdkDropListGroup
+    [cdkDropListConnectedTo]="querySearchService.listIDs"
+    [cdkDropListData]="group.items"
+    [@inOutItem]="group.items"
+    (@inOutItem.done)="animationDone($event)"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <query-search-item
+      *ngFor="let item of group.items; trackBy: identifyItem"
+      (markChanged)="markChanged()"
+      class="group-item"
+      (removed)="removeItem($event)"
+      [item]="item"
+      (itemChange)="updateValue($event)"
+      [filteredOperators]="item?.filteredOperators"
+      [disableDelete]="group.items.length === 1"
+      [readonly]="readonly"
+      [disableField]="disableField"
+      cdkDrag
+      [cdkDragDisabled]="readonly"
+      cdkDragPreviewClass="group-item-dragging"
+    ></query-search-item>
+    <query-search-group
+      *ngFor="let subGroup of group.children; trackBy: identifyGroup"
+      class="sub-group-item"
+      [parent]="this"
+      [group]="subGroup"
+      (removed)="removeChild($event)"
+      [showDivider]="true"
+      [readonly]="readonly"
+      [disableField]="disableField"
+      (filterChanged)="markChanged()"
+    ></query-search-group>
+  </div>
+  <mat-divider></mat-divider>
+</div>

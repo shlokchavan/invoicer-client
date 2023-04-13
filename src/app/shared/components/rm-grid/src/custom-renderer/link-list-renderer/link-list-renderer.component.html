@@ -1,0 +1,40 @@
+<span *ngIf="!checkAllDataExists">{{ params?.fallBackText || "-" }}</span>
+<ng-container *ngIf="checkAllDataExists">
+  <ng-container *ngFor="let option of params?.options; let i = index">
+    <!-- {{option?.data | json}} -->
+    <a
+      href="javascript:void(0)"
+      [matMenuTriggerFor]="list"
+      [style.pointerEvents]="!option?.data ? 'none' : 'auto'"
+      >{{ option?.title }}</a
+    >
+    <span class="mx-1 pipe divider-pipe" *ngIf="displayPipe(option)">|</span>
+    <!-- Menu -->
+    <mat-menu #list="matMenu">
+      <ng-container *ngFor="let item of option?.data">
+        <a
+          href="javascript:void(0)"
+          class="nested-menu"
+          *ngIf="item?.data"
+          mat-menu-item
+          [matMenuTriggerFor]="nestedMenu"
+        >
+          {{ item?.title }} ({{ item?.data?.length }})
+        </a>
+        <a href="javascript:void(0)" *ngIf="!item?.data" mat-menu-item>
+          {{ item?.title }}
+        </a>
+        <mat-menu #nestedMenu="matMenu">
+          <!-- <ng-template matMenuContent let-nestedList="nestedList"> -->
+          <a
+            href="javascript:void(0)"
+            *ngFor="let nestedItem of item?.data"
+            mat-menu-item
+            >{{ nestedItem.firstName }} {{ nestedItem.lastName }}</a
+          >
+          <!-- </ng-template> -->
+        </mat-menu>
+      </ng-container>
+    </mat-menu>
+  </ng-container>
+</ng-container>

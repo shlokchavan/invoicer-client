@@ -1,0 +1,64 @@
+<!-- Add/ Edit Chips -->
+<mat-form-field
+  *ngIf="!readonlyMode"
+  class="chip-input"
+  appearance="fill"
+  floatLabel="never"
+>
+  <mat-chip-list #chipList>
+    <mat-chip
+      disableRipple
+      *ngFor="let value of allChips"
+      [removable]="removable"
+      [selectable]="false"
+      (removed)="remove(value)"
+    >
+      {{ value[labelKey] || value[returnKey] || value }}
+      <mat-icon matChipRemove *ngIf="removable">close</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="Type here.."
+      (input)="onTextInput($event)"
+      #chipInput
+      [formControl]="chipsCtrl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)"
+    />
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <ng-container *ngIf="_filter().length == 0; else allOptionTemplate">
+      <mat-option disabled="true"> No Data Available </mat-option>
+    </ng-container>
+    <ng-template #allOptionTemplate>
+      <mat-option *ngFor="let value of _filter()" [value]="value">
+        {{ value[labelKey] || value[returnKey] || value }}
+      </mat-option>
+    </ng-template>
+  </mat-autocomplete>
+</mat-form-field>
+
+<!-- View Chips -->
+<ng-container *ngIf="readonlyMode">
+  <!-- {{params.value | json}} -->
+  <ng-container *ngFor="let item of allValues?.slice(0, 5); let last = last">
+    {{ item[labelKey] || item[returnKey]
+    }}<ng-container *ngIf="!last">,</ng-container>
+  </ng-container>
+  <a
+    href="javascript:void(0)"
+    *ngIf="allValues.length > 5"
+    [matMenuTriggerFor]="list"
+    ><span class="dark-color">,</span> +{{ allValues!.length - 5 }} more</a
+  >
+
+  <mat-menu #list="matMenu">
+    <a
+      href="javascript:void(0)"
+      *ngFor="let item of allValues | slice: 5"
+      mat-menu-item
+      >{{ item[labelKey] || item[returnKey] }}</a
+    >
+  </mat-menu>
+</ng-container>

@@ -1,0 +1,114 @@
+<div class="rm-input">
+  <mat-form-field
+    [ngClass]="{
+      readonly: config!.attributes!.readonly,
+      'no-label': !config!.attributes!.label,
+      small: config!.attributes!.isSmall
+    }"
+    [floatLabel]="config!.attributes!.readonly ? 'always' : 'auto'"
+    [appearance]="config!.attributes!.appearance || 'outline'"
+  >
+    <mat-label *ngIf="config!.attributes!.label">{{
+      config!.attributes!.label
+    }}</mat-label>
+
+    <ng-container *ngIf="config!.attributes!.type !== 'datepicker'">
+      <input
+        [readonly]="config!.attributes!.readonly"
+        matInput
+        [pattern]="config!.attributes!.pattern!"
+        [type]="config!.attributes!.type! || 'text'"
+        [placeholder]="config!.attributes!.placeholder!"
+        [required]="
+          config!.attributes!.isMandatory! && !config!.attributes!.readonly
+        "
+        [disabled]="config!.attributes!.disable!"
+        [autocomplete]="
+          config!.attributes!.disableNativeAutoComplete ? 'off' : 'on'
+        "
+        [(ngModel)]="dataModel[config.fieldKey]"
+        (input)="onChange()"
+        (change)="onChange()"
+        (blur)="onTouchedFn()"
+      />
+    </ng-container>
+    <ng-container *ngIf="config!.attributes!.type === 'datepicker'">
+      <input
+        [readonly]="config!.attributes!.readonly"
+        matInput
+        [pattern]="config!.attributes!.pattern!"
+        [type]="config!.attributes!.type || 'text'"
+        [placeholder]="config!.attributes!.placeholder!"
+        [required]="
+          config!.attributes!.isMandatory! && !config!.attributes!.readonly
+        "
+        [disabled]="config!.attributes!.disable!"
+        [(ngModel)]="dataModel[config.fieldKey]"
+        [min]="config!.attributes!.minDate ? config!.attributes!.minDate : null"
+        [max]="config!.attributes!.maxDate ? config!.attributes!.maxDate : null"
+        (input)="onChange()"
+        (change)="onChange()"
+        (blur)="onTouchedFn()"
+        
+      
+      />
+      <!-- [selectMode]="config!.pickerConfig!.selectMode || 'single'"
+      [owlDateTimeTrigger]="date_component"
+      [owlDateTime]="date_component" -->
+      
+    </ng-container>
+    <mat-error *ngIf="showError && !config!.attributes!.readonly">
+      {{ errors }}
+    </mat-error>
+    <rm-icon
+      matSuffix
+      (onClick)="togglePassword()"
+      [state]="'hover'"
+      class="passwordToggle"
+      *ngIf="config!.attributes!.togglePassword"
+      [icon]="showPassowrd ? 'preview' : 'view'"
+    ></rm-icon>
+    <!-- <rm-icon
+      matSuffix
+      *ngIf="
+        config!.attributes!.type === 'datepicker' &&
+        !config!.attributes!.readonly &&
+        !config!.attributes!.disable
+      "
+      [state]="'hover'"
+      class="passwordToggle"
+      [icon]="'calendar'"
+      [owlDateTimeTrigger]="date_component"
+    ></rm-icon> -->
+    <rm-icon matSuffix [icon]="config!.attributes!.suffixIcon!"></rm-icon>
+    <rm-icon
+      [ngClass]="{
+        'enable-prefix':
+          config!.attributes!.prefixIcon && !config!.attributes!.isSmall
+      }"
+      matPrefix
+      [icon]="config!.attributes!.prefixIcon!"
+      [size]="
+        config!.attributes!.iconSize ? config!.attributes!.iconSize! : 'medium'
+      "
+    ></rm-icon>
+    <span
+      *ngIf="
+        config!.attributes!.readonly &&
+        !dataModel[config.fieldKey] && dataModel[config.fieldKey] != ''
+      "
+      style="position: absolute; left: 0"
+    >
+      N/A
+    </span>
+    <mat-hint>{{ config!.attributes!.hint }}</mat-hint>
+<!-- 
+    <rm-date-time
+      #date_component
+      [hour12Timer]="config!.pickerConfig!.hour12Timer || false"
+      [pickerType]="config!.pickerConfig!.pickerType || 'calendar'"
+      (dateSelected)="onDateSelected($event)"
+    ></rm-date-time> -->
+    <!-- (afterPickerClosed)="onDateSelected($event)" -->
+  </mat-form-field>
+</div>

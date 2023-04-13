@@ -1,0 +1,83 @@
+<div class="rm-advanced-query-builder">
+  <!-- Match Condition -->
+  <ng-container>
+    <div class="search-box">
+      <div class="search-box__header">
+        <div class="title_cnt">
+          <ng-container>
+            <p class="title mr10">MATCH CONDITION</p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="search-box__body">
+        <ngx-advanced-query-search
+          (filterLoaded)="queryPreloaded($event)"
+          (filterValid)="isFilterValid($event)"
+          (onFilterChanged)="filterChanged()"
+          [readonly]="readonly"
+          [disableField]="disableField"
+          #customQueryBuilder
+        >
+          <advanced-query-fields>
+            <ng-container *ngFor="let item of config">
+              <query-field
+                [name]="item?.name"
+                [label]="item?.label"
+                [type]="item?.type"
+                [values]="item?.values"
+                [operators]="operatorList"
+                [parameterList]="parameterList"
+              ></query-field>
+            </ng-container>
+          </advanced-query-fields>
+        </ngx-advanced-query-search>
+      </div>
+    </div>
+  </ng-container>
+  <br/>
+  <!-- Update Clause -->
+  <ng-container>
+    <div class="search-box">
+      <div class="search-box__header">
+        <div class="title_cnt">
+          <ng-container>
+            <p class="title mr10">UPDATE CLAUSE</p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="search-box__body">
+        <ngx-advanced-query-search
+          (filterLoaded)="queryPreloaded($event)"
+          (filterValid)="isFilterValid($event)"
+          (onFilterChanged)="filterChanged($event)"
+          [readonly]="readonly"
+          [disableField]="disableField"
+          [isUpdateClause]="true"
+          #updateCustomQueryBuilder
+        >
+          <advanced-query-fields>
+            <!-- {{updateOperatorList | json}} -->
+            <ng-container *ngFor="let item of updateConfig">
+              <query-field
+                [name]="item?.name"
+                [label]="item?.label"
+                [type]="item?.type"
+                [values]="item?.values"
+                [operators]="updateOperatorList"
+                [parameterList]="parameterList"
+              ></query-field>
+            </ng-container>
+            <!-- <query-field
+    name="hasValues"
+    label="Has Values"
+    type="string"
+    [values]="['a', 'b']"
+  ></query-field> -->
+          </advanced-query-fields>
+        </ngx-advanced-query-search>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,2 @@
+<rm-checkbox *ngIf="!isToggle" [hidden]="!isVisibile" [config]="checkboxConfig" (onChange)="checkedHandler($event)"></rm-checkbox>
+<rm-toggle *ngIf="isToggle && isVisibile" [config]="toggleCheckboxConfig" (onChange)="toggleHandler($event)"></rm-toggle>

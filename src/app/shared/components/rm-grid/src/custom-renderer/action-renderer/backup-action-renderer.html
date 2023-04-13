@@ -1,0 +1,13 @@
+<!-- {{actions | json}} -->
+<ng-container *ngFor="let actionItem of actions">
+
+        <!-- <button (click)="doEdit()">Edit</button> -->
+        <!-- <button (click)="doSave()" *ngIf="isEditing">Save</button> -->
+        <a class="link" (click)="doEdit()" *ngIf="!isEditing">
+            <rm-icon [icon]="actionItem?.icon"></rm-icon>
+        </a>
+        <a class="link" (click)="doSave()" *ngIf="isEditing">
+            <rm-icon [icon]="actionItem?.icon"></rm-icon>
+        </a>
+        
+</ng-container>

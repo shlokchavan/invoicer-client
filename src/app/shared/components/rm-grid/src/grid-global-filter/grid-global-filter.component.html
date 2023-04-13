@@ -1,0 +1,167 @@
+<!-- <div class="drawer-body">
+
+</div>
+<div class="drawer-footer rightAlignButtons">
+    <rm-button
+      [type]="'button'"
+      role="secondary"
+      (onClick)="filterActions('cancel')">
+      cancel</rm-button>
+    <rm-button
+      [type]="'button'"
+      role="primary"
+      (onClick)="filterActions('apply')">
+      apply</rm-button>
+</div> -->
+
+<div class="drawer-body">
+  <div class="row">
+    <div class="col-4 pr0">
+      <div class="vertical-tabs border_right">
+        <div class="row">
+            <div class="col-12">
+                <!-- changeRoute(tab) -->
+                <div *ngFor="let tab of tabs; let i =index" (click)="switchFilterTab(tab);"
+                    [ngClass]="{ active : selectedTab == tab.title }" class="tab-item">
+                    <h3 class="tab-item__heading">
+                        {{ tab.title }}
+                    </h3>
+                    <!-- <h5
+                    *ngIf="i == 0 && selectedPatientTypes.length > 0"
+                    class="selectedCount">
+                    {{selectedPatientTypes.length}} Selected
+                    </h5> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-8">
+      <!-- {{currentFilterItem | json}} -->
+      <ng-container *ngIf="currentFilterItem">
+        <ng-container [ngSwitch]="currentFilterItem.globalFilter.filterType">
+          <!-- Text Based Filter -->
+          <ng-container *ngSwitchCase="'text'">
+            <div class="row default">
+              <div class="col-6">
+                <rm-select
+                #textConditionSelectRef
+                (onSelectionChange)="conditionTypeChange($event, currentFilterModel)"
+                [config]="filterElementsConfig!.textConditionTypeConfig!"
+                [dataModel]="currentFilterModel"></rm-select>
+              </div>
+              <div class="col-6">
+                <rm-input
+                (onBlur)="inputChange($event, currentFilterModel)"
+                [config]="filterElementsConfig!.textSearchConfig!"
+                [dataModel]="currentFilterModel"></rm-input>
+              </div>
+            </div>
+          </ng-container>
+          <!-- Number Based Filter -->
+          <ng-container *ngSwitchCase="'number'">
+            <div class="row default">
+              <div class="col-6">
+                <rm-select
+                #numberConditionSelectRef
+                (onSelectionChange)="conditionTypeChange($event, currentFilterModel)"
+                [config]="filterElementsConfig!.numberConditionTypeConfig!"
+                [dataModel]="currentFilterModel"></rm-select>
+              </div>
+              <div class="col-6">
+                <rm-input
+                (onBlur)="inputChange($event, currentFilterModel)"
+                [config]="filterElementsConfig!.numberSearchConfig!"
+                [dataModel]="currentFilterModel"></rm-input>
+              </div>
+            </div>
+          </ng-container>
+          <!-- Select Based Filter -->
+          <ng-container *ngSwitchCase="'select'">
+            <rm-selection-list [selectedItems]="currentFilterModel.selectedItems" 
+            [config]="selectionListConfig!" (selectedItemsChange)="selectionChange($event, currentFilterModel)"
+            [listOptions]="listItems"></rm-selection-list>
+          </ng-container>
+          <!-- Date Based Filter -->
+          <ng-container *ngSwitchCase="'date'">
+            <mat-radio-group
+            [ngModel]="currentFilterModel.period"
+            (ngModelChange)="datePeriodChange($event,currentFilterModel)"
+            class="block-element">
+              <mat-radio-button [value]="'yesterday'" class="flex-start row">
+                <span>Yesterday &nbsp;</span>
+                <!-- <div class="xDayContainer smallWidth dropdownCenterAlign">
+                  <rm-select
+                    [config]="schedulerConfig?.everyXDays"
+                    [dataModel]="dataModel"
+                    (onSelectionChange)="selectionChange('daily', $event)"
+                  >
+                  </rm-select>
+                </div>
+                <span>&nbsp; days(s)</span> -->
+              </mat-radio-button>
+              <mat-radio-button [value]="'today'" class="flex-start row">
+                Today
+              </mat-radio-button>
+              <mat-radio-button [value]="'tomorrow'" class="flex-start row">
+                Tomorrow
+              </mat-radio-button>
+              <mat-radio-button [value]="'rolling-x'" class="flex-start row">
+                <span class="first-value">Rolling</span>
+                <span class="input-number">
+                  <rm-input 
+                  (onBlur)="inputChange($event, currentFilterModel)"
+                  [dataModel]="currentFilterModel"
+                  [config]="filterElementsConfig!.rollingXDaysConfig!"></rm-input>
+                </span>
+                <span class="last-value">Days</span>
+              </mat-radio-button>
+              <mat-radio-button [value]="'next-x'" class="flex-start row">
+                <span class="first-value">Next</span>
+                <span class="input-number">
+                  <rm-input 
+                  (onBlur)="inputChange($event, currentFilterModel)"
+                  [dataModel]="currentFilterModel"
+                  [config]="filterElementsConfig!.nextXDaysConfig"></rm-input>
+                </span>
+                <span class="last-value">Days</span>
+              </mat-radio-button>
+              <mat-radio-button [value]="'from-x-to-current'" class="flex-start row">
+                <span class="first-value">From</span>
+                <span class="input-date">
+                  <rm-input 
+                  (onBlur)="inputChange($event, currentFilterModel)"
+                  [dataModel]="currentFilterModel"
+                  [config]="filterElementsConfig!.fromXDateConfig"></rm-input>
+                </span>
+                <span class="last-value">to current date</span>
+              </mat-radio-button>
+            </mat-radio-group>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <!-- <ng-container *ngIf="selectedTab == tabs[0].title">
+        <rm-selection-list [(selectedItems)]="selectedPatientTypes" [config]="{ labelKey: 'description', returnKey: 'code' }"
+        [listOptions]="patientTypeList"></rm-selection-list>
+      </ng-container>
+      <ng-container *ngIf="selectedTab == tabs[1].title">
+        <rm-selection-list [(selectedItems)]="selectedPatientSubTypes" [config]="{ labelKey: 'description', returnKey: 'code', boxHeight: 'calc(100vh - 250px)' }" 
+        [listOptions]="patientSubTypeList"></rm-selection-list>
+      </ng-container> -->
+    </div>
+  </div>
+</div>
+<div class="drawer-footer">
+  <div>
+    <rm-button role="secondary" (onClick)="filterActions('reset')"
+      >Reset</rm-button
+    >
+  </div>
+  <div>
+    <rm-button class="mr10" role="secondary" (onClick)="filterActions('cancel')"
+      >Cancel</rm-button
+    >
+    <rm-button (onClick)="filterActions('apply')">Apply</rm-button>
+  </div>
+</div>
+

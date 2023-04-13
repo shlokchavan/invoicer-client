@@ -1,0 +1,91 @@
+<div>
+  <mat-sidenav-container>
+    <mat-sidenav
+      class="variables-drawer"
+      #drawer
+      [opened]="true"
+      [mode]="'side'"
+    >
+      <div class="variable-actions">
+        <div class="variable-actions-title">Variables</div>
+        <div class="variable-actions-items" *ngIf="showVariableActions">
+          <rm-icon
+            icon="AddVariables"
+            state="hover"
+            (onClick)="editorAction('add-variable')"
+            [enableTooltip]="true"
+            tooltipContent="Add Variable"
+          ></rm-icon>
+          <rm-icon
+            icon="manageVariables"
+            state="hover"
+            (onClick)="editorAction('manage-variable')"
+            [enableTooltip]="true"
+            tooltipContent="Manage Variable"
+          ></rm-icon>
+        </div>
+      </div>
+      <div class="variable-search-cnt">
+        <rm-icon icon="search"></rm-icon>
+        <input [(ngModel)]="searchVar" placeholder="Search" type="text" />
+      </div>
+      <mat-nav-list class="variable-list">
+        <ul class="variableSelector">
+          <li *ngFor="let item of searchedVariableList" draggable="true">
+            {{ item.name }}
+          </li>
+        </ul>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div class="contemt">
+        <div class="subject-row">
+          <button class="toggle-btn" (click)="drawer.toggle()">
+            <mat-icon>{{
+              drawer?.opened ? "arrow_left" : "arrow_right"
+            }}</mat-icon>
+          </button>
+          <div class="row adjust-row">
+            <div class=" {{ showRestoreButton ? 'col-lg-9 col-7' : 'col-12' }}">
+              <div *ngIf="!noSubject" class="editor-input">
+                <span class="editor-label">Subject: </span>
+                <ckeditor
+                  #editor
+                  class="no-toolbar"
+                  (change)="updateSubject($event)"
+                  [(ngModel)]="subject"
+                  [config]="editorInputConfig"
+                  editorUrl="../../../../../../assets/script/editor/ckeditor.js"
+                ></ckeditor>
+              </div>
+            </div>
+            <div *ngIf="showRestoreButton" class="col-lg-3 col-5">
+              <rm-button
+                role="secondary"
+                (onClick)="editorAction('restore-content')"
+                size="small"
+                >restore to system default</rm-button
+              >
+            </div>
+          </div>
+        </div>
+        <div class="body-row">
+          <ckeditor
+            #editor
+            (change)="updateBody($event)"
+            [ngClass]="{ 'no-toolbar': onlyTextArea }"
+            [(ngModel)]="body"
+            [config]="editorConfig"
+            editorUrl="../../../../../../assets/script/editor/ckeditor.js"
+          ></ckeditor>
+        </div>
+      </div>
+      <ng-container *ngIf="editorLoader">
+        <div class="loader-body">
+          <rm-loader></rm-loader>
+        </div>
+      </ng-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

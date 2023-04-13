@@ -1,0 +1,75 @@
+<div class="notification_modal">
+  <div class="notification_header {{ notificationModel!.notificationType }}">
+    <!-- <rm-icon
+      [color]="
+        notificationModel!.notificationType == 'warning' ||
+        notificationModel!.notificationType == 'confirm'
+          ? '#463303'
+          : 'white'
+      "
+      [size]="
+        notificationModel!.notificationType == 'warning'
+          ? 'extra-medium'
+          : 'large'
+      "
+      [icon]="
+        notificationModel!.notificationType == 'error'
+          ? 'errorExclamation'
+          : notificationModel!.notificationType == 'warning'
+          ? 'warning16'
+          : notificationModel!.notificationType == 'delete'
+          ? 'trashCan'
+          : notificationModel!.notificationType == 'info'
+          ? 'info'
+          : notificationModel!.notificationType == 'success'
+          ? 'circleCheck'
+          : notificationModel!.notificationType == 'confirm'
+          ? 'help'
+          : ''
+      "
+    ></rm-icon> -->
+    <p>
+      {{
+        notificationModel!.notificationType == "error"
+          ? "Error!"
+          : notificationModel!.notificationType == "warning"
+          ? "warning !"
+          : notificationModel!.notificationType == "delete"
+          ? "delete ?"
+          : notificationModel!.notificationType == "info"
+          ? "information"
+          : notificationModel!.notificationType == "success"
+          ? "success !"
+          : notificationModel!.notificationType == "confirm"
+          ? "confirmation"
+          : null
+      }}
+    </p>
+  </div>
+  <div class="notification_body">
+    <h6 class="notification_title" *ngIf="notificationModel?.title">
+      {{ notificationModel!.title }}
+    </h6>
+    <p class="notification_msg" [innerHTML]="notificationModel!.message"></p>
+    <ng-container *ngIf="notificationModel!.extraOptions">
+      <div class="mt10">
+        <!-- <rm-radio
+          [config]="notificationModel.extraOptions.radioButtons"
+          [dataModel]="notificationModel.extraOptions.dataModel"
+        ></rm-radio> -->
+      </div>
+    </ng-container>
+  </div>
+  <div class="notification_footer">
+    <!-- Actions -->
+    <ng-container *ngFor="let action of notificationModel?.actions">
+      <button
+        matRipple
+        (click)="actionClick(action!.actionCase)"
+        class="notification_action"
+      >
+        {{ action!.label }}
+      </button>
+    </ng-container>
+  </div>
+</div>

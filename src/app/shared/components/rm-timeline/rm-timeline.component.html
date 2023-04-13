@@ -1,0 +1,156 @@
+<div class="timeline">
+  <ng-container *ngIf="keys && keys.length > 0; else noTimelineData">
+    <div
+      *ngFor="let item of keys; let indexofStage = index"
+      class="timeline-event"
+    >
+      <div class="timeline-event-header">
+        <div class="timeline-point-track-container">
+          <div
+            class="timeline-point"
+            [ngClass]="{
+              'event-error': statusChecker(item, 'Error'),
+              'event-progress': statusChecker(item, 'In Progress'),
+              'event-completed': completedStatusChecker(item, 'Completed')
+            }"
+          ></div>
+        </div>
+        <div class="timeline-content">
+          <span class="timeline-content-title">
+            {{ item }}
+          </span>
+        </div>
+      </div>
+      <div
+        *ngFor="
+          let itemData of filteredTimeLineData(item);
+          let indexOfelement = index;
+          let last = last
+        "
+        class="timeline-event-content"
+      >
+        <div class="timeline-point-event-content-track-container">
+          <div
+            class="timeline-event-content-track"
+            [ngClass]="{
+              completed: itemData?.eventStatus === 'Completed',
+              error: itemData?.eventStatus === 'Error',
+              inprogress: itemData?.eventStatus === 'In Progress'
+            }"
+          ></div>
+          <!-- [ngClass]="{ 'last-child': last }" -->
+
+          <div
+            class="timeline-event-content-point"
+            [ngClass]="{
+              completed: itemData?.eventStatus === 'Completed',
+              error: itemData?.eventStatus === 'Error',
+              inprogress: itemData?.eventStatus === 'In Progress'
+            }"
+          ></div>
+          <div
+            class="timeline-event-content-track"
+            [ngClass]="{
+              completed: last
+                ? itemData?.eventStatus === 'Completed'
+                : filteredTimeLineData(item)[indexOfelement + 1]
+                    ?.eventStatus === 'Completed',
+              error: last
+                ? itemData?.eventStatus === 'Error'
+                : filteredTimeLineData(item)[indexOfelement + 1]
+                    ?.eventStatus === 'Error'
+            }"
+          ></div>
+          <!-- filteredTimeLineData(keys[indexofStage + 1])[0]?.eventStatus ===
+                'Completed' -->
+        </div>
+        <div
+          class="timeline-event-content-data"
+          [id]="
+            'timeline-event-content-data-' + indexofStage + '-' + indexOfelement
+          "
+        >
+          <div class="event-name">
+            {{ itemData?.eventName }}
+          </div>
+          <div class="event-status">
+            <rm-chip
+              [config]="{
+                colorClass: statusChip(itemData?.eventStatus)
+              }"
+              [value]="itemData?.eventStatus"
+            ></rm-chip>
+            &nbsp;&nbsp;
+            <ng-container
+              *ngIf="
+                itemData?.eventStatus != 'Not Started' &&
+                itemData?.eventStatus != 'Not Configured'
+              "
+            >
+              <rm-icon
+                icon="info"
+                [enableTooltip]="true"
+                [tooltipContent]="itemData?.eventMessage"
+                color="link"
+              ></rm-icon>
+            </ng-container>
+          </div>
+          <div class="event-duration">
+            <ng-container
+              *ngIf="
+                itemData?.eventStartTime && itemData?.eventEndTime;
+                else noDuration
+              "
+            >
+              <span>{{
+                durationCalculator(
+                  itemData?.eventStartTime,
+                  itemData?.eventEndTime
+                )
+              }}</span>
+              &nbsp;&nbsp;
+              <rm-icon
+                [enableTooltip]="true"
+                [tooltipContent]="
+                  formateDate(itemData?.eventStartTime, 'DD/MM/YYYY h:mm a') +
+                  ' ' +
+                  '-' +
+                  ' ' +
+                  formateDate(itemData?.eventEndTime, 'DD/MM/YYYY h:mm a')
+                "
+                icon="info"
+                color="link"
+              ></rm-icon>
+            </ng-container>
+            <ng-template #noDuration>
+              <p class="w-100 text-center m-0">--:--</p>
+            </ng-template>
+          </div>
+          <div class="download-event">
+            <ng-container *ngIf="itemData?.eventStatus == 'Completed'">
+              <rm-icon
+                icon="download"
+                (onClick)="
+                  downloadData(
+                    'timeline-event-content-data-' +
+                      indexofStage +
+                      '-' +
+                      indexOfelement
+                  )
+                "
+                [enableTooltip]="true"
+                tooltipContent="Download Data"
+                color="link"
+              ></rm-icon>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noTimelineData>
+    <div class="no-data">
+      <p>No Timeline Data</p>
+    </div>
+  </ng-template>
+</div>

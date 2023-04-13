@@ -1,0 +1,56 @@
+<div class="tooltip-card">
+  <div class="tooltip-header">
+    <img
+      [src]="
+        dataModel?.secondaryLogo ||
+        '../../../../../assets/img/dummyLogo_color.png'
+      "
+      alt="{{ dataModel?.name }}_org_logo"
+      title="{{ dataModel?.name }}"
+    />
+    <div class="org-card-subtitle">
+      <!-- <p>{{ orgType == "sr" ? "Service Requestor" : orgType == "sp" ? "Service Provider" : orgType == "client" ?
+                "Client" : null }}</p> -->
+      <p class="org-type">{{ dataModel?.orgType }}</p>
+      <p>{{ dataModel?.abbrName }}</p>
+    </div>
+  </div>
+  <div class="tooltip-body">
+    <div class="org-primary-details">
+      <h5 class="truncate">{{ dataModel?.name }}</h5>
+      <!-- <h5 class="truncate">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, harum
+        animi eaque optio molestiae maxime non, culpa deleniti porro quisquam
+        nostrum repellendus nisi quaerat? At consequatur eligendi fuga odio
+        reiciendis?
+      </h5> -->
+      <!-- <p>{{dataModel?.description}}</p> -->
+      <p>
+        {{ dataModel?.address }}
+        <!-- How do we manage line breaks? (@Backend) -->
+      </p>
+    </div>
+    <div class="org-secondary-details">
+      <p>
+        <rm-icon [size]="'small'" [icon]="'user_16'"></rm-icon
+        >{{ dataModel?.contactName }}
+      </p>
+      <p>
+        <rm-icon [size]="'small'" [icon]="'phone16'"></rm-icon
+        >{{ dataModel?.contactPhone ? dataModel?.contactPhone : "-" }}
+      </p>
+      <p>
+        <rm-icon [size]="'small'" [icon]="'email16'"></rm-icon
+        ><a target="_blank" href="mailto:{{ dataModel?.contactEmail }}">{{
+          dataModel?.contactEmail ? dataModel?.contactEmail : "-"
+        }}</a>
+      </p>
+      <p>
+        <rm-icon [size]="'small'" [icon]="'website16'"></rm-icon
+        ><a target="_blank" href="{{ dataModel?.website }}">{{
+          dataModel?.website ? dataModel?.website : "-"
+        }}</a>
+      </p>
+    </div>
+  </div>
+</div>

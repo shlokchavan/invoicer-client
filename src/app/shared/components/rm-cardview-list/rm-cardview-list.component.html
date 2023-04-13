@@ -1,0 +1,92 @@
+<div class="rm-cardview-list" [ngClass]="{ user: type == 'user' }">
+  <ng-container
+    *ngFor="
+      let row of filteredRowData
+        | CardFilter
+          : cardFilter?.key
+          : cardFilter?.condition
+          : cardFilter?.childKey;
+      let i = index
+    "
+  >
+    <!-- <ng-container
+    *ngFor="let org of rowData | CardFilter: cardFilterKey:cardFilterCondition:cardFilterChildKey"
+  > -->
+
+    <ng-container [ngSwitch]="type">
+      <!-- Org Card -->
+      <ng-container *ngSwitchCase="'org'">
+        <rm-org-card
+          [selectable]="selectable"
+          [orgDetails]="row"
+          [actions]="actions"
+          (checkboxConfig)="(rowData?.checkboxConfig)"
+          (onCheckboxClick)="onCheckboxClick($event)"
+          (onActionClick)="onActionClick($event)"
+          (onLogoClick)="onLogoClick($event)"
+        ></rm-org-card>
+      </ng-container>
+
+      <!-- User Card -->
+      <ng-container *ngSwitchCase="'user'">
+        <rm-user-card
+          [index]="i + 1"
+          [selectable]="selectable"
+          [userDetails]="row"
+          [actions]="actions"
+          (checkboxConfig)="(rowData?.checkboxConfig)"
+          (onCheckboxClick)="onCheckboxClick($event)"
+          (onActionClick)="onActionClick($event)"
+          (onLinkClick)="onLinkClick($event)"
+          (onToggleClick)="onToggleClick($event)"
+        ></rm-user-card>
+      </ng-container>
+      <!-- User Card End -->
+
+      <!-- Group Card -->
+      <ng-container *ngSwitchCase="'group'">
+        <!-- [cardConfig]="cardConfig" -->
+        <rm-group-card
+          [index]="i + 1"
+          [selectable]="selectable"
+          
+          [groupDetails]="row"
+          [actions]="actions"
+          (checkboxConfig)="(rowData?.checkboxConfig)"
+          (onCheckboxClick)="onCheckboxClick($event)"
+          (onActionClick)="onActionClick($event)"
+          (onLinkClick)="onLinkClick($event)"
+          (onToggleClick)="onToggleClick($event)"
+        ></rm-group-card>
+      </ng-container>
+      <!-- Group Card End -->
+
+      <!-- Account Card -->
+      <ng-container *ngSwitchCase="'account'">
+        <rm-account-card
+          [selectable]="selectable"
+          [accountDetails]="row"
+          [actions]="actions"
+          [elementIndex]="i"
+          (checkboxConfig)="(rowData?.checkboxConfig)"
+          (onCheckboxClick)="onCheckboxClick($event)"
+          (onActionClick)="onActionClick($event)"
+          (onLinkClick)="onLinkClick($event)"
+        ></rm-account-card>
+      </ng-container>
+      <!-- Account Card End -->
+    </ng-container>
+
+    <!-- BACKUP -->
+    <!-- <rm-org-card
+      [selectable]="selectable"
+      [orgDetails]="org"
+      [actions]="actions"
+      (checkboxConfig)="(rowData?.checkboxConfig)"
+      (onCheckboxClick)="onCheckboxClick($event)"
+      (onActionClick)="onActionClick($event)"
+      (onToggleClick)="onToggleClick($event)"
+      (onLogoClick)="onLogoClick($event)"
+    ></rm-org-card> -->
+  </ng-container>
+</div>

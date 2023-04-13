@@ -1,0 +1,76 @@
+<div
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  class="drag-list desktop-bookmark"
+  (cdkDropListDropped)="drop($event)"
+>
+  <rm-icon class="mr10" [color]="'white'" [icon]="'bookmark'"></rm-icon>
+  <div
+    [hidden]="bookmarkChips!.length == 0"
+    class="drag-box mr10"
+    cdkDragBoundary=".drag-list"
+    *ngFor="let bookmarkItem of bookmarkChips"
+    cdkDrag
+  >
+    <rm-chip
+      (onClick)="clickOnBookmark(bookmarkItem)"
+      class="bookmark_chip"
+      [value]="
+        bookmarkItem?.subModuleDisplayName ||
+        bookmarkItem?.subModuleName ||
+        bookmarkItem?.name ||
+        bookmarkItem?.label
+      "
+      [config]="dragChipConfig"
+    ></rm-chip>
+  </div>
+  <!-- || bookmarkChips?.length != 0 -->
+  <span class="mr10 emptyText" [hidden]="bookmarkChips!.length > 0"
+    >You can bookmark upto 4 links for quick access. Get started by clicking
+    update icon here</span
+  >
+</div>
+
+<button class="mobile-bookmark" mat-icon-button [matMenuTriggerFor]="menu">
+  <rm-icon class="mr10" [color]="'white'" [icon]="'bookmark'"></rm-icon>
+</button>
+<mat-menu [class]="'themeBGMatMenu'" [xPosition]="'before'" #menu="matMenu">
+  <div
+    cdkDropList
+    cdkDropListOrientation="vertical"
+    class="drag-list mobile-bookmark"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div
+      [hidden]="bookmarkChips!.length == 0"
+      class="drag-box mr10"
+      cdkDragBoundary=".drag-list"
+      *ngFor="let bookmarkItem of bookmarkChips"
+      cdkDrag
+    >
+      <rm-chip
+        (onClick)="clickOnBookmark(bookmarkItem)"
+        class="bookmark_chip"
+        [value]="
+          bookmarkItem?.subModuleDisplayName ||
+          bookmarkItem?.subModuleName ||
+          bookmarkItem?.name ||
+          bookmarkItem?.label
+        "
+        [config]="dragChipConfig"
+      ></rm-chip>
+    </div>
+  </div>
+  <div class="emptyBookmarksMsg" [hidden]="bookmarkChips.length > 0">
+    You can bookmark upto 4 links for quick access.<br />
+    Get started by clicking Update Below
+  </div>
+  <rm-button
+    class="bookmark_change"
+    [role]="'secondary'"
+    (onClick)="openSettings()"
+    >Update</rm-button
+  >
+</mat-menu>
+
+<!-- {{bookmarkChips | json}} -->

@@ -1,0 +1,37 @@
+<div class="validation-status-renderer">
+  <p class="m-0">{{params.value}}</p>
+  <ng-container *ngIf="params.data.status == 'Failed'">
+    <p class="m-0 validation-error">
+      <span class="mr-2">{{params.data.error}}</span>
+      <span class="pipe divider-pipe">|</span>
+      <a class="link d-inline-block ml-2" [href]="getSantizeUrl(href)" (click)="handleClick()">
+        (View Details)
+      </a>
+    </p>
+  </ng-container>
+  <!-- <ng-container *ngIf="params.data.status == 'Failed'">
+    <p class="m-0 validation-error">
+      <span class="mr-2">{{params.data.error}}</span>
+      <span class="pipe divider-pipe">|</span>
+      <a
+      class="link d-inline-block ml-2"
+      href="javascript:void(0)"
+      [matMenuTriggerFor]="list"
+      [style.pointerEvents]="none"
+      >(View Details)</a
+    >
+      <mat-menu #list="matMenu">
+        <a
+        class="nested-menu"
+        mat-menu-item
+         href="javascript:void(0)">Item 1</a>
+        <a class="nested-menu"
+        mat-menu-item
+         href="javascript:void(0)">Item 2</a>
+        <a class="nested-menu"
+        mat-menu-item
+         href="javascript:void(0)">Item 3</a>
+      </mat-menu>
+    </p>
+  </ng-container> -->
+</div>

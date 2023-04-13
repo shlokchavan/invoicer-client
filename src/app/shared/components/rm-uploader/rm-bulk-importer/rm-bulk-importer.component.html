@@ -1,0 +1,36 @@
+<!-- File Selector -->
+<div class="download-template" *ngIf="showDownloadButton">
+    <a href="javascript:void(0)" (click)="downloadTemplate()"><rm-icon class="icon" [color]="'link'" [icon]="'download'" ></rm-icon>&nbsp;Download Template</a>
+</div>
+<div class="file-uploader" appDnd (fileDropped)="onFileDropped($event)">
+    <div (click)="fileSelector.click()" class="file-selector">
+        <rm-icon class="icon" [icon]="'CloudUpload'" [size]="'extra-large'"></rm-icon>
+        <p>Drop files to upload or <a href="javascript:void(0)">Browse</a></p>
+        <div class="details">
+            File Size Limit: {{ fileSizeFormaterByBytes(FilesSizeLimit) }} 
+            <span class="pipe-seprator">&nbsp;|&nbsp;</span>
+            File Limit: {{ FilesNumberLimit }}
+            <br>
+            <span class="fileSupport">
+                Supported file format: {{ Allowedfiles }}
+            </span>
+        </div>
+        
+    </div>
+    <!-- <input #fileSelector class="input-file" (change)="fileChangeEvent($event.target.files)" type="file" hidden [accept]="Allowedfiles"> -->
+    <input #fileSelector class="input-file" (change)="fileChangeEvent($event.target)" type="file" hidden [accept]="Allowedfiles">
+</div>
+<div class="selected-file-list">
+    <div class="file-details" *ngFor="let fileObj of fileList; let i = index">
+        <div class="file-indicators">
+            <span class="filename">{{ fileObj.fileName }}</span>
+            <mat-progress-bar class="file-upload-progressbar {{ fileObj?.foundError ? 'error' : '' }} {{fileObj?.uploadingPercentage == 100 ? 'success' : ''}}" [mode]="fileObj.uploadingPercentage == null ? 'indeterminate' : 'determinate'" [value]="fileObj.uploadingPercentage"></mat-progress-bar>
+            <span class="size-details {{ fileObj?.foundError ? 'error' : '' }}" >{{ fileObj?.foundError ? 'Error found on excel, Please verify the schema' : fileObj.uploadingStatusText }}</span>
+        </div>
+        <div class="file-actions">
+            <rm-icon [state]="'hover'" [customColor]="fileObj.isUploaded ? '#0099CC' : 'rgb(207, 15, 38)'" (onClick)="cancelAndRemoveFile(i)" [tooltipOptions]="{ placement: 'bottom' }" [enableTooltip]="true" [tooltipContent]="fileObj.isUploaded ? 'Remove' : 'Cancel'" [icon]="fileObj.isUploaded ? 'trashCan' : 'cross'"></rm-icon>
+        </div>
+        <br>
+        <bulk-data-mapper (BulkDataOutput)="getConvertedData($event)" [(File)]="fileList[i]" [Model]="bulkDataSchema"></bulk-data-mapper>
+    </div>
+</div>

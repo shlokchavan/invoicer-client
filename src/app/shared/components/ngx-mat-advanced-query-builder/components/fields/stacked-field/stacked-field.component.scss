@@ -1,0 +1,39 @@
+:host {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.value-field {
+  min-width: 220px;
+}
+
+.between-values {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .between-values-outer {
+    position: absolute;
+    left: 0;
+    height: 51%;
+    margin-top: 6px;
+  }
+
+  .between-value-fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .between-value-field {
+    display: flex;
+    align-items: center;
+
+    mat-divider {
+      width: 9px;
+      margin-left: 1px;
+      margin-top: 1px;
+    }
+  }
+}

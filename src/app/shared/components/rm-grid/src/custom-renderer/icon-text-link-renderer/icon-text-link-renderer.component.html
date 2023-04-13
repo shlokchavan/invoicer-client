@@ -1,0 +1,18 @@
+<div class="text-withicon" *ngIf="params.text">
+  <span class="action-text truncate ml-2" title="{{ params.text }}">{{ params.text }}</span>
+  <rm-icon
+    [icon]="params.icon"
+    [color]="params.iconColor ? params.iconColor : 'gray'"
+    state="hover"
+    [matMenuTriggerFor]="menu"
+  ></rm-icon>
+</div>
+
+<mat-menu #menu="matMenu">
+  <ng-container *ngFor="let item of options">
+    <button (click)="handleClick(item)" mat-menu-item>{{item.worksheetName}}</button>
+  </ng-container>
+  <!-- <button (click)="handleClick('Sheet 2')" mat-menu-item>Sheet 2</button>
+  <button (click)="handleClick('Sheet 3')" mat-menu-item>Sheet 3</button>
+  <button (click)="handleClick('Sheet 4')" mat-menu-item>Sheet 4</button> -->
+</mat-menu>

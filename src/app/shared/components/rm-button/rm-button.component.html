@@ -1,0 +1,286 @@
+<!-- Normal Button -->
+<ng-container *ngIf="SplitConfig == null && DropDownConfigs == null">
+  <ng-container *ngIf="!loading">
+    <ng-container *ngTemplateOutlet="simpleBtn"></ng-container>
+  </ng-container>
+  <ng-container *ngIf="loading">
+    <ng-container *ngTemplateOutlet="loadingBtn"></ng-container>
+  </ng-container>
+</ng-container>
+
+<!-- Split Button -->
+<div
+  class="rm-split-btn"
+  [id]="randomBtnId"
+  [ngClass]="{
+    primary: role == 'primary',
+    secondary: role == 'secondary',
+    tertiary: role == 'tertiary',
+    customColor: role == 'custom',
+    defaultSize: size == 'default',
+    smallSize: size == 'small',
+    customSize: size == 'customSize',
+    noLabel: onlyIconButton
+  }"
+  *ngIf="SplitConfig != null && DropDownConfigs == null"
+>
+  <button
+    (click)="clickBtn($event)"
+    [disabled]="disabled"
+    matRipple
+    [matRippleDisabled]="disabled"
+    class="main-btn"
+  >
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </button>
+  <button
+    [matMenuTriggerFor]="beforeMenu"
+    [disabled]="SplitConfig.disableSplitBtn || disabled"
+    matRipple
+    [matRippleDisabled]="disabled"
+    class="drop-down_trigger"
+  >
+    <mat-icon>arrow_drop_down</mat-icon>
+  </button>
+  <mat-menu
+    #beforeMenu="matMenu"
+    class="{{ randomBtnId }} split-panel"
+    xPosition="before"
+  >
+    <ng-template matMenuContent>
+      <ng-container *ngFor="let option of SplitConfig.splitBtnItem">
+        <button
+          (click)="actionClick(option?.value ? option?.value : option?.name)"
+          mat-menu-item
+          [ngClass]="{ seprator: option.isSeprator }"
+        >
+          {{ option.name }}
+        </button>
+      </ng-container>
+    </ng-template>
+  </mat-menu>
+</div>
+
+<!-- Dropdown Button -->
+<ng-container *ngIf="DropDownConfigs != null && SplitConfig == null">
+  <ng-container *ngIf="!disabled; else simpleBtn">
+    <button
+      [matMenuTriggerFor]="drpDownMenu"
+      [type]="type"
+      [style.color]="customColor"
+      matRipple
+      class="rm-btn"
+      [ngClass]="{
+        primary: role == 'primary',
+        secondary: role == 'secondary',
+        tertiary: role == 'tertiary',
+        customColor: role == 'custom',
+        defaultSize: size == 'default',
+        smallSize: size == 'small',
+        customSize: size == 'customSize',
+        noLabel: onlyIconButton,
+        mobButton: noTextInMobileView == true,
+        tabButton: noTextInTabletView == true
+      }"
+    >
+      <rm-icon
+        [hidden]="icon == null || role == 'primary'"
+        [color]="role == 'secondary' && !disabled ? 'theme' : 'gray'"
+        [size]="'medium'"
+        [ngClass]="{
+          btnIcon: role != 'tertiary',
+          smallIconSize: iconSize == 'small',
+          defaultIconSize: iconSize == 'default',
+          mobIcon: noTextInMobileView == true,
+          tab: noTextInTabletView == true
+        }"
+        [icon]="icon"
+      ></rm-icon>
+      <span
+        *ngIf="!onlyIconButton"
+        [ngClass]="{
+          btnValue: icon != null,
+          noBtnValue: noTextInMobileView == true,
+          noBtnTabValue: noTextInTabletView == true
+        }"
+        class="align-center"
+      >
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+      </span>
+    </button>
+  </ng-container>
+  <mat-menu #drpDownMenu="matMenu">
+    <ng-template matMenuContent>
+      <ng-container *ngFor="let option of DropDownConfigs">
+        <ng-container
+          *ngIf="
+            option.child && option.child.length > 0;
+            else noChildDropdownBtnItem
+          "
+        >
+          <ng-container
+            [ngTemplateOutlet]="dropDownMenuChildTemplate"
+            [ngTemplateOutletContext]="{ option: option }"
+          ></ng-container>
+        </ng-container>
+        <!-- nested template -->
+        <ng-template #dropDownMenuChildTemplate let-option="option">
+          <button
+            [disabled]="option?.disabled"
+            [style.padding-right.px]="
+              option.child && option.child.length > 0 ? 36 : 16
+            "
+            [matMenuTriggerFor]="drpDownMenuChild"
+            (click)="actionClick(option?.value ? option?.value : option?.name)"
+            mat-menu-item
+            [ngClass]="{ seprator: option?.isSeprator }"
+          >
+            <rm-icon
+              *ngIf="option.icon"
+              [ngClass]="{
+                smallIconSize: iconSize == 'small',
+                defaultIconSize: iconSize == 'default'
+              }"
+              [icon]="option.icon"
+            ></rm-icon>
+            {{ option.name }}
+          </button>
+          <mat-menu #drpDownMenuChild="matMenu">
+            <ng-template matMenuContent>
+              <ng-container *ngFor="let option of option.child">
+                <ng-container
+                  *ngIf="
+                    option.child && option.child.length > 0;
+                    else noChildDropdownBtnItem
+                  "
+                >
+                  <ng-container
+                    [ngTemplateOutlet]="dropDownMenuChildTemplate"
+                    [ngTemplateOutletContext]="{ option: option }"
+                  ></ng-container>
+                </ng-container>
+                <!-- no-nestted btn -->
+                <ng-template #noChildDropdownBtnItem>
+                  <button
+                    [disabled]="option?.disabled"
+                    (click)="
+                      actionClick(option?.value ? option?.value : option?.name)
+                    "
+                    mat-menu-item
+                    [ngClass]="{ seprator: option.isSeprator }"
+                  >
+                    <rm-icon
+                      *ngIf="option.icon"
+                      [ngClass]="{
+                        smallIconSize: iconSize == 'small',
+                        defaultIconSize: iconSize == 'default'
+                      }"
+                      [icon]="option.icon"
+                    ></rm-icon>
+                    {{ option.name }}
+                  </button>
+                </ng-template>
+              </ng-container>
+            </ng-template>
+          </mat-menu>
+        </ng-template>
+        <!-- no-nestted btn -->
+        <ng-template #noChildDropdownBtnItem>
+          <button
+            [disabled]="option?.disabled"
+            (click)="actionClick(option?.value ? option?.value : option?.name)"
+            mat-menu-item
+            [ngClass]="{ seprator: option.isSeprator }"
+          >
+            <rm-icon *ngIf="option.icon" [icon]="option.icon"></rm-icon>
+            {{ option.name }}
+          </button>
+        </ng-template>
+      </ng-container>
+    </ng-template>
+  </mat-menu>
+</ng-container>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>
+
+<ng-template #simpleBtn>
+  <button
+    [type]="type"
+    [style.color]="customColor"
+    (click)="clickBtn($event)"
+    [disabled]="disabled"
+    matRipple
+    [matRippleDisabled]="disabled"
+    class="rm-btn"
+    [ngClass]="{
+      primary: role == 'primary',
+      secondary: role == 'secondary',
+      tertiary: role == 'tertiary',
+      customColor: role == 'custom',
+      defaultSize: size == 'default',
+      smallSize: size == 'small',
+      customSize: size == 'customSize',
+      noLabel: onlyIconButton,
+      mobButton: noTextInMobileView == true,
+      tabButton: noTextInTabletView == true
+    }"
+  >
+    <rm-icon
+      [hidden]="icon == null || role == 'primary'"
+      [color]="
+        role == 'secondary' && !disabled
+          ? 'theme'
+          : disabled
+          ? '#a8a8a8'
+          : 'gray'
+      "
+      [size]="'medium'"
+      [ngClass]="{
+        btnIcon: role != 'tertiary',
+        smallIconSize: iconSize == 'small',
+        defaultIconSize: iconSize == 'default',
+        mobIcon: noTextInMobileView == true,
+        tabIcon: noTextInTabletView == true
+      }"
+      [icon]="icon"
+    ></rm-icon>
+    <span
+      *ngIf="!onlyIconButton || !!!icon"
+      [ngClass]="{
+        btnValue: icon != null,
+        noBtnValue: noTextInMobileView == true && !!icon,
+        noBtnTabValue: noTextInTabletView == true && !!icon
+      }"
+      class="align-center"
+    >
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </span>
+  </button>
+</ng-template>
+
+<!-- Loading Btn -->
+<ng-template #loadingBtn>
+  <button
+    [type]="type"
+    [style.color]="customColor"
+    [disabled]="true"
+    matRipple
+    [matRippleDisabled]="true"
+    class="rm-btn rm-btn__loader"
+    [ngClass]="{
+      primary: role == 'primary',
+      secondary: role == 'secondary',
+      tertiary: role == 'tertiary',
+      customColor: role == 'custom',
+      defaultSize: size == 'default',
+      customSize: size == 'customSize',
+      smallSize: size == 'small'
+    }"
+  >
+    <mat-progress-spinner [color]="customColor" [mode]="'indeterminate'">
+    </mat-progress-spinner>
+    <span class="btn-spinner__text">Loading...</span>
+  </button>
+</ng-template>

@@ -1,0 +1,31 @@
+@import "../../../../../assets/style/partials/variables.scss";
+
+.app-container {
+  padding: 20px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.action-row {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-end;
+  .grid-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > * {
+      padding-left: 8px;
+    }
+  }
+}
+:host ::ng-deep {
+  ag-grid-angular {
+    transition: none;
+  }
+  .mat-list-base {
+    height: calc(100vh - 179px);
+    // border-bottom: 1px solid #e0e0e0;
+  }
+}

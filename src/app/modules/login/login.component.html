@@ -1,0 +1,26 @@
+<!-- <ng-container *ngIf="isLoading">
+    <div class="mt-5">
+        Loading...
+    </div>
+</ng-container> -->
+<!-- *ngIf="!isLoading" -->
+<ng-container>
+    <div class="page-title">
+        <h1>Sign In</h1>
+        <p>Enter your details below</p>
+    </div>
+    <form class="loginForm" [formGroup]="loginForm">
+        <rm-input [config]="loginInputConfig!.LoginIdInput" formControlName="loginId" [dataModel]="loginModel">
+        </rm-input>
+        <rm-input [config]="loginInputConfig!.LoginPasswordInput" formControlName="loginPassword"
+            [dataModel]="loginModel"></rm-input>
+        <div class="more-options">
+            <rm-checkbox [config]="loginInputConfig!.RememberMeCheckbox"></rm-checkbox>
+            <a href="javascript:void" class="forget-password" [routerLink]="['/auth/forget-password']">Forget
+                Password?</a>
+        </div>
+        <rm-button [type]="'submit'" [loading]="isLoading" (onClick)="onSubmit()" [disabled]="loginForm.invalid">SUBMIT
+        </rm-button>
+    </form>
+</ng-container>
+<div class="toasty-layer" toastContainer></div>

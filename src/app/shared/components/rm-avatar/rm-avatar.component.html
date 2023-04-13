@@ -1,0 +1,31 @@
+<!-- Text -->
+<ng-container *ngIf="!img">
+  <div
+    [title]="firstName + ' ' + lastName"
+    class="rm-avatar"
+    [ngClass]="{
+      blueTheme: randomValue == 1,
+      orangeTheme: randomValue == 2,
+      yellowTheme: randomValue == 3,
+      greenTheme: randomValue == 4,
+      maroonTheme: randomValue == 5,
+      purpleTheme: randomValue == 6,
+      showMore: colorClass == 'showMore'
+    }"
+  >
+    <span class="rm-avatar__content">
+      {{ customText || getInitials() }}
+    </span>
+  </div>
+</ng-container>
+
+<!-- Image -->
+<ng-container *ngIf="img">
+  <div class="rm-avatar__image">
+    <img
+      [src]="img"
+      [title]="fullName"
+      [alt]="fullName"
+    />
+  </div>
+</ng-container>

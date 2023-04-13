@@ -1,0 +1,67 @@
+<div class="wrapper">
+    <div class="top">
+        <a href="javascript:void(0);" class="link" (click)="buttonClicked('close', $event)">
+            <!-- <rm-icon [icon]="config?.support?.email?.icon"></rm-icon>         -->
+            <rm-icon [icon]="'cross'"></rm-icon>
+        </a>
+        <!-- [color]="warn" -->
+    </div>
+    <div class="middle">
+        <!-- Image -->
+        <img class="profile-image" [src]="userProfile?.userImage || config!.image"
+            alt="{{userProfile?.firstName+ ' ' + userProfile?.lastName}}">
+        <!-- {{config | json}} -->
+        <h2 class="title">
+            {{userProfile?.firstName | titlecase}} {{userProfile?.lastName | titlecase}}
+        </h2>
+        <a href="mailto:{{userProfile?.emailId}}" class="link">{{userProfile?.emailId}}</a>
+        <p class="text-muted desc">
+            {{userProfile?.displayRoleName}}
+            <!-- {{config?.role}} -->
+        </p>
+        <div class="social-media">
+            <ng-container *ngFor="let social of config?.socialIcons">
+                <a [href]="userProfile[social?.url!] || 'javascript:void(0)'" target="_blank">
+                    <rm-icon class="social-media__icons" [icon]="social?.icon!"></rm-icon>
+                </a>
+            </ng-container>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-action">
+            <ng-container *ngFor="let action of config?.actions">
+                <rm-button [loading]="action?.action == 'logout' ? logingOutUser : false" class="button-action__item" [role]="action?.role!" [customColor]="action?.customColor!"
+                    [type]="action?.type!" (onClick)="buttonClicked(action?.title, $event, action?.action)">
+                    {{action?.title}}
+                </rm-button>
+            </ng-container>
+        </div>
+
+        <!-- Activity -->
+        <div class="profile-activity">
+            <div class="profile-activity__child modified-on">
+                <label>Last Modified:</label>
+                <!-- config?.profileActivity?.modifiedOn -->
+                {{ (userProfile?.lastUpdatedOn | date: 'MMM dd, yyyy hh:mm aa') || '--' }}
+            </div>
+            <div class="profile-activity__child last-login">
+                <label>Last Login:</label>
+                <!-- config?.profileActivity?.lastLogin -->
+                {{ (userProfile?.loginDate | date: 'MMM dd, yyyy hh:mm aa') || '--' }}
+            </div>
+        </div>
+
+        <!-- Theme Selector -->
+        <div class="theme-seletor-wrapper">
+            <rm-theme-selector #themeSelector (themeChange)="themeChange($event)" [(theme)]="currentTheme">
+            </rm-theme-selector>
+        </div>
+
+    </div>
+    <div class="bottom">
+        <a class="link" href="{{config!.support!.email!.action}}">
+            <rm-icon [icon]="config!.support!.email!.icon!"></rm-icon>
+            <span class="support-text">{{config!.support!.email!.title! | uppercase}}</span>
+        </a>
+    </div>
+</div>

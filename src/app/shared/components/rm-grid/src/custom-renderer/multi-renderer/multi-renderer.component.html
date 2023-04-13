@@ -1,0 +1,210 @@
+<div class="multi-renderer" [ngClass]="{ center: centerAlign }" [style]="cellStyle">
+  <!-- Hide Value when using Only Chip -->
+  <div
+    class="truncate-text"
+    [title]="params.value"
+    *ngIf="
+      !params?.hideValue &&
+      !params?.linkText &&
+      (!advQueue || advQueue?.length == 0)
+    "
+  >
+    {{ params.value }}
+  </div>
+  <!-- <div class="truncate-text" *ngIf="params.auditorView">
+    {{ auditorFullName }}
+  </div> -->
+  <div class="truncate-text" *ngIf="advQueue?.length > 0">
+    {{ advQueue?.slice(0, 3) }}
+
+    <a
+      href="javascript:void(0)"
+      *ngIf="advQueue?.length > 3"
+      [matMenuTriggerFor]="list"
+      >+{{ advQueue?.length - 3 }} more</a
+    >
+    <mat-menu #list="matMenu">
+      <a
+        href="javascript:void(0)"
+        *ngFor="let item of advQueue | slice: 3"
+        mat-menu-item
+        >{{ item }}</a
+      >
+    </mat-menu>
+  </div>
+
+  <a
+    href="javascript:void(0)"
+    (click)="handleClick()"
+    class="truncate-text"
+    [title]="params.value"
+    *ngIf="
+      !params?.hideValue &&
+      params?.linkText &&
+      (!advQueue || advQueue?.length == 0)
+    "
+    >{{ params.value }}</a
+  >
+  <div
+    class="multi-renderer__extras"
+    [ngClass]="{ 'no-margin': params?.hideValue }"
+  >
+    <ng-container *ngFor="let item of params?.options">
+      <!-- Common Icons -->
+      <!-- {{item.icon}} -->
+      <ng-container
+        *ngIf="
+          item?.icon !== 'info' &&
+          item?.icon !== 'icard' &&
+          !params.auditorView &&
+          !item?.tooltipCondition  && !item?.action
+        "
+      >
+        <rm-icon
+        *ngIf="item?.tooltip"
+          size="small"
+          [icon]="item?.icon"
+          [enableTooltip]="true"
+          [tooltipContent]="item?.tooltip"
+        >
+        </rm-icon>
+        <rm-icon
+        *ngIf="!item?.tooltip"
+          size="small"
+          [icon]="item?.icon"
+        >
+        </rm-icon>
+
+      </ng-container>
+
+      <!-- Delegate Icons -->
+      <ng-container *ngIf="params.auditorView">
+        <rm-icon
+          size="medium"
+          [icon]="item?.icon"
+          color="link"
+          [title]="item?.simpleTooltip"
+          (onClick)="handleClick()"
+        ></rm-icon>
+      </ng-container>
+      <!-- Info (Description) with Template -->
+      <ng-container *ngIf="item?.icon == 'info' && !item?.tooltipCondition  && !item?.action">
+        <rm-icon
+          [contentType]="'template'"
+          [templateType]="'description'"
+          [tooltipTitle]="item?.tooltipTitle"
+          [color]="'link'"
+          [tooltipOptions]="{
+            placement: 'bottom',
+            theme: 'light'
+          }"
+          [icon]="item?.icon"
+          [enableTooltip]="true"
+          [tooltipContent]="item?.data"
+          (onClick)="handleClick()"
+        ></rm-icon>
+      </ng-container>
+      <!-- Custom D="escription with template -->
+
+      <!-- Action handle -->
+      <ng-container *ngIf="item?.icon && item?.action && !item?.data">
+
+        <rm-icon
+          [color]="item?.actionDisabled ? 'gray' : 'link'"
+          size="small"
+          [icon]="item?.icon"
+          (onClick)="handleClick()"
+          [state]="'hover'"
+          [disabled]="item?.actionDisabled"
+        ></rm-icon>
+      </ng-container>
+      <!-- Action handle -->
+
+      <!-- item?.icon == 'info' -->
+      <ng-container *ngIf="item?.icon && item?.tooltipCondition  && !item?.action">
+        <rm-icon
+          [contentType]="'template'"
+          [templateType]="'blank'"
+          [color]="'link'"
+          [tooltipOptions]="{
+            placement: item.tooltipOptions ? item.tooltipOptions : 'bottom',
+            theme: 'light'
+          }"
+          [icon]="item?.icon"
+          [enableTooltip]="item.data ? true : false"
+          [tooltipContent]="item?.data"
+          (onClick)="!item.data ? handleClick() : ''"
+          [state]="'hover'"
+          [disabled]="item.disabled"
+        ></rm-icon>
+      </ng-container>
+      <!-- (Org) Icard with Tempate -->
+      <ng-container *ngIf="item?.icon == 'icard'">
+        <rm-icon
+          [contentType]="'template'"
+          [color]="'link'"
+          [tooltipOptions]="{
+            placement: 'left',
+            theme: 'light',
+            'no-padding': true
+          }"
+          [icon]="item?.icon"
+          [enableTooltip]="true"
+          [tooltipContent]="orgCard"
+        ></rm-icon>
+      </ng-container>
+
+      <!-- Custom Icon (Active/ Changed Dot) -->
+      <ng-container *ngIf="item?.icon == 'indicator'">
+        <span class="indicator"></span>
+      </ng-container>
+
+      <!-- Custom Components -->
+      <ng-container *ngIf="item?.component">
+        <ng-container [ngSwitch]="item?.component?.type">
+          <!-- Select Component -->
+          <ng-container *ngSwitchCase="'select-box'">
+            <rm-select
+              class="adjustSelectBoxToAlignCenter"
+              (onSelectionChange)="item?.component?.onSelectionChange($event)"
+              [config]="item?.component?.config"
+              [dataModel]="item?.component?.model"
+            >
+            </rm-select>
+          </ng-container>
+          <!-- Chip Component -->
+          <ng-container *ngSwitchCase="'chip'">
+            <!-- <rm-grid-chip></rm-grid-chip> -->
+            <rm-chip
+              class="custom-chips"
+              [config]="item?.component?.config"
+              [value]="item?.component?.value"
+            ></rm-chip>
+          </ng-container>
+          <!-- Toggle Component -->
+          <ng-container *ngSwitchCase="'toggle'">
+            <rm-toggle
+              [config]="item?.component?.config"
+              (onChange)="toggleHandler($event, item?.component?.config)"
+            ></rm-toggle>
+          </ng-container>
+          <!-- Color Box -->
+          <ng-container *ngSwitchCase="'color-box'">
+            <div
+              [style.background]="item?.component?.color"
+              class="color-box"
+            ></div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Org Card Template -->
+<ng-template #orgCard>
+  <tooltip-org-card-template
+    [orgType]="'sp'"
+    [dataModel]="orgData"
+  ></tooltip-org-card-template>
+</ng-template>

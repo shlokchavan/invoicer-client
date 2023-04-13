@@ -1,0 +1,52 @@
+@import '../../../../../../../assets/style/partials/variables.scss';
+
+.multi-renderer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height:100%;
+  &.center {
+    justify-content: center;
+  }
+  // align-items: baseline;
+  &__extras {
+    display: flex;
+    // Changed Indicator
+    .indicator {
+      width: 10px;
+      height: 10px;
+      background-color: $green_chip-color;
+      border-radius: 50%;
+      padding: 4px;
+    }
+    > * {
+      margin-left: 1rem;
+    }
+    &.no-margin > * {
+      margin-left: 0;
+    }
+  }
+}
+.adjustSelectBoxToAlignCenter {
+  margin: -4px !important;
+}
+
+:host ::ng-deep {
+  .custom-chips {
+    .chip_cnt {
+      margin-top: 4px;
+      .svg_icon {
+        margin-right: 4px;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+}
+.truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.color-box {
+  height: 100%;
+  width: 100%;
+}

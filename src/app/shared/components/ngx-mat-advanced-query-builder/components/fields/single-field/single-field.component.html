@@ -1,0 +1,3 @@
+<autocomplete-field [readonly]="readonly" *ngIf="showAutocompleteField" [multi]="multi" [item]="item" [value]="item.value" (valueChange)="valueChanged($event)"></autocomplete-field>
+<date-field [readonly]="readonly" *ngIf="showDateField" [value]="item.value" (valueChange)="valueChanged($event)"></date-field>
+<plain-value-field [readonly]="readonly" *ngIf="showPlainValueField" [isNumber]="isNumber" [maxLength]="maxLength" [value]="item.value" (valueChange)="valueChanged($event)"></plain-value-field>

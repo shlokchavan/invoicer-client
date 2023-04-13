@@ -1,0 +1,133 @@
+<div class="rm-custom-table group-card">
+  <div class="group-header" *ngIf="config?.gridTitle">
+    <span class="group-header__title"
+      >{{
+        tempRowData?.length > 0 ? config?.gridTitle : "No " + config?.gridTitle
+      }}
+
+      <span [hidden]="tempRowData?.length == 0 && !config?.showTotalRecords">
+        ({{ tempRowData?.length }})
+      </span></span
+    >
+    <a
+      [hidden]="!isEditable"
+      href="javascript:void(0)"
+      class="group-header__link link"
+      (click)="editClick()"
+      >Edit</a
+    >
+  </div>
+  <div class="group-body" *ngIf="tempRowData?.length > 0; else noDataFound">
+    <div class="group-body-thead">
+      <!-- (TH) Column Headers -->
+      <ng-container *ngFor="let col of config?.colDefs">
+        <div [class]="'thead__' + col['field']">
+          {{ col["headerName"] }}
+          <span [hidden]="!col?.aggFunc">
+            <span [ngSwitch]="col?.aggFunc">
+              <span *ngSwitchCase="'sum'">
+                ({{ sumOfField(col["field"]) }})
+              </span>
+            </span>
+          </span>
+        </div>
+      </ng-container>
+    </div>
+    <div class="group-body-tbody">
+      <ng-container *ngFor="let row of rowData">
+        <!-- (TR) RowData -->
+        <div class="tbody__row">
+          <ng-container *ngFor="let col of config?.colDefs">
+            <!-- (TD) Data with Row -->
+            <div
+              class="tbody__data"
+              [style.width]="col?.width"
+              [style.min-width]="col?.minwWdth"
+              [style.max-width]="col?.maxwWdth"
+            >
+              <!-- Check Type of Column -->
+              <span [ngSwitch]="col['type']">
+                <!-- Avatar (Group)-->
+                <span *ngSwitchCase="'avatarGroup'">
+                  <rm-avatar-group
+                    (onMoreClick)="moreClick(row[col['field']])"
+                    [rowData]="row[col['field']]"
+                  ></rm-avatar-group>
+                </span>
+                <!-- Chip -->
+
+                <!-- Avatar Column -->
+                <span *ngSwitchCase="'avatar'" class="avatar-column">
+                  <rm-avatar
+                    class="avatar"
+                    [firstName]="row['firstName']"
+                    [lastName]="row['lastName']"
+                  ></rm-avatar>
+                  <span class="text-with-prefix">
+                    {{ row["firstName"] }} {{ row["lastName"] }}
+                  </span>
+                </span>
+                <!-- Chip Column -->
+                <span *ngSwitchCase="'chip'" class="chip-column">
+                  <span class="text-with-suffix">
+                    {{ row[col["field"]] }}
+                  </span>
+                  <span class="chip-column__items">
+                    <ng-container *ngFor="let render of col?.multiRenderer">
+                      <span [ngSwitch]="render?.component?.type">
+                        <ng-container *ngSwitchCase="'chip'">
+                          <rm-chip
+                            [config]="render?.component?.config"
+                            [value]="render?.component?.value"
+                            *ngIf="
+                              row[render?.component?.conditionField] ==
+                              render?.component?.condition
+                            "
+                          >
+                          </rm-chip>
+                        </ng-container>
+                      </span>
+                    </ng-container>
+                  </span>
+                </span>
+
+                <!-- Default -->
+                <span *ngSwitchDefault>
+                  {{ row[col["field"]] }}
+                </span>
+              </span>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      <!-- Show More/ Less -->
+      <div
+        class="tbody__row"
+        *ngIf="
+          config?.showMoreCount && tempRowData?.length > config?.showMoreCount
+        "
+      >
+        <div class="tbody__data">
+          <a
+            *ngIf="!showMore && !rowDataIsLess"
+            href="javascript:void(0);"
+            (click)="setShowMore(true)"
+          >
+            + {{ diffCount }} More
+          </a>
+          <a
+            *ngIf="showMore && !rowDataIsLess"
+            href="javascript:void(0);"
+            (click)="setShowMore(false)"
+          >
+            Show Less
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noDataFound>
+  <p class="text-center">No data Available</p>
+</ng-template>

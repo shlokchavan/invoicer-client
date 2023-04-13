@@ -1,0 +1,65 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <div class="left_holder">
+      <!-- menu-icon -->
+      <div class="humberger_menu_icon">
+        <button (click)="openDrawer('navigation')" mat-icon-button>
+          <rm-icon [icon]="config.humbergerIcon" [color]="'white'"></rm-icon>
+        </button>
+      </div>
+      <!-- header logo -->
+      <img class="header_logo" [src]="loggedInUserOrgLogo ? loggedInUserOrgLogo : config.logoURL" alt="RM LOGO">
+    </div>
+
+    <!-- bookmark placeholder -->
+    <div class="right_holder">
+      <div class="bookmark_template">
+        <ng-content>
+        </ng-content>
+      </div>
+      <button class="desktop-bookmark" (click)="openBookmarkSettings()" mat-icon-button>
+        <rm-icon [icon]="'settings'" [color]="'white'"></rm-icon>
+      </button>
+      <span class="right-spacer"></span>
+      <div class="header-actions">
+        <!-- header actions -->
+        <ng-container *ngFor="let action of config.actions">
+          <button (click)="actionBtnClick(action)" mat-icon-button>
+            <rm-icon [icon]="action.icon" [color]="'white'"></rm-icon>
+          </button>
+        </ng-container>
+
+        <!-- User Profile -->
+        <a href="javascript:void(0);" (click)="openDrawer('profile')" class="user-profile">
+          <span class="user-profile__content">
+            {{userFullName}}
+          </span>
+        </a>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+
+<!-- Sub Header -->
+<div class="subHeader" *ngIf="config?.subHeaderConfig != null">
+  <div class="page-info">
+    <rm-icon *ngIf="config?.subHeaderConfig?.isBackOption" state="hover" (onClick)="backPage()" icon="nextpage"></rm-icon>
+    &nbsp;
+    <span class="header-title">{{ config!.subHeaderConfig!.title }}</span>
+    <div class="breadcrumb">
+      <ng-container *ngFor="let breadcrumb of config?.subHeaderConfig?.breadcrumb; let last=last">
+        <span class="breadrumb-label" [routerLink]="breadcrumb?.route" [queryParams]="breadcrumb?.queryRoute"
+          [ngClass]="{ 'clickable' : !breadcrumb.isActive }">{{ breadcrumb.label }}</span>
+        <span class="breadrumb-label seprator" [hidden]="last">/</span>
+      </ng-container>
+    </div>
+  </div>
+  <div class="extra-info">
+    <ng-container *ngTemplateOutlet="config?.subHeaderConfig?.subheaderTemplate!"></ng-container>
+  </div>
+</div>
+<!-- Route Loader -->
+<ng-container *ngIf="loading">
+  <mat-progress-bar class="route-loader" color="secondary" mode="indeterminate"></mat-progress-bar>
+</ng-container>

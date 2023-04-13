@@ -1,0 +1,240 @@
+<div class="grid-layout" [ngClass]="{ 'pinned' : isHeaderPinned, 'fullscreen' : isGridMaximize }">
+    <ng-template #headerLayout>
+      <!-- Grid Header -->
+      <!-- [isGlobalFilterApplied]="isGlobalFilterApplied" -->
+      <ng-container *ngIf="config?.gridHeader">
+        <grid-header
+          #gridHeader
+          
+          [gridApi]="gridApi"
+          [hideActions]="!accoridanExpaneded"
+          [totalRows]="rowData!.length"
+          [rowData]="rowData"
+          [items]="config?.gridHeader"
+          [pivotOption]="config?.isPivotMode"
+          [isColumnPanelActive]="config?.isColumnPanelActive"
+          [columnDefs]="config.columnDefs"
+          [metaTemplate]="metaTemplate"
+          [cardSelectedRows]="selectedRows"
+          (onChange)="densityChanged($event)"
+          (onViewChange)="viewChanged($event)"
+          (onBtnClick)="onGridHeaderBtnClicked($event)"
+          [(showSelected)]="showSelected"
+          (showSelectedChange)="onShowSelectedChanged($event)"
+          (onPinToggleChanged)="pinToggleGrid($event)"
+          (onFullScreenToggleChanged)="fullScreenToggleGrid($event)"
+          (onGlobalFilterToggle)="openGlobalFilter()"
+        >
+        </grid-header>
+      </ng-container>
+    </ng-template>
+    
+    
+    <ng-template #gridLayout>
+      <!-- List View -->
+      <ng-container *ngIf="!config?.isGridView && !config?.isChartView; else GridLayoutSwitch">
+      <ng-container #gridContainer></ng-container>
+        <div class="aggrid-container">
+          <!-- [getChartToolbarItems]="getChartToolbarItems" -->
+          <ag-grid-angular
+            #agGrid
+            style="width: 100%"
+            [style.height]="config.gridHeight || 'auto'"
+            [domLayout]="config.gridHeight ? 'normal' : 'autoHeight'"
+            class="ag-theme-balham {{this.config?.gridId}}"
+            id="agGrid"
+            [rowModelType]="config.rowModelType"
+            [columnDefs]="config.columnDefs"
+            [defaultColDef]="config.defaultColDef"
+            [rowData]="rowData"
+            [gridOptions]="config.gridOptions"
+            [paginationPageSize]="paginationPageSize"
+            [loadingOverlayComponent]="loadingOverlayComponent"
+            [loadingOverlayComponentParams]="loadingOverlayComponentParams"
+            [frameworkComponents]="frameworkComponents || config?.frameworkComponents"
+            
+            [enableBrowserTooltips]="true"
+            (gridReady)="onGridReady($event)"
+            (rowDataChanged)="onRowDataChanged($event)"
+            (paginationChanged)="onPaginationChanged($event)"
+            (filterChanged)="onFilterChanged($event)"
+            (cellValueChanged)="onCellValueChanged($event)"
+            (sortChanged)="onSort($event)"
+            (rowSelected)="onRowSelected($event)"
+            (rowGroupOpened)="onRowExpanded($event)"
+            (columnRowGroupChanged)="onColumnRowGroupChanged($event)"
+            (selectionChanged)="onSelectionChanged($event)"
+            (dragStopped)="dragStopped($event)"
+            (rowDragMove)="onRowDragMove($event)"
+            (rowDragEnd)="onRowDragEnd($event)"
+            (rowDragEnter)="onRowDragEnter($event)"
+            [headerHeight]="config.headerHeight"
+            (rowDataUpdated)="onRowDataUpdated($event)"
+            [suppressClickEdit]="config?.editType == 'fullRow'"
+            [editType]="config?.editType"
+            (rowEditingStarted)="onRowEditingStarted($event)"
+            (rowEditingStopped)="onRowEditingStopped($event)"
+            (toolPanelVisibleChanged)="onToolPanelVisibleChanged($event)"
+            (displayedColumnsChanged)="onColumnsChanged($event)"
+            [isExternalFilterPresent]="isExternalFilterPresent"
+            [doesExternalFilterPass]="doesExternalFilterPass"
+            [chartThemeOverrides]="chartThemeOverrides"
+            [overlayNoRowsTemplate]="overlayNoRowsTemplate"
+          >
+          </ag-grid-angular>
+        </div>
+        <ng-container #paginationContainer></ng-container>
+    
+        <ng-container
+          *ngIf="showPagination && rowData && rowData.length > 0 && pageNumber"
+        >
+          <div class="pagination-wrapper">
+            <span>Rows per page</span>
+            <select
+              class="page-size-changer"
+              [ngModel]="paginationPageSize"
+              (ngModelChange)="onPageSizeChanged($event)"
+            >
+              <!-- <option selected>10</option> -->
+              <ng-container *ngFor="let option of pageSizeOptions">
+                <option [value]="option">{{ option }}</option>
+              </ng-container>
+              <!-- <option>30</option> -->
+              <option>
+                <input type="number" name="custom-page-size" />
+              </option>
+            </select>
+    
+            <span class="current-page-range">
+              {{ (pageNumber - 1) * paginationPageSize + 1 }}
+              -
+              {{
+                totalRecords < pageNumber * paginationPageSize
+                  ? totalRecords
+                  : pageNumber * paginationPageSize
+              }}
+            </span>
+            of
+            <span class="total-page-size">
+              {{ totalRecords }}
+            </span>
+    
+            <a
+              class="btn page-btn firstpage pagination-icon"
+              (click)="goToFirstPage()"
+            >
+              <rm-icon [icon]="'pgLeftArrowDouble'" [customColor]="'#fff'"></rm-icon>
+            </a>
+            <a
+              class="btn page-btn backpage pagination-icon"
+              (click)="goToPreviousPage()"
+            >
+              <rm-icon [icon]="'pgLeftArrow'" [customColor]="'#fff'"></rm-icon>
+            </a>
+    
+            <input
+              type="number"
+              name="currentPage"
+              min="1"
+              [max]="totalPagesCount"
+              [value]="pageNumber"
+              (blur)="onCurrentPageChanged($event)"
+              (keyup.enter)="onCurrentPageChanged($event)"
+              class="current-page-input"
+            />
+            /
+            <span class="total-page">
+              {{ totalPagesCount }}
+            </span>
+    
+            <a class="btn page-btn next pagination-icon" (click)="goToNextPage()">
+              <rm-icon [icon]="'pgRightArrow'" [color]="'white'"></rm-icon>
+            </a>
+            <a class="btn page-btn lastpage pagination-icon" (click)="goToLastPage()">
+              <rm-icon [icon]="'pgRightArrowDouble'" [color]="'white'"></rm-icon>
+            </a>
+          </div>
+        </ng-container>
+    
+        <ng-template #paginationTemplate> </ng-template>
+      </ng-container>
+    
+      <!-- Grid Layout Switch -->
+      <ng-template #GridLayoutSwitch>
+        <!-- Chart View -->
+        <ng-container *ngIf="config.isChartView; else gridView">
+          <ng-container *ngTemplateOutlet="ChartViewTemplate"></ng-container>
+        </ng-container>
+      </ng-template>
+    
+      <!-- Grid View -->
+      <!-- [cardConfig]="config?.cardConfig" -->
+      <ng-template #gridView>
+        <rm-cardview-list
+          [rowData]="getShowSelectedToggleStatus ? selectedRows : rowData"
+          [type]="config?.gridType"
+          [actions]="actions"
+          [selectable]="cardSelectable"
+          [filterValue]="gridHeader!.searchModel!.value!"
+          [(selectedRows)]="selectedRows"
+          (onCardActionClick)="onActionClicked($event)"
+          (onCardToggleClick)="onCellValueChanged($event)"
+          (onCardLogoClick)="onLinkClicked($event)"
+          (onCardLinkClick)="onLinkClicked($event)"
+        ></rm-cardview-list>
+      </ng-template>
+    </ng-template>
+    
+    
+    <!-- Normal Grid Layout -->
+    <ng-container *ngIf="!config.isAccordian && !config.isDrawer; else gridLayoutAccordOrDrawer">
+      <ng-container *ngTemplateOutlet="headerLayout"></ng-container>
+      <ng-container *ngTemplateOutlet="gridLayout"></ng-container>
+    </ng-container>
+    
+    <ng-template #gridLayoutAccordOrDrawer>
+      <ng-container *ngIf="config.isAccordian">
+        <ng-container *ngTemplateOutlet="accordianGrid"></ng-container>
+      </ng-container>
+      <ng-container *ngIf="config.isDrawer">
+        <ng-container *ngTemplateOutlet="drawerGrid"></ng-container>
+      </ng-container>
+    </ng-template>
+    
+    <!-- Accordian Grid Layout -->
+    <ng-template #accordianGrid>
+      <mat-expansion-panel [disabled]="gridHeader!.isGridFullScreen" (closed)="accoridanExpaneded=false" (opened)="accoridanExpaneded=true" 
+      [expanded]="accoridanExpaneded" class="accoridan-grid" togglePosition="before">
+        <mat-expansion-panel-header>
+          <div class="grid-accordian-header" (click)="$event.stopPropagation();">
+            <ng-container *ngTemplateOutlet="headerLayout"></ng-container>
+          </div>
+        </mat-expansion-panel-header>
+    
+        <ng-container *ngTemplateOutlet="gridLayout"></ng-container>
+      </mat-expansion-panel>
+    </ng-template>
+    
+    <!-- Drawer Grid Layout -->
+    <ng-template #drawerGrid>
+      <ng-container *ngTemplateOutlet="headerLayout"></ng-container>
+      <mat-drawer-container autosize>
+        <mat-drawer #drawer class="grid-drawer" position="end" mode="side">
+          <ng-container *ngTemplateOutlet="gridDrawerTemplate"></ng-container>
+        </mat-drawer>
+      
+        <div class="content-grid">
+          <ng-container *ngTemplateOutlet="gridLayout"></ng-container>
+        </div>
+      
+      </mat-drawer-container>
+    </ng-template>
+      
+  </div>    
+
+<ng-template #gridFilter>
+  <grid-global-filter *ngIf="showGlobalFilter"
+  [gridConfig]="config" [gridAPI]="gridApi"
+  [data]="rowData"
+  (onFilterActions)="filterActions($event)"></grid-global-filter>
+</ng-template>

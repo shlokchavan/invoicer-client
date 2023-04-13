@@ -1,0 +1,51 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+.rm-avatar {
+  text-decoration: none;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  &.blueTheme {
+    background-color: $avatar_bg-blue;
+  }
+  &.orangeTheme {
+    background-color: $avatar_bg-orange;
+  }
+  &.yellowTheme {
+    background-color: $avatar_bg-yellow;
+  }
+  &.greenTheme {
+    background-color: $avatar_bg-green;
+  }
+  &.maroonTheme {
+    background-color: $avatar_bg-maroon;
+  }
+  &.purpleTheme {
+    background-color: $avatar_bg-purple;
+  }
+  &.showMore {
+    background-color: $avatar_bg-showMore;
+  }
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 1px solid white;
+  &__content {
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+  }
+}
+
+.rm-avatar__image {
+  width: 32px;
+  height: 32px;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}

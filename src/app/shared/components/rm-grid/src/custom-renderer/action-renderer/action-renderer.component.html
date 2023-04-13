@@ -1,0 +1,14 @@
+<ng-container *ngFor="let actionItem of actions">
+        <a class="link" *ngIf="!actionItem?.isTextAction">
+            <!-- If Tooltip is Present -->
+            <rm-icon [disabled]="!validationCheck(actionItem?.action) || actionItem?.disabled" (onClick)="btnClicked(actionItem?.action)" *ngIf="actionItem?.tooltip" [tooltipOptions]="{ placement: 'bottom' }" [tooltipContent]="actionItem?.tooltip" [enableTooltip]="true"
+             [state]="'hover'" [icon]="actionItem?.icon"></rm-icon>
+             <!-- If Tooltip is not there -->
+             <rm-icon [disabled]="!validationCheck(actionItem?.action) || actionItem?.disabled" (onClick)="btnClicked(actionItem?.action)" *ngIf="!actionItem?.tooltip"
+             [state]="'hover'" [icon]="actionItem?.icon"></rm-icon>
+        </a>
+        <a class="link" [ngClass]="{ 'disabled' : actionItem?.disabled }" *ngIf="actionItem?.isTextAction && actionItem?.text" href="javascript:void(0)" (click)="btnClicked(actionItem?.action)">
+        {{actionItem?.text}}
+        </a>
+        <span class="no-actions" *ngIf="actionItem?.isTextAction && !actionItem?.text">-</span>
+</ng-container>

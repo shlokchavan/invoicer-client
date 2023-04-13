@@ -1,0 +1,6 @@
+<ng-container *ngIf="value">
+  <a class="link" [href]="getSantizeUrl(href)" (click)="handleClick()">
+    {{ value }}
+  </a>
+</ng-container>
+<ng-container *ngIf="!value && !isGroupRow">-</ng-container>

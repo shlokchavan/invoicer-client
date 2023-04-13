@@ -1,0 +1,49 @@
+.card {
+  // max-width: 205px;
+  width: 100%;
+  //   height: 230px;
+  display: flex;
+  flex-direction: column;
+  &-header {
+    position: relative;
+    padding: 30px 20px 20px 20px;
+    height: 80px;
+    border-radius: 4px 4px 0 0;
+    box-sizing: border-box;
+    &__title {
+      margin: 0 !important;
+      color: white;
+      text-transform: uppercase;
+      //   font-size: 16px;
+      font-weight: 500;
+    }
+    &__checkbox {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  }
+  &-body {
+    background-color: #f9fafc;
+    padding: 10px 20px 10px 20px;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    font-weight: 500;
+    p {
+      margin: 0 !important;
+    }
+    &__action {
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+// Update Global CSS
+.link {
+  cursor: pointer;
+}

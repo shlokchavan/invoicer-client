@@ -1,0 +1,57 @@
+@import '../../../../../../../assets/style/partials/variables.scss';
+
+.radio-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+input.radioInput {
+    width: 25%;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    height: 21px;
+    text-align: center;
+}
+
+:host ::ng-deep {
+    .rm-grid-cell-editor.input{
+        .mat-form-field {
+            width: 100%;
+            background-color: white;
+            .mat-form-field-required-marker {
+                // display: none;
+            }
+            &:not(.mat-form-field-invalid) {
+                .mat-form-field-underline {
+                    background-color: $default_link-color;
+                }
+                .mat-input-element {
+                    caret-color: $default_link-color;
+                }
+                .mat-form-field-label {
+                    color: $default_link-color;
+                }
+                &.mat-focused {
+                    .mat-form-field-label {
+                        color: $default_link-color;
+                    }
+                    .mat-form-field-ripple {
+                        background-color: $default_link-color;
+                    }
+                }
+            }
+        }
+        
+        .mat-form-field-appearance-legacy .mat-form-field-infix {
+            padding: 11px 6px !important;
+            border-top: 0 solid transparent !important;
+        }
+        .mat-form-field-appearance-legacy .mat-form-field-label {
+            top: 10px;
+            left: 5px;
+            position: relative;
+        }
+    }
+}

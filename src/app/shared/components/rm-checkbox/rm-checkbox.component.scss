@@ -1,0 +1,44 @@
+@import "../../../../assets//style/partials/variables.scss";
+
+.mat-checkbox {
+  &-inner-container {
+    background-color: white;
+  }
+  &-layout {
+    .mat-checkbox-label {
+      color: $dark_gray_typo-color;
+      line-height: 27px;
+    }
+  }
+  &-disabled {
+    &.mat-checkbox-checked {
+      //   Disabled Checked
+      .mat-checkbox-frame {
+        border: none;
+      }
+      .mat-checkbox-background {
+        background: $global-theme;
+        filter: opacity(0.5)
+      }
+    }
+    &:not(.mat-checkbox-checked) {
+      //   Disabled Unchecked
+      .mat-checkbox-background {
+        background: $lightest_gray_typo-color;
+        border: 2px solid $gray_typo-color;
+      }
+    }
+  }
+  &-indeterminate {
+    .mat-checkbox-background {
+      background-color: white !important;
+      border: 2px solid var(--global-theme);
+      .mat-checkbox-mixedmark {
+        width: 8px;
+        height: 8px;
+        border-radius: 0;
+        background-color: var(--global-theme);
+      }
+    }
+  }
+}
