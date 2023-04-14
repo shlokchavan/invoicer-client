@@ -19,7 +19,11 @@
             <a href="javascript:void" class="forget-password" [routerLink]="['/auth/forget-password']">Forget
                 Password?</a>
         </div>
-        <rm-button [type]="'submit'" [loading]="isLoading" (onClick)="onSubmit()" [disabled]="loginForm.invalid">SUBMIT
+        <rm-button [type]="'submit'" [loading]="isLoading" (onClick)="onSubmit()" 
+        [disabled]="true"
+        >
+        <!-- [disabled]="loginForm.invalid" -->
+        SUBMIT
         </rm-button>
     </form>
 </ng-container>
