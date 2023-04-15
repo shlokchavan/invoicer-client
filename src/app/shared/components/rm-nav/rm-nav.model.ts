@@ -27,7 +27,7 @@ export interface IRMBookMarkConfig {
     sysSubModuleId?: number;
     subModuleName: string; //"Dashboard"
     subModuleDescription: string; //"Dashboard"
-    subModuleDisplayName: string; //"Dashboard (SP)"
+    subModuleDisplayName: string; //"Dashboard (SA)"
     bookMarkOrder: number; //4
     route?: string;
 }

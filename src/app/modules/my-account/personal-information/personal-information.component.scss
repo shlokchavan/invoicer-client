@@ -1,0 +1,8 @@
+input[readonly] {
+    border: none;
+    padding: 10px 0;
+    &:focus {
+        outline: none;
+        border: none;
+    }
+}

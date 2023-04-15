@@ -1,0 +1,18 @@
+@import "../../../../assets/style/partials/variables.scss";
+
+.app-container {
+    padding: 20px;
+    margin-top: 70px;
+}
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    // height: calc(100vh - 210px);
+    .wip {
+        font-size: 40px;
+        font-weight: 500;
+        color: $dark_gray_typo-color;
+    }
+}

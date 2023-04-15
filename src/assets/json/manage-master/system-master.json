@@ -1,0 +1,79 @@
+{
+  "message": null,
+  "error": null,
+  "data": [
+    {
+      "sysMasterId": 1,
+      "description": "Organization Type indicates organization hierarchy level.",
+      "displayName": null,
+      "name": "Organisation Types",
+      "isVisibleInOrg": false,
+      "sequence": 0,
+      "sysMasterTableId": 1
+    },
+    {
+      "sysMasterId": 2,
+      "description": "Contact Types",
+      "displayName": null,
+      "name": "Contact Type",
+      "isVisibleInOrg": true,
+      "sequence": 4,
+      "sysMasterTableId": 2
+    },
+    {
+      "sysMasterId": 3,
+      "description": "Address Types",
+      "displayName": null,
+      "name": "Address Types",
+      "isVisibleInOrg": true,
+      "sequence": 3,
+      "sysMasterTableId": 3
+    },
+    {
+      "sysMasterId": 4,
+      "description": "Currency Type",
+      "displayName": null,
+      "name": "Currencies",
+      "isVisibleInOrg": true,
+      "sequence": 1,
+      "sysMasterTableId": 4
+    },
+    {
+      "sysMasterId": 5,
+      "description": "Time Zones",
+      "displayName": null,
+      "name": "Time Zones",
+      "isVisibleInOrg": true,
+      "sequence": 5,
+      "sysMasterTableId": 5
+    },
+    {
+      "sysMasterId": 6,
+      "description": "Colour Theme for changing the UI look and feel",
+      "displayName": null,
+      "name": "Colour Theme",
+      "isVisibleInOrg": true,
+      "sequence": 7,
+      "sysMasterTableId": 6
+    },
+    {
+      "sysMasterId": 7,
+      "description": "Language",
+      "displayName": "Language",
+      "name": "Language",
+      "isVisibleInOrg": true,
+      "sequence": 2,
+      "sysMasterTableId": 7
+    },
+    {
+      "sysMasterId": 8,
+      "description": "Designation",
+      "displayName": null,
+      "name": "Designation",
+      "isVisibleInOrg": true,
+      "sequence": 6,
+      "sysMasterTableId": 8
+    }
+  ],
+  "status": "success"
+}

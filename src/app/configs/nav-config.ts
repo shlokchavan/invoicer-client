@@ -139,7 +139,7 @@ export const NavRouteConfig: IRMNavItemConfig[] = [
         moduleId: 152,
         route: "/manage-subscription/sp",
         SubHeaderOptions: {
-          title: "Manage Subscription (SP)",
+          title: "Manage Subscription (SA)",
           breadcrumb: [
             { label: "Home", isActive: false, route: "/dashboard" },
             { label: "Manage Subscription", isActive: true },
@@ -197,7 +197,7 @@ export const NavRouteConfig: IRMNavItemConfig[] = [
         moduleId: 154,
         route: "/manage-roles",
         SubHeaderOptions: {
-          title: "Manage Roles (SP)",
+          title: "Manage Roles (SA)",
           breadcrumb: [
             { label: "Home", isActive: false, route: "/dashboard" },
             { label: "Manage Roles", isActive: true },
@@ -228,12 +228,12 @@ export const NavRouteConfig: IRMNavItemConfig[] = [
           ],
         },
       },
-      // Manage Organization (SP)
+      // Manage Organization (SA)
       {
         moduleId: 155,
         route: "/manage-org/sp",
         SubHeaderOptions: {
-          title: "Manage Organization (SP)",
+          title: "Manage Organization (SA)",
           breadcrumb: [
             { label: "Home", isActive: false, route: "/dashboard" },
             { label: "Manage Organization", isActive: true },
@@ -272,7 +272,7 @@ export const NavRouteConfig: IRMNavItemConfig[] = [
           ],
         },
       },
-      //   Manage Users & Groups (SP)
+      //   Manage Users & Groups (SA)
       {
         moduleId: 156,
         route: "/manage-user-and-group/sp",
@@ -1046,10 +1046,10 @@ export const NavRouteConfig: IRMNavItemConfig[] = [
         moduleId: 601,
         route: "/notification/events",
         SubHeaderOptions: {
-          title: "Manage Notificaton (SP)",
+          title: "Manage Notificaton (SA)",
           breadcrumb: [
             { label: "Home", isActive: false, route: "/dashboard" },
-            { label: "Manage Notificaton (SP)", isActive: true },
+            { label: "Manage Notificaton (SA)", isActive: true },
           ],
         },
       },
@@ -1079,7 +1079,7 @@ export const NavRouteConfig: IRMNavItemConfig[] = [
         moduleId: 601,
         route: "/notification/events/system-add",
         SubHeaderOptions: {
-          title: "Manage Notificaton (SP)",
+          title: "Manage Notificaton (SA)",
           breadcrumb: [
             { label: "Home", isActive: false, route: "/dashboard" },
             {
@@ -1095,7 +1095,7 @@ export const NavRouteConfig: IRMNavItemConfig[] = [
         moduleId: 601,
         route: "/notification/events/system-edit",
         SubHeaderOptions: {
-          title: "Manage Notificaton (SP)",
+          title: "Manage Notificaton (SA)",
           breadcrumb: [
             { label: "Home", isActive: false, route: "/dashboard" },
             {

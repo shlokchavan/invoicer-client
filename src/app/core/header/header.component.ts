@@ -19,26 +19,25 @@ export class AppHeaderComponent implements OnChanges {
   constructor() {
       //Setup Component Config
       this.headerConfig = {
-        // logoURL: "../../../../../assets/img/rm_logo.png",
         logoURL: "../../../../../assets/img/dummyLogo_White.png",
         humbergerIcon: "humburger",
         subHeaderConfig: null || undefined,
         actions: [
-          {
-            icon: 'search',
-            label: 'test',
-            action: 'test'
-          },
-          {
-            icon: 'help',
-            label: 'test',
-            action: 'test'
-          },
-          {
-            icon: 'notification',
-            label: 'test',
-            action: 'test'
-          }
+          // {
+          //   icon: 'search',
+          //   label: 'test',
+          //   action: 'test'
+          // },
+          // {
+          //   icon: 'help',
+          //   label: 'test',
+          //   action: 'test'
+          // },
+          // {
+          //   icon: 'notification',
+          //   label: 'test',
+          //   action: 'test'
+          // }
         ]
       }
   }

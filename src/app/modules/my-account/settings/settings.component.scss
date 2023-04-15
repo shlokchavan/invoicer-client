@@ -1,0 +1,32 @@
+.settings {
+    &__content {
+        .statement {
+            padding-bottom: 20px;
+        }
+    }
+}
+
+.otp-options {
+    div {
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        span {
+            margin-left: 5px;
+        }
+    }
+}
+
+.button-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    rm-button {
+        flex: 0.2;
+    }
+    [toastcontainer] {
+        width: 100%;
+        flex: 0.8;
+    }
+}

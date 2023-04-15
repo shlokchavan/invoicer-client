@@ -1,0 +1,20 @@
+<div class="header-bar">
+    <div class="header-bar__content">
+        <span class="title">{{'Sessions History' | uppercase}}</span>
+    </div>
+    <div class="header-bar__action">
+        <span>
+            <em>Only last 90 days data available</em>
+        </span>
+    </div>
+</div>
+<div class="app-container">
+    <div class="row">
+        <div class="col-12">
+            <rm-grid [scope]="scope" [config]="sessionHistoryGridConfig" [rowData]="rowData"></rm-grid>
+        </div>
+    </div>
+    <!-- <div class="wip">
+        WIP
+    </div> -->
+</div>

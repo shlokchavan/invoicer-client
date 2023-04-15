@@ -1,0 +1,153 @@
+<form class="personalInfoForm" (ngSubmit)="btnClicked('save', $event)" [formGroup]="personalInfoForm">
+
+    <div class="header-bar">
+        <div class="header-bar__content">
+            <span class="title">{{'Personal Information' | uppercase}}</span>
+
+        </div>
+        <div class="header-bar__action">
+            <span [hidden]="!isLoading">
+                Loading...
+            </span>
+            <rm-button (onClick)="btnClicked('edit', $event)" [role]="'secondary'" *ngIf="!editMode">Edit</rm-button>
+        </div>
+    </div>
+
+    <div class="content-wrapper" [hidden]="isLoading">
+        <ng-container>
+            <div class="card-with-title" #top>
+                <div class="card-heading border_bottom">
+                    Personal Information
+                </div>
+                <div class="card-body">
+                    <div class="profile-details">
+                        <div class="profile-img">
+                            <img [src]="profileImageUpload" class="profile-details__pic">
+
+                            <!-- <rm-icon [hidden]="!editMode" [icon]="'edit'" class="icon edit-icon"
+                                (onClick)="fileInput.click()"></rm-icon> -->
+
+                            <input #fileInput accept="image/*" type="file" id="file"
+                                (change)="handleFileInputProfile($event)" style="display:none;">
+                        </div>
+                        <!-- <img class="profile-details__pic"
+                            src="data:image/jpeg;base64,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" /> -->
+                        <div class="profile-details__content">
+                            <div class="name">{{personalInfoModel!.firstName}} {{personalInfoModel!.lastName}}</div>
+                            <a href="mailto: {{personalInfoModel!.emailId}}"
+                                class="email link">{{personalInfoModel!.emailId}}</a>
+                            <div class="phone">{{personalInfoModel!.phoneNo}}</div>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0)" class="change_photo-link" *ngIf="editMode" (click)="fileInput.click()">
+                        Change Photo
+                    </a>
+                    <div class="col-8 p-0 mt-4">
+                        <div class="row">
+                            <div class="col-6">
+                                <rm-input [config]="personalInputConfig.FirstNameInput" formControlName="firstName"
+                                    [dataModel]="personalInfoModel"></rm-input>
+                            </div>
+                            <div class="col-6">
+                                <rm-input [config]="personalInputConfig.LastNameInput" formControlName="lastName"
+                                    [dataModel]="personalInfoModel"></rm-input>
+                            </div>
+                            <div class="col-6">
+                                <rm-select [config]="personalInputConfig!.GenderSelect"
+                                    (onSelectionChange)="selectionChange('gender', $event)"
+                                    [dataModel]="personalInfoModel">
+                                </rm-select>
+                            </div>
+                            <div class="col-6">
+                                <rm-input [config]="personalInputConfig.DateOfAnniversaryInput"
+                                    formControlName="anniversaryDate" [dataModel]="personalInfoModel"></rm-input>
+                            </div>
+                            <div class="col-6">
+                                <rm-input [config]="personalInputConfig.DateOfBirthInput" formControlName="birthDate"
+                                    [dataModel]="personalInfoModel"></rm-input>
+                            </div>
+                            <!-- <div class="col-6">
+                                <rm-select [config]="personalInputConfig?.TimeZoneSelect"
+                                    (onSelectionChange)="selectionChange('timezone', $event)"
+                                    [dataModel]="personalInfoModel"></rm-select>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="card-with-title">
+                <div class="card-heading border_bottom">
+                    Contact Information
+                </div>
+                <div class="card-body">
+                    <div class="profile-details">
+                        <div class="profile-details__content p-0 row col-4">
+                            <div class="col-12 pr-0">
+                                <rm-input [config]="personalInputConfig.EmailInput" formControlName="emailId"
+                                    [dataModel]="personalInfoModel"></rm-input>
+                            </div>
+                            <div class="col-12 pr-0">
+                                <rm-input [config]="personalInputConfig.MobileInput" formControlName="mobileNo"
+                                    [dataModel]="personalInfoModel"></rm-input>
+                            </div>
+                            <div class="col-12 pr-0">
+                                <rm-input [config]="personalInputConfig.PhoneInput" formControlName="phoneNo"
+                                    [dataModel]="personalInfoModel"></rm-input>
+                            </div>
+
+                            <!-- <div class="phone contact-info">clark.hogan@arkedge.com</div>
+                        <div class="phone contact-info">(317) 949-2074</div>
+                        <div class="phone contact-info">(317) 949-2074</div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="card-with-title" [ngClass]="{'edit-spacer': editMode}">
+                <div class="card-heading border_bottom">
+                    Social Media
+                </div>
+                <div class="card-body">
+                    <div class="profile-details">
+                        <div class="profile-details__content">
+                            <div class="social-media">
+                                <rm-icon class="icon" [icon]="'linkedin'"></rm-icon>
+                                <input [readonly]="!editMode" type="text"
+                                    placeholder="https://www.linkedin.com/account-name" name="linkedinUrl"
+                                    formControlName="linkedinUrl" class="social-media__input">
+                            </div>
+                            <div class="social-media">
+                                <rm-icon class="icon" [icon]="'facebook'"></rm-icon>
+                                <input [readonly]="!editMode" type="text"
+                                    placeholder="https://www.facebook.com/account-name" name="facebookUrl"
+                                    formControlName="facebookUrl" class="social-media__input">
+
+                            </div>
+                            <div class="social-media">
+                                <rm-icon class="icon" [icon]="'twitter'"></rm-icon>
+                                <input [readonly]="!editMode" type="text"
+                                    placeholder="https://www.twitter.com/account-name" name="twitterUrl"
+                                    formControlName="twitterUrl" class="social-media__input">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="footer-bar" *ngIf="editMode && !isLoading">
+        <div class="btn-wrapper">
+            <rm-button type="reset" (onClick)="btnClicked('cancel', $event); scrollTop(top);" class="footer-bar__cancel"
+                [role]="'secondary'">Cancel
+            </rm-button>
+            <rm-button type="submit" [disabled]="personalInfoForm.invalid" [role]="'primary'" (click)="scrollTop(top)">
+                Save</rm-button>
+        </div>
+    </div>
+</form>

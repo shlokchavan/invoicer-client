@@ -1,0 +1,67 @@
+{
+  "message": null,
+  "error": null,
+  "data": [
+    {
+      "languageId": 100,
+      "description": "English",
+      "displayName": "English",
+      "name": "English",
+      "isActive": true,
+      "isPrimary": false,
+      "parentLanguageId": null,
+      "organizationId": 1,
+      "parentOrganizationId": null,
+      "sysLanguageId": 10
+    },
+    {
+      "languageId": 132,
+      "description": null,
+      "displayName": "Test",
+      "name": "Test",
+      "isActive": true,
+      "isPrimary": false,
+      "parentLanguageId": null,
+      "organizationId": 1,
+      "parentOrganizationId": null,
+      "sysLanguageId": 1
+    },
+    {
+      "languageId": 133,
+      "description": null,
+      "displayName": "Spanish",
+      "name": "Spanish",
+      "isActive": true,
+      "isPrimary": false,
+      "parentLanguageId": null,
+      "organizationId": 1,
+      "parentOrganizationId": null,
+      "sysLanguageId": 2
+    },
+    {
+      "languageId": 134,
+      "description": null,
+      "displayName": "French",
+      "name": "French",
+      "isActive": true,
+      "isPrimary": false,
+      "parentLanguageId": null,
+      "organizationId": 1,
+      "parentOrganizationId": null,
+      "sysLanguageId": 3
+    },
+    {
+      "languageId": 135,
+      "description": null,
+      "displayName": "German",
+      "name": "German",
+      "isActive": true,
+      "isPrimary": false,
+      "parentLanguageId": null,
+      "organizationId": 1,
+      "parentOrganizationId": null,
+      "sysLanguageId": 4
+    }
+  ],
+  "status": "success"
+}

@@ -20,9 +20,9 @@
                 Password?</a>
         </div>
         <rm-button [type]="'submit'" [loading]="isLoading" (onClick)="onSubmit()" 
-        [disabled]="true"
+        [disabled]="loginForm.invalid"
         >
-        <!-- [disabled]="loginForm.invalid" -->
+        
         SUBMIT
         </rm-button>
     </form>

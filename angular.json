@@ -29,7 +29,8 @@
               "src/_redirects"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/style/layout/bs4/grid.scss"
             ],
             "scripts": []
           },

@@ -49,7 +49,8 @@ export class UserProfileService {
     this.updateStorage();
     return this.httpClient.get(
       // `${this.baseUrl}/subscription-service/sub/userProfile/getUserProfileByUserName/${this.userName}/`
-      `${this.baseUrl}/subscription-service/sub/userProfile/getUserProfileByUserName`
+      // `${this.baseUrl}/subscription-service/sub/userProfile/getUserProfileByUserName`
+      `./../../../assets/json/my-account/user-profile-by-username.json`
     );
   };
 
@@ -57,7 +58,8 @@ export class UserProfileService {
     this.updateStorage();
     return this.httpClient.get(
       // `${this.baseUrl}/subscription-service/sub/userProfile/getUserProfileSessionHistory/${this.userId}/`
-      `${this.baseUrl}/subscription-service/sub/userProfile/getUserProfileSessionHistory`
+      // `${this.baseUrl}/subscription-service/sub/userProfile/getUserProfileSessionHistory`
+      './../../../assets/json/my-account/user-session-history.json'
     );
   };
 

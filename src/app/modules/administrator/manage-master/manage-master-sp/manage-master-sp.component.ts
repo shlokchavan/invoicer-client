@@ -140,7 +140,7 @@ export class ManageMasterSPComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.getAllMasters();
+    this.getAllMasters();
   }
 
   // Events
@@ -222,7 +222,7 @@ export class ManageMasterSPComponent implements OnInit {
   download() {
     // Download All Data from Grid
     const params = {
-      fileName: `RM_Export_Master__${new Date().getTime()}.csv`,
+      fileName: `Export_Master__${new Date().getTime()}.csv`,
       columnKeys: this.currentConfig["columnDefs"]
         .filter((key: any) => key.field)
         .map((filtered: any) => `${filtered.field}`),

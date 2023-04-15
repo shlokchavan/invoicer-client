@@ -1,6 +1,10 @@
 @import "./assets/style/partials/variables.scss";
 @import "../src/assets/style/partials/mat-theme-palete.scss";
 @import "./app/shared/components/rm-toasty/rm-toasty.css";
+
+@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+
 //Initialize theme variable
 :root {
   --global-row-height: 40px;

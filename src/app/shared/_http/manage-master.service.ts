@@ -11,6 +11,7 @@ import {
   SYSTEM_MASTER_ACTION_MAPPING,
 } from "src/app/modules/administrator/manage-master/extra/system-master-action.mapping";
 import { GlobalConfig } from "src/app/configs/global-config";
+
 @Injectable()
 export class ManageMasterService {
   baseUrl: string;
@@ -26,14 +27,17 @@ export class ManageMasterService {
     const orgId = userDetails?.organizationId;
     // Get User Details
     return this.httpClient.get(
-      `${this.baseUrl}/subscription-service/sub/sysMaster`
+      // `${this.baseUrl}/subscription-service/sub/sysMaster`
+      './../../../assets/json/manage-master/system-master.json'
+      
     );
   }
 
   getSystemMasterDetailByMasterId(masterId: any): Observable<any> {
     // Get System Master Details
     return this.httpClient.get(
-      `${this.baseUrl}/subscription-service/sub/sysMaster/getMasterDetail/${masterId}`
+      // `${this.baseUrl}/subscription-service/sub/sysMaster/getMasterDetail/${masterId}`
+      './../../../assets/json/manage-master/system-master-detail-by-id.json'
     );
   }
 

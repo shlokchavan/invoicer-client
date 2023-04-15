@@ -46,7 +46,7 @@ export const manageClientMasterTypeGridConfig = {
       icon: "download",
       operation: "downloadCSV",
       download: {
-        fileName: "RM_Export_Master",
+        fileName: "Export_Master",
       },
     },
     {

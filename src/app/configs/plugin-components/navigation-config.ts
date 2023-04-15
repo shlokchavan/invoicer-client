@@ -12,7 +12,7 @@ export class _NavigationConfig implements IRMNavConfig {
   //     children: [
   //       {
   //         moduleId: "11",
-  //         label: "Dashboard (SP)",
+  //         label: "Dashboard (SA)",
   //         isWIP: true,
   //         route: '/dashboard',
   //         showSubHeader: true

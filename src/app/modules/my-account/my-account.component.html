@@ -1,0 +1,39 @@
+<div class="row my-account_wrapper">
+    <div class="col-xl-2 col-3 pr-0">
+        <div class="vertical-tabs border_right">
+            <div class="row">
+                <div class="col-12">
+                    <!-- changeRoute(tab) -->
+                    <div *ngFor="let tab of tabs; let i =index" (click)="selectedTab = tab.title; "
+                        [ngClass]="{ active : selectedTab == tab.title }" class="tab-item">
+                        <h3 class="tab-item__heading">
+                            <rm-icon [icon]="tab.icon" class="icon"></rm-icon>
+                            {{ tab.title }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-10 col-9 tab-body px-0">
+        <!-- <router-outlet></router-outlet> -->
+        <ng-container [ngSwitch]="selectedTab">
+            <ng-container *ngSwitchCase="'Personal Information'">
+                <personal-information [userProfile]="userProfile" [timeZone]="timeZone" (onClick)="btnClicked('personal-information', $event)"></personal-information>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Address'">
+                <address-details [userProfile]="userProfile" (onClick)="btnClicked('address-details', $event)"></address-details>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Settings'">
+                <settings [userProfile]="userProfile" [language]="language" [timeZone]="timeZone" (onClick)="btnClicked('setting', $event)"></settings>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Account Security'">
+                <account-security (onClick)="btnClicked('account-security', $event)"></account-security>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Session History'">
+                <session-history (onClick)="btnClicked('session-history', $event)"></session-history>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

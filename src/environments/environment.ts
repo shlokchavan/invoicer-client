@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   apiUrl: "",
   loginAdmin: {
-    userName: 'as@unifiedlogs.com',
+    // userName: 'as@unifiedlogs.com',
+    // password: 'Abc@123'
+    userName: 'jess.lang',
     password: 'Abc@123'
   },
 };

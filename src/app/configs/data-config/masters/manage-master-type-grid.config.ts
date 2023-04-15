@@ -48,7 +48,7 @@ export const manageMasterTypeGridConfig: any = {
             icon: 'download',
             operation: 'downloadCSV',
             download: {
-                fileName: 'RM_Export_Master'
+                fileName: 'Export_Master'
             }
         },
         {

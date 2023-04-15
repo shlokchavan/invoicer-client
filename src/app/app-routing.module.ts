@@ -20,6 +20,15 @@ const routes: Routes = [
       import('./modules/login/login.module').then((m) => m.LoginModule),
   },
   {
+    path: "my-account",
+    component: NavigationLayoutComponent,
+    canActivate: [AuthRouteGuard],
+    loadChildren: () =>
+      import("./modules/my-account/my-account.module").then(
+        (m) => m.MyAccountModule
+      ),
+  },
+  {
     path: "manage-master",
     component: NavigationLayoutComponent,
     canActivate: [AuthRouteGuard],

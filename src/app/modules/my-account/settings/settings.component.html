@@ -1,0 +1,83 @@
+<form class="settingsForm" (ngSubmit)="onSubmit()" [formGroup]="settingsForm">
+
+    <div class="header-bar">
+        <div class="header-bar__content">
+            <span class="title">{{'Settings' | uppercase}}</span>
+        </div>
+        <div class="header-bar__action">
+            <rm-button (onClick)="btnClicked('edit', $event)" [role]="'secondary'" *ngIf="!editMode">Edit</rm-button>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+
+
+        <!-- Settings -->
+        <div class="card-with-title">
+            <div class="card-heading border_bottom">
+                Settings
+            </div>
+            <div class="card-body">
+                <div class="settings">
+                    <div class="settings__content">
+                        <div class="col-4 px-0">
+                            <rm-select [config]="settingsConfig.LanguageSelect"
+                                (onSelectionChange)="selectionChange('language', $event)" [dataModel]="settingsModel">
+                            </rm-select>
+                        </div>
+                        <div class="col-4 px-0">
+                            <rm-select [config]="settingsConfig.TimeZoneSelect"
+                                (onSelectionChange)="selectionChange('timeZone', $event)" [dataModel]="settingsModel">
+                            </rm-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Security Code -->
+        <div class="card-with-title">
+            <div class="card-heading border_bottom">
+                Security Code
+            </div>
+            <div class="card-body">
+                <div class="settings">
+                    <div class="settings__content">
+                        <div class="statement">Select an option to receive OTP</div>
+                        <div class="otp-options">
+                            <div>
+                                <rm-checkbox [config]="settingsConfig!.EmailCheckbox" ></rm-checkbox>
+                                <!-- <input type="checkbox" checked [disabled]="!editMode" /> Email -->
+                                <span *ngIf="!editMode" class="hint">(
+                                    <!-- i**o@a***d*e.com -->
+                                    {{emailId}}
+                                    )</span>
+                            </div>
+                            <div>
+                                <rm-checkbox [config]="settingsConfig!.MobileNumberCheckbox" ></rm-checkbox>
+                                <!-- <input type="checkbox" checked [disabled]="!editMode" /> Mobile Number -->
+                                <span *ngIf="!editMode" class="hint">(
+                                    <!-- *** *** *149 -->
+                                    {{phoneNo ? phoneNo : '--'}}
+                                    )</span>
+                            </div>
+                        </div>
+                        <div class="button-actions col-10 px-0">
+                            <rm-button *ngIf="editMode" [role]="'primary'" (onClick)="confirmSend()">Send Security Code</rm-button>
+                            <div [hidden]="!editMode" toastContainer></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="footer-bar" *ngIf="editMode">
+        <div class="btn-wrapper">
+            <rm-button (onClick)="btnClicked('cancel', $event)" class="footer-bar__cancel" [role]="'secondary'">Cancel
+            </rm-button>
+            <rm-button (onClick)="btnClicked('save', $event)" [role]="'primary'">Save</rm-button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,120 @@
+<div class="header-bar">
+  <div class="header-bar__content">
+    <span class="title">{{ "Account Security" | uppercase }}</span>
+  </div>
+  <div class="header-bar__action">
+    <rm-button
+      (onClick)="btnClicked('edit', $event)"
+      [role]="'secondary'"
+      *ngIf="!editMode"
+      [loading]="isLoading"
+      >Edit</rm-button
+    >
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <!-- Send OTP -->
+  <form
+    class="accountSecurityForm"
+    (ngSubmit)="onOTPSubmit()"
+    [formGroup]="accountSecurityForm"
+  >
+    <!-- Password -->
+    <div class="card-with-title" *ngIf="!editMode">
+      <div class="card-heading border_bottom">Password</div>
+      <div class="card-body">
+        <div class="account-security">
+          <div class="account-security__content">
+            <div class="col-6 p-0">
+              <rm-input
+                [config]="passwordConfig.PasswordInput"
+                formControlName="password"
+                [dataModel]="staticPasswordModel"
+              ></rm-input>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OTP Password (Validate) -->
+    <div class="card-with-title" *ngIf="editMode && changePasswordSteps?.otp">
+      <div class="card-heading border_bottom">Security Code</div>
+      <div class="card-body">
+        <div class="account-security">
+          <div class="account-security__content">
+            <div class="col-6 p-0">
+              <rm-otp-input
+                [config]="forgetPasswordConfig!.OTPInput"
+                (onInputChange)="onOtpChange($event)"
+              ></rm-otp-input>
+            </div>
+            <div>
+              <rm-button
+                [role]="'primary'"
+                [disabled]="forgetPasswordModel!.otp!.length != 4"
+                (onClick)="btnClicked('submit-otp', $event)"
+                [loading]="isLoading"
+                >Submit
+              </rm-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- New Password (Change Password) -->
+  <div
+    class="card-with-title"
+    *ngIf="editMode && changePasswordSteps?.newPassword"
+  >
+    <div class="card-heading border_bottom">Password</div>
+    <div class="card-body">
+      <div class="account-security">
+        <div class="account-security__content">
+          <form class="loginForm" [formGroup]="resetPasswordForm">
+            <div class="col-6">
+              <rm-input
+                (onBlur)="updateConfirmPasswordField()"
+                [config]="resetPasswordFormConfig!.ResetNewPasswordInput"
+                formControlName="newPassword"
+                [dataModel]="resetPasswordModel"
+              ></rm-input>
+            </div>
+            <div class="col-6">
+              <rm-input
+                [config]="resetPasswordFormConfig!.ResetConfirmPasswordInput"
+                formControlName="confirmPassword"
+                [dataModel]="resetPasswordModel"
+              ></rm-input>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-bar" *ngIf="editMode">
+  <div class="btn-wrapper">
+    <rm-button
+      (onClick)="btnClicked('cancel', $event)"
+      class="footer-bar__cancel"
+      [role]="'secondary'"
+      >Cancel
+    </rm-button>
+    <rm-button
+      [disabled]="
+        changePasswordSteps!.otp ||
+        resetPasswordForm.invalid ||
+        resetPasswordModel.confirmPassword == null
+      "
+      (onClick)="btnClicked('save', $event)"
+      [role]="'primary'"
+    >
+      Save</rm-button
+    >
+  </div>
+</div>

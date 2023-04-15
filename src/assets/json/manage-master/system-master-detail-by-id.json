@@ -1,0 +1,31 @@
+{
+  "message": null,
+  "error": null,
+  "data": [
+    {
+      "orgTypeId": 1,
+      "name": "Service Provider",
+      "displayName": null,
+      "description": "Platform provider offering the product platforms",
+      "parentOrgTypeId": null,
+      "parentOrgTypeName": null
+    },
+    {
+      "orgTypeId": 2,
+      "name": "Service Requestor",
+      "displayName": null,
+      "description": "Service requestor that puts client on board and manage them",
+      "parentOrgTypeId": 1,
+      "parentOrgTypeName": "Service Provider"
+    },
+    {
+      "orgTypeId": 3,
+      "name": "Client",
+      "displayName": null,
+      "description": "End client consuming the application",
+      "parentOrgTypeId": 2,
+      "parentOrgTypeName": "Service Requestor"
+    }
+  ],
+  "status": "success"
+}

@@ -1,0 +1,65 @@
+<form class="addressDetailsForm" (ngSubmit)="btnClicked('save',$event)" [formGroup]="addressDetailsForm">
+    <div class="header-bar">
+        <div class="header-bar__content">
+            <span class="title">{{'Address Details' | uppercase}}</span>
+        </div>
+        <div class="header-bar__action">
+            <rm-button (onClick)="btnClicked('edit', $event)" [role]="'secondary'" *ngIf="!editMode">Edit</rm-button>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <!-- Address Details -->
+        <div class="card-with-title">
+            <div class="card-heading border_bottom">
+                Address Details
+            </div>
+            <div class="card-body">
+                <div class="address-details">
+                    <div [hidden]="!isLoading">
+                        Loading...
+                    </div>
+                    <div class="address-details__content" [hidden]="isLoading">
+                        <div class="col-12 px-0">
+                            <rm-input [config]="addressConfig.AddressInput" formControlName="address"
+                                [dataModel]="addressDetailsModel"></rm-input>
+                        </div>
+                        <div class="col-4 px-0">
+                            <rm-select [config]="addressConfig.CountrySelect" #countrySelect
+                                (onSelectionChange)="selectionChange('country', $event)"
+                                [dataModel]="addressDetailsModel"></rm-select>
+                        </div>
+                        <div class="col-4 px-0">
+                            <rm-select [config]="addressConfig.StateSelect"
+                                (onSelectionChange)="selectionChange('state', $event)"
+                                [dataModel]="addressDetailsModel"></rm-select>
+                        </div>
+                        <div class="col-4 px-0">
+                            <rm-select [config]="addressConfig.CitySelect"
+                                (onSelectionChange)="selectionChange('city', $event)" [dataModel]="addressDetailsModel">
+                            </rm-select>
+                        </div>
+                        <div class="col-4 px-0">
+                            <rm-input [config]="addressConfig.PostalCodeInput" formControlName="zipCode"
+                                [dataModel]="addressDetailsModel"></rm-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="footer-bar" *ngIf="editMode">
+        <div class="btn-wrapper">
+            <rm-button type="reset" (onClick)="btnClicked('cancel', $event)" class="footer-bar__cancel"
+                [role]="'secondary'">Cancel
+            </rm-button>
+            <rm-button type="submit" (onClick)="btnClicked('save', $event)"
+                [disabled]="addressDetailsForm.invalid || isLoading" [role]="'primary'">
+                {{isLoading ? 'Please wait...' : 'Save'}}
+            </rm-button>
+        </div>
+    </div>
+</form>
