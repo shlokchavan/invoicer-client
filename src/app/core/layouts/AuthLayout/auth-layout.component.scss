@@ -3,7 +3,8 @@
 .auth_layout {
   background-color: white;
   .constant-view {
-    background-color: #8dd9ea;
+    // background-color: #8dd9ea;
+    background-color: var(--global-theme-light-shade-5);
     min-height: 100vh;
     .bg_img {
       // background-image: url("../../../../assets/img/loginImg.svg");
@@ -18,13 +19,15 @@
       min-height: 30vh;
       margin-right: -15px;
       margin-left: -15px;
-      background-color: #056d8e;
+      // background-color: #056d8e;
+      background-color: var(--global-theme-dark-shade-1);
       padding: 30px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       p {
-        color: #8dd9ea;
+        // color: #8dd9ea;
+        color: var(--global-theme-light-shade-5);
         font-size: 18px;
         margin-top: 0;
         font-weight: normal;
